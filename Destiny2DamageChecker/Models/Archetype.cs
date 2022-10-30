@@ -12,6 +12,6 @@ namespace Destiny2DataLibrary.Models
         public string Name { get; set; }
         public int RoundsPerMinute { get; set; }
         public int BulletDamage { get; set; }
-        public ICollection<Perk> Perks { get; set; }
+        public ICollection<Perk> Perks { get; set; }=new HashSet<Perk>();  
     }
 }
