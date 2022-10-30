@@ -5,7 +5,9 @@ namespace Destiny2DataLibrary.DataAccess
 {
     public class Destiny2DataContext:DbContext
     {
-        public Destiny2DataContext(){ }
+        public Destiny2DataContext()
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Destiny2DataBase;Username=postgres;Password=10524");
