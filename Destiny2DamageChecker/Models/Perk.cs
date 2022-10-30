@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Destiny2DataLibrary.Models
 {
     public class Perk
     {
         public int Id { get; set; }
+        [MaxLength(50)]
         public string Name { get; set; } = "";
         public string? Summary { get; set; }
         public int ActivationStepsAmount { get; set; }
