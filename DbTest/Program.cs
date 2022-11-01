@@ -12,7 +12,10 @@ namespace DbTest
         {
             using(var context=new Destiny2DataContext())
             {
-                context.Database.Migrate();
+                var archetype = new Archetype()
+                {
+
+                };
             }
         }
     }
