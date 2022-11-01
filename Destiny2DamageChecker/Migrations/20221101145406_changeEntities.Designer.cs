@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221101145406_changeEntities")]
+    partial class changeEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,23 +57,6 @@ namespace Destiny2DataLibrary.Migrations
                     b.ToTable("ActivationSteps");
                 });
 
-            modelBuilder.Entity("Destiny2DataLibrary.Models.AmmoType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AmmoTypes");
-                });
-
             modelBuilder.Entity("Destiny2DataLibrary.Models.Archetype", b =>
                 {
                     b.Property<int>("Id")
@@ -79,9 +64,6 @@ namespace Destiny2DataLibrary.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AmmoTypeId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -98,8 +80,6 @@ namespace Destiny2DataLibrary.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AmmoTypeId");
 
                     b.HasIndex("ShotDamageId");
 
@@ -195,10 +175,6 @@ namespace Destiny2DataLibrary.Migrations
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Archetype", b =>
                 {
-                    b.HasOne("Destiny2DataLibrary.Models.AmmoType", "AmmoType")
-                        .WithMany()
-                        .HasForeignKey("AmmoTypeId");
-
                     b.HasOne("Destiny2DataLibrary.Models.ShotDamage", "ShotDamage")
                         .WithMany()
                         .HasForeignKey("ShotDamageId");
@@ -208,8 +184,6 @@ namespace Destiny2DataLibrary.Migrations
                         .HasForeignKey("WeaponTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AmmoType");
 
                     b.Navigation("ShotDamage");
 

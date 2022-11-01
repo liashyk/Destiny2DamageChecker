@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Destiny2DamageChecker\Destiny2DataLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="tables\" />
+  </ItemGroup>
+
 </Project>

@@ -10,12 +10,13 @@ namespace DbTest
     {
         static void Main(string[] args)
         {
+            var changer = new DataChanger();
             using(var context=new Destiny2DataContext())
             {
-                var archetype = new Archetype()
+                foreach (var it in context.Archetypes)
                 {
-
-                };
+                }
+                context.SaveChanges();
             }
         }
     }
