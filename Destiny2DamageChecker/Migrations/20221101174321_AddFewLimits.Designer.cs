@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221101174321_AddFewLimits")]
+    partial class AddFewLimits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,8 +91,8 @@ namespace Destiny2DataLibrary.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<double>("RoundsPerMinute")
-                        .HasColumnType("double precision");
+                    b.Property<int>("RoundsPerMinute")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("ShotDamageId")
                         .HasColumnType("integer");

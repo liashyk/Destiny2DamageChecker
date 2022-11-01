@@ -15,7 +15,7 @@ namespace Destiny2DataLibrary.Models
         [MaxLength(50)]
         public WeaponType WeaponType { get; set; }
         public ShotDamage? ShotDamage { get; set; }
-        public int RoundsPerMinute { get; set; }
+        public double RoundsPerMinute { get; set; }
         public AmmoType? AmmoType { get; set; }
         public ICollection<Perk> Perks { get; set; }=new HashSet<Perk>();
     }

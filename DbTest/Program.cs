@@ -11,13 +11,7 @@ namespace DbTest
         static void Main(string[] args)
         {
             var changer = new DataChanger();
-            using(var context=new Destiny2DataContext())
-            {
-                foreach (var it in context.Archetypes)
-                {
-                }
-                context.SaveChanges();
-            }
+            changer.FillSpecialArchetype();
         }
     }
 }
