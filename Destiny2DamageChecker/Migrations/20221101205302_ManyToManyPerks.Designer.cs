@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221101205302_ManyToManyPerks")]
+    partial class ManyToManyPerks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("PerksId");
 
-                    b.ToTable("ArchetypePerk", (string)null);
+                    b.ToTable("ArchetypePerk");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.ActivationStep", b =>
@@ -67,7 +69,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("PerkId");
 
-                    b.ToTable("ActivationSteps", (string)null);
+                    b.ToTable("ActivationSteps");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.AmmoType", b =>
@@ -85,7 +87,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AmmoTypes", (string)null);
+                    b.ToTable("AmmoTypes");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Archetype", b =>
@@ -121,7 +123,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("WeaponTypeId");
 
-                    b.ToTable("Archetypes", (string)null);
+                    b.ToTable("Archetypes");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Perk", b =>
@@ -148,7 +150,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Perks", (string)null);
+                    b.ToTable("Perks");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.ShotDamage", b =>
@@ -173,7 +175,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShotsDamage", (string)null);
+                    b.ToTable("ShotsDamage");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.WeaponType", b =>
@@ -191,7 +193,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeaponTypes", (string)null);
+                    b.ToTable("WeaponTypes");
                 });
 
             modelBuilder.Entity("ArchetypePerk", b =>

@@ -12,6 +12,7 @@ namespace Destiny2DataLibrary.Models
         public string? Summary { get; set; }
         public int? ActivationStepsAmount { get; set; }
         public bool IsAdvanced { get; set; }
-        public ICollection<ActivationStep> ActivationSteps{ get; set;}=new HashSet<ActivationStep>();
+        public ICollection<Archetype>? Archetypes { get; set; }
+        public ICollection<ActivationStep>? ActivationSteps { get; set; }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using Destiny2DataLibrary.DataAccess;
 using Destiny2DataLibrary.Models;
 using Microsoft.VisualBasic.FileIO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbTest
 {
@@ -99,14 +94,14 @@ namespace DbTest
             var parser = new TextFieldParser(path);
             parser.SetDelimiters(",");
             parser.HasFieldsEnclosedInQuotes = true;
-            List<string[]> rows=new List<string[]>();
+            List<string[]> rows = new List<string[]>();
             while (!parser.EndOfData)
             {
                 rows.Add(parser.ReadFields());
             }
             using (var context = new Destiny2DataContext())
             {
-                foreach(var fields in rows)
+                foreach (var fields in rows)
                 {
                     var shotDamage = new ShotDamage()
                     {
@@ -157,7 +152,7 @@ namespace DbTest
                         RoundsPerMinute = double.Parse(fields[4]),
                         WeaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single(),
                         ShotDamage = shotDamage,
-                        AmmoType=context.AmmoTypes.Where(a => a.Name == "special").Single(),
+                        AmmoType = context.AmmoTypes.Where(a => a.Name == "special").Single(),
                     };
                     context.ShotsDamage.Add(shotDamage);
                     context.Archetypes.Add(archetype);
@@ -169,10 +164,13 @@ namespace DbTest
         public void FillHeavyArchetype()
         {
             var path = "D:\\програмрование\\проги\\Destiny2DataLibrary\\DbTest\\tables\\heavy.csv";
+
             var parser = new TextFieldParser(path);
             parser.SetDelimiters(",");
             parser.HasFieldsEnclosedInQuotes = true;
+
             List<string[]> rows = new List<string[]>();
+
             while (!parser.EndOfData)
             {
                 rows.Add(parser.ReadFields());
@@ -188,18 +186,59 @@ namespace DbTest
                         PvpBulletDamage = -1,
                         PvpPrecisionBulletDamage = -1,
                     };
+                    Console.WriteLine(fields[0].ToLower());
                     var archetype = new Archetype()
                     {
                         Name = fields[1].ToLower(),
                         RoundsPerMinute = double.Parse(fields[4]),
                         WeaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single(),
                         ShotDamage = shotDamage,
-                        AmmoType = context.AmmoTypes.Where(a => a.Name == "heavy").Single(),
+                        AmmoType = context.AmmoTypes.Where(a => a.Id == 3).Single(),
                     };
                     context.ShotsDamage.Add(shotDamage);
                     context.Archetypes.Add(archetype);
                 }
                 context.SaveChanges();
+            }
+        }
+
+        public Perk FillPerk(string path)
+        {
+            var parser = new TextFieldParser(path);
+            parser.SetDelimiters(",");
+            parser.HasFieldsEnclosedInQuotes = true;
+            List<string[]> rows = new List<string[]>();
+            while (!parser.EndOfData)
+            {
+                rows.Add(parser.ReadFields());
+            }
+            using (var context = new Destiny2DataContext())
+            {
+                ICollection<ActivationStep> activationSteps = new List<ActivationStep>();
+                ActivationStep bufferStep;
+                Perk perk = new Perk()
+                {
+                    Name = rows[0][0],
+                    ActivationStepsAmount = int.Parse(rows[0][1]),
+                    IsAdvanced = bool.Parse(rows[0][2])
+                };
+                for (int i = 1; i < rows.Count; i++)
+                {
+                    bufferStep = new ActivationStep()
+                    {
+                        StepNumber = int.Parse(rows[i][0]),
+                        PveDamageBuffPercent = double.Parse(rows[i][1]),
+                        PvpDamageBuffPercent = double.Parse(rows[i][2]),
+                        PveRapidFirePercent = double.Parse(rows[i][3]),
+                        PvpRapidFireBuffPercent = double.Parse(rows[i][3]),
+                    };
+                    activationSteps.Add(bufferStep);
+                    context.ActivationSteps.Add(bufferStep);
+                }
+                perk.ActivationSteps = activationSteps;
+                context.Perks.Add(perk);
+                context.SaveChanges();
+                return perk;
             }
         }
     }

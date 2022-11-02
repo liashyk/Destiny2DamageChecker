@@ -9,11 +9,10 @@ namespace Destiny2DataLibrary.Models
     public class ActivationStep
     {
         public int Id { get; set; }
-        public Perk Perk { get; set; }
         public int StepNumber { get; set; }
-        public int PvpDamageBuffPercent { get; set; }
-        public int PveDamageBuffPercent { get; set; }
-        public int PvpRapidFireBuffPercent { get; set; }
-        public int PveRapidFirePercent { get; set; }
+        public double PvpDamageBuffPercent { get; set; }
+        public double PveDamageBuffPercent { get; set; }
+        public double PvpRapidFireBuffPercent { get; set; }
+        public double PveRapidFirePercent { get; set; }
     }
 }
