@@ -17,6 +17,10 @@ namespace Destiny2DataLibrary.Models
         public ShotDamage? ShotDamage { get; set; }
         public double RoundsPerMinute { get; set; }
         public AmmoType? AmmoType { get; set; }
+        public int FramesBetweenShots { get; set; }
+        public bool IsBurst { get; set; }
+        public BurstStats? BurstStats { get; set; }
         public ICollection<Perk>? Perks { get; set; }
+
     }
 }
