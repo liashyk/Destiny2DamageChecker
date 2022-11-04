@@ -91,6 +91,11 @@ namespace DbTest
         public void FillPrimaryArchetype()
         {
             var path = "D:\\програмрование\\проги\\Destiny2DataLibrary\\DbTest\\tables\\primary.csv";
+            FillOneArchetype(path, 1);
+        }
+
+        private void FillOneArchetype(string path, int ammoTypeID)
+        {
             var parser = new TextFieldParser(path);
             parser.SetDelimiters(",");
             parser.HasFieldsEnclosedInQuotes = true;
@@ -101,21 +106,22 @@ namespace DbTest
             }
             using (var context = new Destiny2DataContext())
             {
+                var ammoType = context.AmmoTypes.Where(a => a.Id == ammoTypeID).Single();
                 foreach (var fields in rows)
                 {
+                    var weaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single();
                     var shotDamage = new ShotDamage()
                     {
                         PveBulletDamage = int.Parse(fields[2]),
                         PvePrecisionBulletDamage = int.Parse(fields[3]),
-                        PvpBulletDamage = -1,
-                        PvpPrecisionBulletDamage = -1,
                     };
                     var archetype = new Archetype()
                     {
                         Name = fields[1].ToLower(),
-                        RoundsPerMinute = int.Parse(fields[4]),
-                        WeaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single(),
-                        ShotDamage = shotDamage
+                        RoundsPerMinute = double.Parse(fields[4]),
+                        WeaponType = weaponType,
+                        ShotDamage = shotDamage,
+                        AmmoType = ammoType
                     };
                     context.ShotsDamage.Add(shotDamage);
                     context.Archetypes.Add(archetype);
@@ -127,79 +133,13 @@ namespace DbTest
         public void FillSpecialArchetype()
         {
             var path = "D:\\програмрование\\проги\\Destiny2DataLibrary\\DbTest\\tables\\special.csv";
-            var parser = new TextFieldParser(path);
-            parser.SetDelimiters(",");
-            parser.HasFieldsEnclosedInQuotes = true;
-            List<string[]> rows = new List<string[]>();
-            while (!parser.EndOfData)
-            {
-                rows.Add(parser.ReadFields());
-            }
-            using (var context = new Destiny2DataContext())
-            {
-                foreach (var fields in rows)
-                {
-                    var shotDamage = new ShotDamage()
-                    {
-                        PveBulletDamage = int.Parse(fields[2]),
-                        PvePrecisionBulletDamage = int.Parse(fields[3]),
-                        PvpBulletDamage = -1,
-                        PvpPrecisionBulletDamage = -1,
-                    };
-                    var archetype = new Archetype()
-                    {
-                        Name = fields[1].ToLower(),
-                        RoundsPerMinute = double.Parse(fields[4]),
-                        WeaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single(),
-                        ShotDamage = shotDamage,
-                        AmmoType = context.AmmoTypes.Where(a => a.Name == "special").Single(),
-                    };
-                    context.ShotsDamage.Add(shotDamage);
-                    context.Archetypes.Add(archetype);
-                }
-                context.SaveChanges();
-            }
+            FillOneArchetype(path, 2);
         }
 
         public void FillHeavyArchetype()
         {
             var path = "D:\\програмрование\\проги\\Destiny2DataLibrary\\DbTest\\tables\\heavy.csv";
-
-            var parser = new TextFieldParser(path);
-            parser.SetDelimiters(",");
-            parser.HasFieldsEnclosedInQuotes = true;
-
-            List<string[]> rows = new List<string[]>();
-
-            while (!parser.EndOfData)
-            {
-                rows.Add(parser.ReadFields());
-            }
-            using (var context = new Destiny2DataContext())
-            {
-                foreach (var fields in rows)
-                {
-                    var shotDamage = new ShotDamage()
-                    {
-                        PveBulletDamage = int.Parse(fields[2]),
-                        PvePrecisionBulletDamage = int.Parse(fields[3]),
-                        PvpBulletDamage = -1,
-                        PvpPrecisionBulletDamage = -1,
-                    };
-                    Console.WriteLine(fields[0].ToLower());
-                    var archetype = new Archetype()
-                    {
-                        Name = fields[1].ToLower(),
-                        RoundsPerMinute = double.Parse(fields[4]),
-                        WeaponType = context.WeaponTypes.Where(a => a.Name == fields[0].ToLower()).Single(),
-                        ShotDamage = shotDamage,
-                        AmmoType = context.AmmoTypes.Where(a => a.Id == 3).Single(),
-                    };
-                    context.ShotsDamage.Add(shotDamage);
-                    context.Archetypes.Add(archetype);
-                }
-                context.SaveChanges();
-            }
+            FillOneArchetype(path, 3);
         }
 
         public Perk FillPerk(string path)

@@ -18,5 +18,6 @@ namespace Destiny2DataLibrary.DataAccess
         public DbSet<WeaponType> WeaponTypes { get; set; }
         public DbSet<ShotDamage> ShotsDamage { get; set; }
         public DbSet<AmmoType> AmmoTypes { get; set; }
+        public DbSet<BurstStats> BurstStats { get; set; }
     }
 }

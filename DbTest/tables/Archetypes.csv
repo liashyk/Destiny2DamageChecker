@@ -1,0 +1,61 @@
+"Id","Name","RoundsPerMinute","WeaponTypeId","ShotDamageId","AmmoTypeId","BurstStatsId","FramesBetweenShots","IsBurst"
+718,"lightweight",200,4,718,1,NULL,9,False
+719,"precision",180,4,719,1,NULL,10,False
+720,"rapid fire",260,4,720,1,NULL,7,False
+721,"high impact",150,4,721,1,NULL,12,False
+722,"precision",450,2,722,1,NULL,4,False
+723,"high impact",360,2,723,1,NULL,5,False
+724,"adaptive",600,2,724,1,NULL,3,False
+725,"rapid fire",720,2,725,1,NULL,2.5,False
+726,"adaptive",140,6,726,1,NULL,13,False
+727,"aggressive",120,6,727,1,NULL,15,False
+728,"precision",180,6,728,1,NULL,10,False
+729,"double fire",120,6,729,1,NULL,15,False
+730,"adaptive",540,1,730,1,3,9,True
+731,"high impact",360,1,731,1,4,11,True
+732,"aggresive (4-burst)",450,1,732,1,10,9,True
+733,"rapid fire",540,1,733,1,1,5,True
+734,"lightweight",450,1,734,1,2,7,True
+735,"aggressive",750,7,735,1,NULL,2.5,False
+736,"adaptive",900,7,736,1,NULL,2,False
+737,"lightweight",900,7,737,1,NULL,2,False
+738,"precision",600,7,738,1,NULL,3,False
+739,"lightweight (640 ms)",-1.0,9,739,1,NULL,0,False
+740,"lightweight (680 ms)",-1.0,9,740,1,NULL,17,False
+741,"precision (760 ms)",-1.0,9,741,1,NULL,0,False
+742,"precision (680 ms)",-1.0,9,742,1,NULL,20,False
+743,"adaptive",300,8,743,1,NULL,6,False
+744,"adaptive (3-burst)",491,8,744,1,11,6,True
+745,"omolon adaptive",491,8,745,1,NULL,0,False
+746,"precision",260,8,746,1,NULL,7,False
+747,"lightweight",360,8,747,1,NULL,5,False
+748,"aggressive (2-burst)",325,8,748,1,12,7,True
+749,"suros rapid",450,8,749,1,NULL,4,False
+750,"adaptive",120,11,750,3,NULL,0,False
+751,"precision",100,11,751,3,NULL,0,False
+752,"rapid fire",150,11,752,3,NULL,0,False
+753,"adaptive",51,15,753,3,NULL,0,False
+754,"aggressive",52,15,754,3,NULL,0,False
+755,"high impact",47,15,755,3,NULL,0,False
+756,"hakke precision",42,15,756,3,NULL,0,False
+757,"high impact frame",360,17,757,3,NULL,5,False
+758,"adaptive",450,17,758,3,NULL,4,False
+759,"rapid fire",900,17,759,3,NULL,2,False
+760,"precision",60,16,760,3,9,16,True
+761,"aggressive",41,16,761,3,NULL,0,False
+763,"aggressive",72,3,763,2,NULL,25,False
+764,"adaptive",90,3,764,2,NULL,20,False
+765,"rapid fire",140,3,765,2,NULL,13,False
+766,"rapid fire",140,10,766,2,NULL,13,False
+767,"lightweight",80,10,767,2,NULL,23,False
+768,"precision",65,10,768,2,NULL,28,False
+769,"precision (slug)",65,10,769,2,NULL,28,False
+770,"aggressive",55,10,770,2,NULL,33,False
+771,"lightweight",90,11,771,2,NULL,0,False
+772,"adaptive",46.33,5,772,2,6,20,True
+773,"precision",43.64,5,773,2,7,23,True
+774,"high impact",38.3,5,774,2,8,29,True
+775,"aggressive",46.5,5,775,2,NULL,0,False
+776,"rapid fire",64.3,5,776,2,5,15,True
+777,"adaptive",55,13,777,2,NULL,33,False
+778,"adaptive",1000,12,778,2,NULL,2,False

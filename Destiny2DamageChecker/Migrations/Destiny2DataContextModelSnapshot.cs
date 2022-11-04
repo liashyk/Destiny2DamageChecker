@@ -102,8 +102,8 @@ namespace Destiny2DataLibrary.Migrations
                     b.Property<int?>("BurstStatsId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("FramesBetweenShots")
-                        .HasColumnType("integer");
+                    b.Property<double>("FramesBetweenShots")
+                        .HasColumnType("double precision");
 
                     b.Property<bool>("IsBurst")
                         .HasColumnType("boolean");
@@ -116,7 +116,7 @@ namespace Destiny2DataLibrary.Migrations
                     b.Property<double>("RoundsPerMinute")
                         .HasColumnType("double precision");
 
-                    b.Property<int?>("ShotDamageId")
+                    b.Property<int>("ShotDamageId")
                         .HasColumnType("integer");
 
                     b.Property<int>("WeaponTypeId")
@@ -258,7 +258,9 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasOne("Destiny2DataLibrary.Models.ShotDamage", "ShotDamage")
                         .WithMany()
-                        .HasForeignKey("ShotDamageId");
+                        .HasForeignKey("ShotDamageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Destiny2DataLibrary.Models.WeaponType", "WeaponType")
                         .WithMany()

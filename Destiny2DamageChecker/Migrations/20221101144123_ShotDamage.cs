@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Destiny2DataLibrary.Migrations
 {
-    public partial class ShotDamage : Migration
+    public partial class AddShotDamage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
