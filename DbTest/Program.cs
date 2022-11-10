@@ -142,7 +142,7 @@ namespace DbTest
 
         static void Main(string[] args)
         {
-            
+            Console.WriteLine("so");
         }
     }
 }
