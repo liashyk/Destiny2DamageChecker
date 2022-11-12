@@ -13,6 +13,6 @@ namespace Destiny2DataLibrary.Models
         public int? ActivationStepsAmount { get; set; }
         public bool IsAdvanced { get; set; }
         public ICollection<Archetype>? Archetypes { get; set; }
-        public ICollection<ActivationStep>? ActivationSteps { get; set; }
+        public ICollection<BuffStack>? ActivationSteps { get; set; }
     }
 }

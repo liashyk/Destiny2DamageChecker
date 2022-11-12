@@ -12,10 +12,13 @@ namespace Destiny2DataLibrary.DataAccess
         }
         public DbSet<Perk> Perks { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
-        public DbSet<ActivationStep> ActivationSteps { get; set; }
+        public DbSet<BuffStack> BuffStacks { get; set; }
         public DbSet<WeaponType> WeaponTypes { get; set; }
         public DbSet<ShotDamage> ShotsDamage { get; set; }
         public DbSet<AmmoType> AmmoTypes { get; set; }
         public DbSet<BurstStats> BurstStats { get; set; }
+        public DbSet<ReloadStat> ReloadStats { get; set; }
+        public DbSet<BuffCategory> BuffCategories { get; set; }
+        public DbSet<DamageBuff> DamageBuffs { get; set; }
     }
 }

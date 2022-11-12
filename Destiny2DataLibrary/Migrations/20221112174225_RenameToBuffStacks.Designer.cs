@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221112174225_RenameToBuffStacks")]
+    partial class RenameToBuffStacks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,23 +104,6 @@ namespace Destiny2DataLibrary.Migrations
                     b.ToTable("Archetypes");
                 });
 
-            modelBuilder.Entity("Destiny2DataLibrary.Models.BuffCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BuffCategories");
-                });
-
             modelBuilder.Entity("Destiny2DataLibrary.Models.BuffStack", b =>
                 {
                     b.Property<int>("Id")
@@ -174,33 +159,6 @@ namespace Destiny2DataLibrary.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BurstStats");
-                });
-
-            modelBuilder.Entity("Destiny2DataLibrary.Models.DamageBuff", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BuffCategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuffCategoryId");
-
-                    b.ToTable("DamageBuffs");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Perk", b =>
@@ -290,12 +248,7 @@ namespace Destiny2DataLibrary.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("ReloadStatsId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ReloadStatsId");
 
                     b.ToTable("WeaponTypes");
                 });
@@ -357,26 +310,6 @@ namespace Destiny2DataLibrary.Migrations
                         .HasForeignKey("ReloadStatId");
 
                     b.Navigation("ReloadStat");
-                });
-
-            modelBuilder.Entity("Destiny2DataLibrary.Models.DamageBuff", b =>
-                {
-                    b.HasOne("Destiny2DataLibrary.Models.BuffCategory", "BuffCategory")
-                        .WithMany()
-                        .HasForeignKey("BuffCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BuffCategory");
-                });
-
-            modelBuilder.Entity("Destiny2DataLibrary.Models.WeaponType", b =>
-                {
-                    b.HasOne("Destiny2DataLibrary.Models.ReloadStat", "ReloadStats")
-                        .WithMany()
-                        .HasForeignKey("ReloadStatsId");
-
-                    b.Navigation("ReloadStats");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Perk", b =>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Destiny2DataLibrary.Models
 {
-    public class ActivationStep
+    public class BuffStack
     {
         public int Id { get; set; }
         public int StepNumber { get; set; }
@@ -14,5 +14,6 @@ namespace Destiny2DataLibrary.Models
         public double PveDamageBuffPercent { get; set; }
         public double PvpRapidFireBuffPercent { get; set; }
         public double PveRapidFirePercent { get; set; }
+        public ReloadStat? ReloadStat { get; set; }
     }
 }
