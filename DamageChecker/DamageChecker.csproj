@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\icons\search.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DamageCheckerApi\DamageCheckerApi.csproj" />
+  </ItemGroup>
+
 </Project>

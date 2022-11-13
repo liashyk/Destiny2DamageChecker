@@ -15,7 +15,6 @@ namespace DamageCheckerApi.Controllers
     public class ArchetypesController : ControllerBase
     {
         private readonly Destiny2DataContext _context;
-
         public ArchetypesController(Destiny2DataContext context)
         {
             _context = context;
@@ -25,14 +24,31 @@ namespace DamageCheckerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Archetype>>> GetArchetypes()
         {
-            return await _context.Archetypes.ToListAsync();
+            List<Archetype> archetypes = await GetArchetypesListAsync();
+            return archetypes;
+        }
+
+        private async Task<List<Archetype>> GetArchetypesListAsync()
+        {
+            return await _context.Archetypes.
+                Include(a => a.WeaponType).
+                Include(a => a.AmmoType).
+                Include(a => a.WeaponType).
+                Include(a => a.BurstStats).
+                Include(a => a.ShotDamage).ToListAsync();
+        }
+
+        private async Task<ActionResult<Archetype>> GetArchetypeWithId(int id)
+        {
+            var archetypes = await GetArchetypesListAsync();
+            return archetypes.Where(a => a.Id == id).FirstOrDefault();
         }
 
         // GET: api/Archetypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Archetype>> GetArchetype(int id)
         {
-            var archetype = await _context.Archetypes.FindAsync(id);
+            var archetype = await GetArchetypeWithId(id);
 
             if (archetype == null)
             {
@@ -40,6 +56,19 @@ namespace DamageCheckerApi.Controllers
             }
 
             return archetype;
+        }
+
+        //Take archetypeId and return perks that this archetype in contain
+        [HttpGet("FromWeaponType/{weaponTypeId}")]
+        public async Task<ActionResult<IEnumerable<Archetype>>> GetArchetypeWithWeaponTypeId(int weaponTypeId)
+        {
+            var archetypes = await GetArchetypesListAsync();
+            var result = archetypes.Where(a => a.WeaponType.Id == weaponTypeId);
+            if (result.Count() == 0)
+            {
+                return NotFound();
+            }
+            return result.ToList();
         }
 
         // PUT: api/Archetypes/5
@@ -53,7 +82,6 @@ namespace DamageCheckerApi.Controllers
             }
 
             _context.Entry(archetype).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();

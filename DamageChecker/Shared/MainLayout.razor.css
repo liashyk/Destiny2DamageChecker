@@ -1,4 +1,4 @@
-.page {
+/*.page {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -67,4 +67,19 @@ main {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
+}
+*/
+
+.page{
+    display:flex;
+    flex-direction:row;
+}
+
+* {
+    margin: 0 auto;
+}
+
+.sidebar{
+    position:absolute;
+    z-index:100;
 }
