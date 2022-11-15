@@ -1,23 +1,68 @@
-.weapon-type-list{
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    align-items:center;
-    overflow-y:scroll;
+.weapon-type-list, .archetype-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    backdrop-filter: blur(4px);
+    background-color: rgba(69, 69, 69, 0.5);
+}
+
+.weapon-type-list {
+}
+.archetype-list {
+
+}
+
+#show_menu_button{
+    margin:10px;
+}
+
+.weapon-navigator {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow-y: hidden;
+    height:100vh;
 }
 
 .weapon-type-button {
-    width: 95%;
+    width: 90%;
     height: 30px;
-    margin-bottom:5px
+    display:flex;
+    flex-direction:row;
+    padding:10px;
+    margin:5px;
+    justify-content:space-between;
+    align-items:center;
+    border: solid 3px white;
+    background-color: rgba(57, 57, 57, 1);
+    color:white;
+    font-weight:bold;
+    font-size: 8px;
+}
+
+.weapon-type-button:hover {
+    background-color: cyan;
+    color: rgba(57, 57, 57, 1);
+    border-color: rgba(57, 57, 57, 1);
 }
 
 .search-button {
-    border:none;
-    padding: 0;
-    height: 30px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
+    height: 30px;
     overflow: hidden;
+    background-color:cyan;
+}
+
+.search-button:hover {
+    background-color: cornflowerblue;
 }
 
 #search-icon {
@@ -26,9 +71,28 @@
 }
 
 .search-text-field {
-    margin-left:10px;
+    margin-left: 10px;
     border: none;
     height: 30px;
+    width: 300px;
+    display: flex;
+    font-size: 9px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(86, 83, 83, 1);
+    color:white;
+    font-weight:bold;
+}
+
+.search-text-field:focus{
+    outline:none;
+    border:solid 2px #8a8a8a;
+}
+
+.search-text-field::placeholder {
+    font-size: 9px;
+    font-weight: bold;
+    color: rgba(250, 250, 250, 0.43);
 }
 
 *{
@@ -37,19 +101,45 @@
 }
 
 button:hover{
-    background-color:aqua;
+/*    background-color:aqua;*/
 }
 
 .search-area {
-    padding:10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
     display: flex;
     flex-flow: row nowrap;
-    background-color: #1e1e1e
+    background-color: rgba(57, 57, 57, 0.8);
+    backdrop-filter: blur(4px);
 }
 
 .search-nav-menu {
-    background-color: #3C3C3C;
-    display:flex;
-    flex-direction:column;
-    height:100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
+
+.weapon-type-icon{
+    height:2em;
+}
+
+.archetype-icon {
+    height: 3em;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color:cyan;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: cornflowerblue;
+}
+
+button{
+    line-height:normal;
+}
+
+/*TODO:make height limit content weapon-navigator*/
