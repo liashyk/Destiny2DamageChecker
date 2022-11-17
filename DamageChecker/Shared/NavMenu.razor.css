@@ -30,7 +30,6 @@
 
 .weapon-type-button {
     width: 90%;
-    height: 30px;
     display:flex;
     flex-direction:row;
     padding:10px;
@@ -41,7 +40,7 @@
     background-color: rgba(57, 57, 57, 1);
     color:white;
     font-weight:bold;
-    font-size: 8px;
+    font-size: 16px;
 }
 
 .weapon-type-button:hover {
@@ -55,10 +54,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     overflow: hidden;
-    background-color:cyan;
+    background-color: cyan;
 }
 
 .search-button:hover {
@@ -66,22 +65,26 @@
 }
 
 #search-icon {
-    height: 15px;
-    width: 15px;
+    height: 80%;
+    width: 80%;
 }
+
+.search-text-field, .weapon-type-button {
+    height: 60px;
+}
+
 
 .search-text-field {
     margin-left: 10px;
     border: none;
-    height: 30px;
-    width: 300px;
+    width: 600px;
     display: flex;
-    font-size: 9px;
     justify-content: center;
     align-items: center;
     background-color: rgba(86, 83, 83, 1);
-    color:white;
-    font-weight:bold;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .search-text-field:focus{
@@ -90,9 +93,9 @@
 }
 
 .search-text-field::placeholder {
-    font-size: 9px;
     font-weight: bold;
     color: rgba(250, 250, 250, 0.43);
+    font-size: 16px;
 }
 
 *{
@@ -116,6 +119,7 @@ button:hover{
     display: flex;
     flex-direction: column;
     height: 100vh;
+    box-shadow: 10px 2px 46px 0px rgba(0,0,0,0.59);
 }
 
 .weapon-type-icon{

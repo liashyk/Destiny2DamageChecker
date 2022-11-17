@@ -1,0 +1,15 @@
+﻿<div class="add-buffs-menu">
+    <div class="add-buffs-header">
+        <h1>ADD BUFFS</h1>
+    </div>
+    <div class="search-area">
+        <button class="search-button">
+            <img id="search-icon" src="css/icons/search.svg" />
+        </button>
+        <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..." />
+    </div>
+</div>
+
+@code {
+    private string query="";
+}

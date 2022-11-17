@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Destiny2DataLibrary", "Dest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbTest", "DbTest\DbTest.csproj", "{84EF65EA-9E92-40FC-AD4A-B306AF180EC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DamageChecker", "DamageChecker\DamageChecker.csproj", "{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DamageChecker", "DamageChecker\DamageChecker.csproj", "{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DamageCheckerApi", "DamageCheckerApi\DamageCheckerApi.csproj", "{30B81D93-6390-469A-B03E-F16BDCA020FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DamageCheckerApi", "DamageCheckerApi\DamageCheckerApi.csproj", "{30B81D93-6390-469A-B03E-F16BDCA020FA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E4234A7F-CF0A-4F86-AAB0-3EC098AE25A0} = {E4234A7F-CF0A-4F86-AAB0-3EC098AE25A0}
 	EndProjectSection

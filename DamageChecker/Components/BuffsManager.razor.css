@@ -1,0 +1,99 @@
+﻿*{
+	font-family: 'Overpass', sans-serif;
+}
+
+h1{
+	font-weight:700;
+	color:cyan;
+}
+
+.buff-manager {
+	backdrop-filter: blur(4px);
+	background-color: rgba(69, 69, 69, 0.8);
+	display:flex;
+	flex-direction:column;
+	justify-content:flex-start;
+	align-items:center;
+	width:600px;
+	max-height:100vh;
+	color:white;
+	font-weight:bold;
+	padding-top:10px;
+	overflow-y:auto;
+}
+
+.buff_icon{
+	background-color:#1d1d1d;
+	height:30px;
+	width:30px;
+	border-radius:30px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	border:2px solid white;
+	background-color:rgba(57, 57, 57, 1);
+	margin-right:10px;
+}
+
+.buff_icon img{
+	height:90%;
+	width:90%;
+}
+
+*{
+	box-sizing:border-box;
+}
+
+.buff_name{
+	width:200px;
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-start;
+	align-items:center;
+}
+
+.buff-container{
+	border-color:cyan;
+}
+
+.buff-percent{
+	color:rgba(255, 230, 0, 1);
+}
+
+.buff-container,.combined-buff-result{
+	width:100%;
+	height:60px;
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	align-items:center;
+	margin-bottom:10px;
+	padding:10px;
+	border:solid 1px cyan;
+	border-left:none;
+	border-right:none;
+}
+
+.add-buffs-button{
+	width:100%;
+	height:60px;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+	padding:10px;
+	background-color:cyan;
+	border:none;
+	font-weight:bold;
+	color:rgba(57, 57, 57, 1);
+}
+
+.add-buffs-button:hover{
+	background-color:cornflowerblue;
+}
+
+.combined-buff-result{
+	color:rgba(255, 230, 0, 1);
+	border-color:rgba(255, 230, 0, 1);
+	justify-content:center;
+}

@@ -1,10 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Components\BuffsManager.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\BuffsManager.razor.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\css\icons\search.svg" />
