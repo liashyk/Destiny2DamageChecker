@@ -6,9 +6,25 @@
     <div class="sidebar">
         <NavMenu />
     </div>
-
+    <header>
+        <h1>ARCHETYPE NAME</h1>
+    </header>
     <main>
-        <BuffsManager></BuffsManager>
-        <AddBuffs></AddBuffs>
+        <BuffsManager OnAddBufsClick="@ShowAddBuffs"></BuffsManager>
     </main>
+    <div class="bottom-bar" style=@bottomBarStyle>
+        <AddBuffs OnApplyCallback="@HideAddBuffs"></AddBuffs>
+    </div>
 </div>
+
+@code{
+    private string bottomBarStyle = "";
+    private void HideAddBuffs(){
+        bottomBarStyle = "display:none";
+    }
+
+    private void ShowAddBuffs()
+    {
+        bottomBarStyle = "";
+    }
+}

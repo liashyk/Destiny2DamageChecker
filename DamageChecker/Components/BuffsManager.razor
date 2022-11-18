@@ -44,11 +44,14 @@
 		</div>
 	</div>
 	<div class="combined-buff-result">COMBINED BUFF: @combinedBuff %</div>
-	<button class="add-buffs-button"> ADD BUFFS </button>
+	<button class="add-buffs-button" @onclick="@OnAddBufsClick"> ADD BUFFS </button>
 </div>
 
 @code {
 	public string bindValue;
 	public double combinedBuff=38;
+
+	[Parameter]
+	public EventCallback OnAddBufsClick{ get; set; }
 }
 

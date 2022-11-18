@@ -1,15 +1,34 @@
 ﻿<div class="add-buffs-menu">
     <div class="add-buffs-header">
         <h1>ADD BUFFS</h1>
+        <div class="search-area">
+            <button class="search-button">
+                <img id="search-icon" src="css/icons/search.svg" />
+            </button>
+            <input class="search-text-field" @bind-value=@query placeholder="SEARCH BUFFS..." />
+        </div>
+        <button class="apply-button" @onclick="OnApplyCallback">APPLY</button>
     </div>
-    <div class="search-area">
-        <button class="search-button">
-            <img id="search-icon" src="css/icons/search.svg" />
-        </button>
-        <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..." />
+
+    <div class="damage-weapon-perks">
+        <h2>DAMAGE WEAPON PERKS</h2>
+        <div class="buffs-list">
+            @for(int i=0;i<20;i++){
+                <div class="buff-container">
+                    <div class="buff_icon">
+                        <img src="css/icons/perk.svg">
+                    </div>
+                    ADRENALINE JUNKIE
+                </div>
+            }
+        </div>
     </div>
 </div>
+    
 
 @code {
     private string query="";
+
+    [Parameter]
+    public EventCallback OnApplyCallback { get; set; }
 }
