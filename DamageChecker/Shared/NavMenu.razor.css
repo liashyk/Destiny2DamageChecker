@@ -146,4 +146,7 @@ button{
     line-height:normal;
 }
 
+.nav-menu{
+    max-width:100vw;
+}
 /*TODO:make height limit content weapon-navigator*/

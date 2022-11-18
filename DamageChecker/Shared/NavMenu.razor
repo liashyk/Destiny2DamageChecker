@@ -1,33 +1,37 @@
-﻿<button class="search-button" id="show_menu_button" @onclick="ToggleNavMenu" style="@buttonDisplayParam">
-    <img id="search-icon" src="css/icons/search.svg" />
-</button>
-<div class="search-nav-menu" style="@navMenuDisplayParam">
-    <div class="search-area">
-        <button class="search-button" @onclick="ToggleNavMenu">
-            <img id="search-icon" src="css/icons/search.svg" />
-        </button>
-        <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..."/>
-    </div>
-    <div class="weapon-navigator">
-        <div class="weapon-type-list">
-            @for(int i=0;i<18;i++)
-            {
-                <button class="weapon-type-button" @onclick="()=>ShowArchetypes(i)">
-                    <img src="css/icons/WeaponTypes/linear fusion rifle.svg" class="weapon-type-icon">
-                    LINEAR FUSION RIFLE</button>
-            }
+﻿<div class="nav-menu">
+    <button class="search-button" id="show_menu_button" @onclick="ToggleNavMenu" style="@buttonDisplayParam">
+        <img id="search-icon" src="css/icons/search.svg" />
+    </button>
+    <div class="search-nav-menu" style="@navMenuDisplayParam">
+        <div class="search-area">
+            <button class="search-button" @onclick="ToggleNavMenu">
+                <img id="search-icon" src="css/icons/search.svg" />
+            </button>
+            <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..." />
         </div>
-        <div class="archetype-list" style="@archetypeDisplayParam">
-            @for (int i = 0; i < 5; i++)
-            {
-                <button class="weapon-type-button" @onclick="()=>LoadPage(i)">
-                    <img src="css/icons/archetype_buffer.svg" class="archetype-icon">
-                    ADAPTIVE
+        <div class="weapon-navigator">
+            <div class="weapon-type-list">
+                @for (int i = 0; i < 18; i++)
+                {
+                    <button class="weapon-type-button" @onclick="()=>ShowArchetypes(i)">
+                        <img src="css/icons/WeaponTypes/linear fusion rifle.svg" class="weapon-type-icon">
+                        LINEAR FUSION RIFLE
                     </button>
-            }
+                }
+            </div>
+            <div class="archetype-list" style="@archetypeDisplayParam">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <button class="weapon-type-button" @onclick="()=>LoadPage(i)">
+                        <img src="css/icons/archetype_buffer.svg" class="archetype-icon">
+                        ADAPTIVE
+                    </button>
+                }
+            </div>
         </div>
     </div>
 </div>
+
 
 
 @code {

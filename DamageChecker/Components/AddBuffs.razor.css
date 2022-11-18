@@ -9,11 +9,11 @@
     box-shadow: 10px 2px 46px 0px rgba(0,0,0,0.59);
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     height: 80vh;
-    overflow-y:auto;
+    overflow:auto;
 }
 
 .add-buffs-header{
@@ -22,7 +22,7 @@
     justify-content:space-between;
     align-items:center;
     padding:10px;
-    width:100%;
+    width:100vw;
 }
 
 .search-area {
