@@ -1,4 +1,4 @@
-﻿<div class="add-buffs-menu">
+﻿<div class="add-buffs-menu" style=@heightStyle>
     <div class="add-buffs-header">
         <h1>ADD BUFFS</h1>
         <div class="search-area">
@@ -9,26 +9,67 @@
         </div>
         <button class="apply-button" @onclick="OnApplyCallback">APPLY</button>
     </div>
-
-    <div class="damage-weapon-perks">
-        <h2>DAMAGE WEAPON PERKS</h2>
-        <div class="buffs-list">
-            @for(int i=0;i<20;i++){
-                <div class="buff-container">
-                    <div class="buff_icon">
-                        <img src="css/icons/perk.svg">
-                    </div>
-                    ADRENALINE JUNKIE
+    <div class="add-buffs-main">
+        @foreach(string key in buff_selectors_style.Keys)
+        {
+            <div class="buff_selector">
+                <h2 @onclick="()=>HideBuffList(key)">@key</h2>
+                <div class="buffs-list" style="@buff_selectors_style[key]">
+                    @for (int i = 0; i < 20; i++)
+                    {
+                        <div class="buff-container">
+                            <div class="buff_icon">
+                                <img src="css/icons/perk.svg">
+                            </div>
+                            ADRENALINE JUNKIE
+                        </div>
+                    }
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+
 </div>
     
 
 @code {
     private string query="";
 
+    private string heightStyle;
+
+    private Dictionary<string, string> buff_selectors_style = new Dictionary<string, string>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        buff_selectors_style["DAMAGE WEAPON PERKS"] = "";
+        buff_selectors_style["EMPOWERING BUFFS"] = "";
+        buff_selectors_style["GLOBAL DEBUFS"] = "";
+    }
+
+
+
+    private void HideBuffList(string selectorName)
+    {
+        if(buff_selectors_style[selectorName]==""){
+            buff_selectors_style[selectorName] = "display:none";
+        }else{
+            buff_selectors_style[selectorName] = "";
+        }
+
+    }
+
+
     [Parameter]
     public EventCallback OnApplyCallback { get; set; }
+
+    ///hide this component
+    public void Hide(){
+        heightStyle = "height: 0;";
+    }
+
+    ///show this component
+    public void Show(){
+        heightStyle = "";
+    }
 }

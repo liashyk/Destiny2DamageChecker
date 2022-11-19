@@ -16,11 +16,22 @@ h1{
 	align-items:center;
 	width:600px;
 	max-width:100%;
-	max-height:100vh;
 	color:white;
 	font-weight:bold;
 	padding-top:10px;
 }
+
+::-webkit-scrollbar {
+	width: 1vw;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: cyan;
+}
+
+	::-webkit-scrollbar-thumb:hover {
+		background-color: cornflowerblue;
+	}
 
 .buff_icon{
 	background-color:#1d1d1d;

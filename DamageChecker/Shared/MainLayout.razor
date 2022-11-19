@@ -13,18 +13,23 @@
         <BuffsManager OnAddBufsClick="@ShowAddBuffs"></BuffsManager>
     </main>
     <div class="bottom-bar" style=@bottomBarStyle>
-        <AddBuffs OnApplyCallback="@HideAddBuffs"></AddBuffs>
+        <AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs"></AddBuffs>
     </div>
 </div>
 
 @code{
     private string bottomBarStyle = "";
+
+    AddBuffs? addBuffs;
+
     private void HideAddBuffs(){
-        bottomBarStyle = "display:none";
+        if (addBuffs == null) return;
+        addBuffs.Hide();
     }
 
     private void ShowAddBuffs()
     {
-        bottomBarStyle = "";
+        if (addBuffs == null) return;
+        addBuffs.Show();
     }
 }

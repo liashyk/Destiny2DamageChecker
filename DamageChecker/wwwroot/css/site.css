@@ -1,20 +1,22 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Arial, sans-serif;
     background-image: url("https://i.imgur.com/0GCQIlL.jpeg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
+    width:100vw;
+    overflow-x:hidden;
 }
 
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 0.5vw;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: cyan;
+    background-color: cornflowerblue;
 }
 
 ::-webkit-scrollbar-thumb:hover {
