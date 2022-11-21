@@ -1,0 +1,27 @@
+﻿<div class="display-damage">
+	<img class="target-image" src=@(IsOgr? OgrImage : HunterImage)/>
+	<div class="hit-damage" id=@(IsOgr? "precison-damage" : "precison-damage-hunter")>
+		<img src="css/icons/cross.svg" />
+		<span class="damage-number">@PrecisionDamage</span>
+	</div>
+	<div class="hit-damage" id="body-damage">
+		<img src="css/icons/cross.svg" />
+		<span class="damage-number">@BodyDamage</span>
+	</div>
+
+</div>
+
+
+
+@code {
+	private string targetImage;
+	private string HunterImage = "css/icons/hunter.png";
+	private string OgrImage = "css/icons/ogr.png";
+
+	[Parameter]
+	public int PrecisionDamage { get; set; }
+	[Parameter]
+	public int BodyDamage { get; set; }
+	[Parameter]
+	public bool IsOgr { get; set; }
+}

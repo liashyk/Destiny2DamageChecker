@@ -35,31 +35,38 @@
 @code {
     private string query="";
 
-    private string heightStyle;
+    private string heightStyle="height: 0;";
 
+    //Dictionary, where key is    buff_selectors_header and value is inner buff_list style
     private Dictionary<string, string> buff_selectors_style = new Dictionary<string, string>();
+
+    private string hideSelectorStyle = "padding:0;";
+
+    private string showSelectorStyle = "max-height: 100vh;";
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        buff_selectors_style["DAMAGE WEAPON PERKS"] = "";
-        buff_selectors_style["EMPOWERING BUFFS"] = "";
-        buff_selectors_style["GLOBAL DEBUFS"] = "";
+        buff_selectors_style["DAMAGE WEAPON PERKS"] = showSelectorStyle;
+        buff_selectors_style["EMPOWERING BUFFS"] = showSelectorStyle;
+        buff_selectors_style["GLOBAL DEBUFS"] = showSelectorStyle;
     }
 
 
 
+    //Hide or show buff list in selector
     private void HideBuffList(string selectorName)
     {
-        if(buff_selectors_style[selectorName]==""){
-            buff_selectors_style[selectorName] = "display:none";
+        if (buff_selectors_style[selectorName] == hideSelectorStyle)
+        {
+            buff_selectors_style[selectorName] = showSelectorStyle;
         }else{
-            buff_selectors_style[selectorName] = "";
+            buff_selectors_style[selectorName] = hideSelectorStyle;
         }
 
     }
 
-
+    //event that hapenns when apply button is clicked
     [Parameter]
     public EventCallback OnApplyCallback { get; set; }
 

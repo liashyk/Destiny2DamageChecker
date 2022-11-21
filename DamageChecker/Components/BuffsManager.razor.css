@@ -1,5 +1,6 @@
-﻿*{
-	font-family: 'Overpass', sans-serif;
+﻿* {
+	font-family: Arial;
+	box-sizing: border-box;
 }
 
 h1{
@@ -19,6 +20,7 @@ h1{
 	color:white;
 	font-weight:bold;
 	padding-top:10px;
+	height:auto;
 }
 
 ::-webkit-scrollbar {
@@ -49,10 +51,6 @@ h1{
 .buff_icon img{
 	height:90%;
 	width:90%;
-}
-
-*{
-	box-sizing:border-box;
 }
 
 .buff_name{
@@ -107,4 +105,26 @@ h1{
 	color:rgba(255, 230, 0, 1);
 	border-color:rgba(255, 230, 0, 1);
 	justify-content:center;
+}
+
+select {
+	background: none;
+	color: white;
+	border: 1px solid cyan;
+	transition: 0.1s;
+	text-align: center;
+	font-size: 15px;
+	font-weight:700;
+}
+
+	select:focus, select:hover {
+		outline: none;
+		color: cyan;
+	}
+
+option {
+	background-color: #393939;
+	color: white;
+	transition: 0.1s;
+	font-weight: 700;
 }

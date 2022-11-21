@@ -1,0 +1,77 @@
+﻿
+<div class="damage-menu">
+	<div class="mode-switcher">
+		<button class=@(!IsPvp? "selected-button" : "not-selected-button") @onclick="@OpenPve">PVE</button>
+		<button class=@(IsPvp? "selected-button" : "not-selected-button") @onclick="@OpenPvp">PVP</button>
+	</div>
+	<DisplayDamage BodyDamage="40" PrecisionDamage="80" IsOgr=@(!IsPvp)></DisplayDamage>
+	<div class="pvp-damage-parametres" style=@(IsPvp? "":"display:none;")>
+		<div class="damage-parameter-setting">
+			<div class="parameter-header">GUARDIAN RESILIANCE</div>
+			<select>
+				<option selected>@(1 + "x")</option>
+				@for(int i=2;i<=10;i++){
+					<option>@(i+"x")</option>
+				}
+			</select>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">OPTIMAL TTK</div>
+			<div class="parameter-value">0.48</div>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">BULLET TO SHOOT</div>
+			<div class="parameter-value">3</div>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">DPS</div>
+			<div class="parameter-value">243</div>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">BODY TTK</div>
+			<div class="parameter-value">1.24</div>
+		</div>
+	</div>
+	<div class="pve-damage-parametres" style=@(!IsPvp? "":"display:none;")>
+		<div class="damage-parameter-setting">
+			<div class="parameter-header">RELOAD SPEED VALUE</div>
+			<input type="number" min="0" />
+		</div>
+		<div class="damage-parameter-setting">
+			<div class="parameter-header">MAG SIZE</div>
+			<input type="number" min="0" step="1" />
+		</div>
+		<div class="damage-parameter-setting">
+			<div class="parameter-header">TAKING DAMAGE TIME </div>
+			<input type="number" step="0.1"  min="0" id="taking-damage-time-input"/>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">SIMPLE DPS</div>
+			<div class="parameter-value">3580</div>
+		</div>
+		<div class="damage-parameter">
+			<div class="parameter-header">RELOAD DPS</div>
+			<div class="parameter-value">2580</div>
+		</div>
+	</div>
+</div>
+
+
+
+@code {
+	[Parameter]
+	public bool IsPvp { get; set; } = false;
+
+	private void SwitchMode(){
+		IsPvp = !IsPvp;
+	}
+
+	private void OpenPvp(){
+		IsPvp = true;
+	}
+
+	private void OpenPve()
+	{
+		IsPvp = false;
+	}
+}

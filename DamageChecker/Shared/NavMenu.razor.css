@@ -8,6 +8,7 @@
     overflow-y: scroll;
     backdrop-filter: blur(4px);
     background-color: rgba(69, 69, 69, 0.5);
+    transition:0.2s;
 }
 
 *{
@@ -21,7 +22,9 @@
 }
 
 #show_menu_button{
+    position:absolute;
     margin:10px;
+    z-index:3;
 }
 
 .weapon-navigator {
@@ -48,11 +51,17 @@
     transition: 0.2s;
 }
 
-.weapon-type-button:hover {
-    background-color: cyan;
-    color: rgba(57, 57, 57, 1);
-    border-color: rgba(57, 57, 57, 1);
-}
+    .weapon-type-button:hover {
+        /*    background-color: cyan;
+    color: rgba(57, 57, 57, 1);*/
+        background-color:#161616;
+        border-color: white;
+        outline: 4px solid white;
+        outline-offset: 4px;
+    }
+
+    .weapon-type-button:hover img {
+    }
 
 .search-button {
     border: none;
@@ -63,7 +72,20 @@
     height: 60px;
     overflow: hidden;
     background-color: cyan;
+    transition:0.2s;
 }
+
+@keyframes test{
+    50%{
+        background-color:red;
+    }
+    100%{
+        background-color:yellow;
+    }
+}
+
+
+
 
 .search-button:hover {
     background-color: cornflowerblue;
@@ -124,8 +146,11 @@ button:hover{
 .search-nav-menu {
     display: flex;
     flex-direction: column;
+    width:650px;
     height: 100vh;
     box-shadow: 10px 2px 46px 0px rgba(0,0,0,0.59);
+    transition: 0.2s;
+    overflow:hidden;
 }
 
 .weapon-type-icon{

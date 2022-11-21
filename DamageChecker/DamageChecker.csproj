@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <None Remove="Components\BuffsManager.razor.css" />
+    <None Remove="Components\DamageMenu.razor.css" />
+    <None Remove="Components\DisplayDamage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Components\BuffsManager.razor.css" />
+    <Content Include="Components\DamageMenu.razor.css" />
+    <Content Include="Components\DisplayDamage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

@@ -23,6 +23,8 @@ header{
 main {
     display: flex;
     flex-direction: row;
+    justify-content:space-between;
+    align-items:flex-start;
     padding:60px;
     width:100%;
 }
@@ -35,6 +37,7 @@ main {
 .sidebar{
     position:fixed;
     z-index:100;
+    left:0;
 }
 
 .bottom-bar {
@@ -43,10 +46,17 @@ main {
     bottom: 0;
 }
 
-@media (max-width:600px){
+
+.damage-checker {
+    width: 500px;
+}
+
+@media (max-width:800px) {
     main{
         flex-direction:column;
+        align-content:center;
         padding:10px;
+        flex-wrap:wrap;
     }
 
     header {

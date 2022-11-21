@@ -1,0 +1,132 @@
+﻿.damage-menu{
+	width:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.mode-switcher{
+	width:100%;
+	display:flex;
+	flex-direction:row;
+	justify-content:stretch;
+	z-index:3;
+}
+
+.selected-button, .not-selected-button{
+	width:50%;
+	background-color:#393939;
+	color:white;
+	border:none;
+	transition:0.2s;
+	font-size:20px;
+}
+
+.selected-button {
+	background-color: cyan;
+	color: #393939;
+}
+
+.not-selected-button:hover {
+	color: cyan;
+	outline: 4px solid cyan;
+	outline-offset: 0px;
+	box-shadow: 0 0 10px black;
+	z-index: 10;
+}
+
+* {
+	font-family: Arial;
+	font-weight: bold;
+	box-sizing: border-box;
+}
+
+.pvp-damage-parametres, .pve-damage-parametres {
+	width: 100%;
+}
+
+.damage-parameter, .damage-parameter-setting {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	backdrop-filter: blur(4px);
+	background-color: rgba(69, 69, 69, 0.7);
+	color: white;
+	padding: 10px;
+	margin: 2px;
+}
+
+.damage-parameter-setting{
+	border:2px solid cyan;
+}
+
+.damage-parameter-setting .parameter-header {
+	font-size: 20px;
+}
+
+.parameter-header {
+	font-size: 30px;
+}
+
+.parameter-value{
+	color:cyan;
+	font-size:34px;
+}
+
+.damage-parameter-setting input {
+	width: 80px;
+	height: 30px;
+	font-size: 20px;
+	background:none;
+	color:white;
+	border:1px solid cyan;
+	transition:0.1s;
+	text-align:center;
+}
+
+.damage-parameter-setting input:focus{
+/*	outline:2px solid cyan;
+	outline-offset:2px;*/
+	outline:none;
+	color:cyan;
+	text-align:start;
+}
+
+	#taking-damage-time-input {
+		width: 100px;
+	}
+
+/*remove arrows from input-numbers*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+select {
+	background: none;
+	color: white;
+	border: 1px solid cyan;
+	transition: 0.1s;
+	text-align: center;
+	font-size:20px;
+}
+
+select:focus, select:hover {
+	outline: none;
+	color: cyan;
+}
+
+option {
+	background-color: #393939;
+	color:white;
+	transition:0.1s;
+}

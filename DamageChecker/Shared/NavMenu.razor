@@ -4,7 +4,7 @@
     </button>
     <div class="search-nav-menu" style="@navMenuDisplayParam">
         <div class="search-area">
-            <button class="search-button" @onclick="ToggleNavMenu">
+            <button class="search-button" @onclick="ToggleNavMenu" style="visibility:hidden">
                 <img id="search-icon" src="css/icons/search.svg" />
             </button>
             <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..." />
@@ -42,14 +42,14 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private string navMenuDisplayParam = "";
-    private string buttonDisplayParam = "display:none";
-    private string archetypeDisplayParam = "display:none";
+    private string navMenuDisplayParam = "width:0";
+    private string buttonDisplayParam = "";
+    private string archetypeDisplayParam = "width:0";
 
     private void ShowArchetypes(int id){
         if (archetypeDisplayParam == "")
         {
-            archetypeDisplayParam = "display:none";
+            archetypeDisplayParam = "width:0";
         }
         else
         {
@@ -66,13 +66,13 @@
     {
         if (navMenuDisplayParam == "")
         {
-            navMenuDisplayParam = "display:none";
+            navMenuDisplayParam = "width:0";
             buttonDisplayParam = "";
         }
         else 
         {
             navMenuDisplayParam = "";
-            buttonDisplayParam = "display:none";
+            buttonDisplayParam = "";
         }
     }
 }
