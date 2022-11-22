@@ -1,7 +1,10 @@
 ﻿using Destiny2DataLibrary.DataAccess;
+using Destiny2DataLibrary.Migrations;
 using Destiny2DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.FileIO;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace DbTest
 {
@@ -180,9 +183,44 @@ namespace DbTest
             }
         }
 
-        static void Main(string[] args)
+        static void ShowPerk(Perk perk)
         {
+            Console.WriteLine(perk.Name+" : ");
+            foreach(var it in perk.ActivationSteps)
+            {
+                Console.WriteLine(it.StepNumber+" - "+it.PveDamageBuffPercent);
+            }
+            Console.WriteLine();
+        }
 
+        static async Task ApiTest()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7208/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage responseMessage = await client.GetAsync("api/WeaponTypes");
+            var responce = await client.GetAsync($"api/Archetypes/FromWeaponType/1");
+            Console.WriteLine(responce.IsSuccessStatusCode);
+            if (responce.IsSuccessStatusCode)
+            {
+                var archetypes = await responce.Content.ReadFromJsonAsync<IEnumerable<Archetype>>();
+                foreach(Archetype it in archetypes)
+                {
+                    Console.WriteLine(it.Name);
+                }
+            }
+            else
+            {
+                Console.WriteLine("ooops");
+            }
+        }
+
+        static async Task Main(string[] args)
+        {
+            await ApiTest();
+            Console.ReadKey();
         }
     }
 }

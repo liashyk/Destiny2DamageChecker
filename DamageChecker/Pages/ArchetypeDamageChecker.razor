@@ -1,0 +1,19 @@
+﻿@page "/archetype"
+
+<header>
+    <h1>ARCHETYPE NAME @ArchetypeId</h1>
+</header>
+<main>
+    <BuffsManager OnAddBufsClick="@ShowAddBuffs"></BuffsManager>
+    <div class="damage-checker">
+        <DamageMenu></DamageMenu>
+    </div>
+</main>
+<div class="bottom-bar" style=@bottomBarStyle>
+    <AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs"></AddBuffs>
+</div>
+
+@code {
+    [Parameter]
+    public int ArchetypeId { get; set; }
+}

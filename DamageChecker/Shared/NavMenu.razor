@@ -1,4 +1,6 @@
-﻿<div class="nav-menu">
+﻿@using Destiny2DataLibrary.Models
+
+<div class="nav-menu">
     <button class="search-button" id="show_menu_button" @onclick="ToggleNavMenu" style="@buttonDisplayParam">
         <img id="search-icon" src="css/icons/search.svg" />
     </button>
@@ -11,20 +13,20 @@
         </div>
         <div class="weapon-navigator">
             <div class="weapon-type-list">
-                @for (int i = 0; i < 18; i++)
+                @foreach (WeaponType weaponType in weaponTypes)
                 {
-                    <button class="weapon-type-button" @onclick="()=>ShowArchetypes(i)">
-                        <img src="css/icons/WeaponTypes/linear fusion rifle.svg" class="weapon-type-icon">
-                        LINEAR FUSION RIFLE
+                    <button class="weapon-type-button" @onclick="()=>ShowArchetypes(weaponType.Id)">
+                        <img src=@($"css/icons/WeaponTypes/{weaponType.Name}.svg") class="weapon-type-icon">
+                        @weaponType.Name.ToUpper()
                     </button>
                 }
             </div>
             <div class="archetype-list" style="@archetypeDisplayParam">
-                @for (int i = 0; i < 5; i++)
+                @foreach(Archetype archetype in WeaponTypeArchetypes)
                 {
-                    <button class="weapon-type-button" @onclick="()=>LoadPage(i)">
-                        <img src="css/icons/archetype_buffer.svg" class="archetype-icon">
-                        ADAPTIVE
+                    <button class="weapon-type-button" >
+                        <img src=@($"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg") class="archetype-icon">
+                        @archetype.Name.ToUpper()
                     </button>
                 }
             </div>
@@ -46,19 +48,7 @@
     private string buttonDisplayParam = "";
     private string archetypeDisplayParam = "width:0";
 
-    private void ShowArchetypes(int id){
-        if (archetypeDisplayParam == "")
-        {
-            archetypeDisplayParam = "width:0";
-        }
-        else
-        {
-            archetypeDisplayParam = "";
-        }
-    }
-
     private void LoadPage(int id){
-
     }
 
 

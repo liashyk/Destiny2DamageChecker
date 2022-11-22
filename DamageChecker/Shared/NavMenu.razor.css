@@ -9,6 +9,7 @@
     backdrop-filter: blur(4px);
     background-color: rgba(69, 69, 69, 0.5);
     transition:0.2s;
+    overflow-x:hidden;
 }
 
 *{
@@ -154,11 +155,11 @@ button:hover{
 }
 
 .weapon-type-icon{
-    height:2em;
+    height:1.5em;
 }
 
 .archetype-icon {
-    height: 3em;
+    height: 1em;
 }
 
 ::-webkit-scrollbar {

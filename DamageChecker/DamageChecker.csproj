@@ -10,16 +10,24 @@
     <None Remove="Components\BuffsManager.razor.css" />
     <None Remove="Components\DamageMenu.razor.css" />
     <None Remove="Components\DisplayDamage.razor.css" />
+    <None Remove="Pages\ArchetypeDamageChecker.razor.css" />
+    <None Remove="Pages\Index.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Components\BuffsManager.razor.css" />
     <Content Include="Components\DamageMenu.razor.css" />
     <Content Include="Components\DisplayDamage.razor.css" />
+    <Content Include="Pages\ArchetypeDamageChecker.razor.css" />
+    <Content Include="Pages\Index.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\css\icons\search.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
