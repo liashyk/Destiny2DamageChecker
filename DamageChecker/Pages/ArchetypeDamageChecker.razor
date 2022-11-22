@@ -1,7 +1,8 @@
-﻿@page "/archetype"
+﻿@page "/archetype/{ArchetypeId:int}"
 
 <header>
-    <h1>ARCHETYPE NAME @ArchetypeId</h1>
+    <img src=@imgLink class="weapon-type-icon">
+    <h1>@CurrentArchetype.Name</h1>
 </header>
 <main>
     <BuffsManager OnAddBufsClick="@ShowAddBuffs"></BuffsManager>

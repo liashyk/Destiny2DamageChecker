@@ -1,5 +1,6 @@
 ﻿using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using System.Net.Http.Headers;
 
 namespace DamageChecker.Shared
@@ -58,7 +59,6 @@ namespace DamageChecker.Shared
                 new MediaTypeWithQualityHeaderValue("application/json"));
             await GetWeaponTypesAsync();
         }
-
 
     }
 }

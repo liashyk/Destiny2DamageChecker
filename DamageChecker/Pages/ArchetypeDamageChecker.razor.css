@@ -4,6 +4,7 @@
 	width: 100%;
 	padding: 1em;
 	justify-content: flex-end;
+	align-items:center;
 }
 
 	header h1 {
@@ -34,6 +35,10 @@ main {
 
 .damage-checker {
 	width: 500px;
+}
+
+.weapon-type-icon{
+	height:3em;
 }
 
 @media (max-width:800px) {

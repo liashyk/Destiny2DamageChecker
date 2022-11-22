@@ -24,10 +24,12 @@
             <div class="archetype-list" style="@archetypeDisplayParam">
                 @foreach(Archetype archetype in WeaponTypeArchetypes)
                 {
-                    <button class="weapon-type-button" >
-                        <img src=@($"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg") class="archetype-icon">
-                        @archetype.Name.ToUpper()
-                    </button>
+                    <a href=@($"archetype/{archetype.Id}")>
+                        <button class="weapon-type-button" >
+                            <img src=@($"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg") class="archetype-icon">
+                            @archetype.Name.ToUpper()
+                        </button>
+                    </a>
                 }
             </div>
         </div>
