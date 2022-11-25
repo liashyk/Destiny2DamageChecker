@@ -1,57 +1,65 @@
 ﻿<div class="buff-manager">
 	 <h1>DAMAGE BUFFS</h1>
-	 @for(int i=0;i<5;i++){
+	 @if(Buffs!=null){
+		 	 @foreach(Perk perk in Buffs.GetPerkList()){
 		<div class="buff-container">
 			<div class="buff_name">
 				<div class="buff_icon">
 					<img src="css/icons/perk.svg">
 				</div>
-				ADRENALINE JUNKIE
+				@(perk!=null? perk.Name.ToUpper() : "")
 			</div>
 			<div>
 				STACK
-				<select name="@i" @bind=@bindValue>
+				<select name="@perk" @bind=@bindValue>
 					<option value="1" selected>1x</option>
-					@for(int j = 2;j<=3;j++){
+					@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
 						<option value="@j">@(j)x</option>
 					}
 				</select>
 			</div>
 			<div>
-				DAMAGE BUFF: <span class="buff-percent">15%</span>
+				DAMAGE BUFF: <span class="buff-percent">@(perk.ActivationSteps.First().PveDamageBuffPercent.ToString()+"%")</span>
 			</div>
 		</div>
 	 }
-	<div class="buff-container">
-		<div class="buff_name">
-			<div class="buff_icon">
-				<img src="css/icons/perk.svg">
-			</div>
-			FRENZY
-		</div>
-		<div>
-			STACK
-			<select name="1" @bind=@bindValue>
-				<option value="1" selected>1x</option>
-				@for (int j = 2; j <= 3; j++)
-				{
-					<option value="@j">@(j)x</option>
-				}
-			</select>
-		</div>
-		<div>
-			DAMAGE BUFF: <span class="buff-percent">15%</span>
-		</div>
-	</div>
+	 }
 	<div class="combined-buff-result">COMBINED BUFF: @combinedBuff %</div>
-	<button class="add-buffs-button" @onclick="@OnAddBufsClick"> ADD BUFFS </button>
+	<button class="add-buffs-button" @onclick="@ShowAddBuffs"> ADD BUFFS </button>
+</div>
+
+<div class="bottom-bar" style=@bottomBarStyle>
+	<AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs" ArchetypeID="@ArchetypeId"></AddBuffs>
 </div>
 
 @code {
+	[Parameter]
+	public int ArchetypeId { get; set; }
+
 	public string bindValue;
 	public double combinedBuff=38;
 
-	[Parameter]
-	public EventCallback OnAddBufsClick{ get; set; }
+	private string bottomBarStyle = "";
+
+
+	private void HideAddBuffs()
+	{
+		if (addBuffs != null)
+		{
+			addBuffs.Hide();
+		}
+	}
+
+	private void ShowAddBuffs()
+	{
+		Console.WriteLine("perks in BUFFS MANAGER:");
+		foreach(Perk perk in Buffs.GetPerkList()){
+			Console.WriteLine(perk.Id);
+		}
+		if (addBuffs != null)
+		{
+			addBuffs.Show();
+		}
+	}
 }
 

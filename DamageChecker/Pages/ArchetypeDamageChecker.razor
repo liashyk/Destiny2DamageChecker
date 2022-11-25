@@ -5,14 +5,11 @@
     <h1>@CurrentArchetype.Name</h1>
 </header>
 <main>
-    <BuffsManager OnAddBufsClick="@ShowAddBuffs"></BuffsManager>
+    <BuffsManager ArchetypeId="@ArchetypeId"></BuffsManager>
     <div class="damage-checker">
         <DamageMenu></DamageMenu>
     </div>
 </main>
-<div class="bottom-bar" style=@bottomBarStyle>
-    <AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs"></AddBuffs>
-</div>
 
 @code {
     [Parameter]

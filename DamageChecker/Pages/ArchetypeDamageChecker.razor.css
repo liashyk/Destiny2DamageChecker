@@ -26,12 +26,6 @@ main {
 	font-family: Arial;
 }
 
-.bottom-bar {
-	position: fixed;
-	z-index: 90;
-	bottom: 0;
-}
-
 
 .damage-checker {
 	width: 500px;

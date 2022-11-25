@@ -9,10 +9,6 @@ namespace DamageChecker.Pages
     public partial class ArchetypeDamageChecker
     {
 
-        private string bottomBarStyle = "";
-
-        AddBuffs? addBuffs;
-
         [Inject]
         private HttpClient client { get; set; }
 
@@ -23,17 +19,6 @@ namespace DamageChecker.Pages
 
         private ILogger logger { get; set; }
 
-        private void HideAddBuffs()
-        {
-            if (addBuffs == null) return;
-            addBuffs.Hide();
-        }
-
-        private void ShowAddBuffs()
-        {
-            if (addBuffs == null) return;
-            addBuffs.Show();
-        }
         private async Task GetArhetypeByIdASync()
         {
             var responce = await client.GetAsync($"api/Archetypes/{ArchetypeId}");

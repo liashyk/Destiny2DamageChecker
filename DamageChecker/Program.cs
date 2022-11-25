@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<HttpClient>();
+builder.Services.AddTransient<IBuffTransfer, BuffTransfer>();
 
 builder.Host.ConfigureLogging((context, logging) =>
 {

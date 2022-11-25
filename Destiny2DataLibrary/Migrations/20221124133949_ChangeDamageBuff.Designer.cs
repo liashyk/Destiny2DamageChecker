@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221124133949_ChangeDamageBuff")]
+    partial class ChangeDamageBuff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("PerksId");
 
-                    b.ToTable("ArchetypePerk", (string)null);
+                    b.ToTable("ArchetypePerk");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.AmmoType", b =>
@@ -52,7 +54,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AmmoTypes", (string)null);
+                    b.ToTable("AmmoTypes");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Archetype", b =>
@@ -99,7 +101,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("WeaponTypeId");
 
-                    b.ToTable("Archetypes", (string)null);
+                    b.ToTable("Archetypes");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.BuffCategory", b =>
@@ -116,7 +118,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BuffCategories", (string)null);
+                    b.ToTable("BuffCategories");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.BuffStack", b =>
@@ -159,7 +161,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("ReloadStatId");
 
-                    b.ToTable("BuffStacks", (string)null);
+                    b.ToTable("BuffStacks");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.BurstStats", b =>
@@ -178,7 +180,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BurstStats", (string)null);
+                    b.ToTable("BurstStats");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.DamageBuff", b =>
@@ -207,7 +209,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("BuffCategoryId");
 
-                    b.ToTable("DamageBuffs", (string)null);
+                    b.ToTable("DamageBuffs");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.Perk", b =>
@@ -234,7 +236,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Perks", (string)null);
+                    b.ToTable("Perks");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.ReloadStat", b =>
@@ -256,7 +258,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReloadStats", (string)null);
+                    b.ToTable("ReloadStats");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.ShotDamage", b =>
@@ -281,7 +283,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShotsDamage", (string)null);
+                    b.ToTable("ShotsDamage");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.WeaponType", b =>
@@ -304,7 +306,7 @@ namespace Destiny2DataLibrary.Migrations
 
                     b.HasIndex("ReloadStatsId");
 
-                    b.ToTable("WeaponTypes", (string)null);
+                    b.ToTable("WeaponTypes");
                 });
 
             modelBuilder.Entity("ArchetypePerk", b =>
