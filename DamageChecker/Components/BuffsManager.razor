@@ -1,46 +1,53 @@
 ﻿<div class="buff-manager">
 	 <h1>DAMAGE BUFFS</h1>
 	 @if(Buffs!=null){
-		 	 @foreach(Perk perk in Buffs.GetPerkList()){
-		<div class="buff-container">
-			<div class="buff_name">
-				<div class="buff_icon">
-					<img src="css/icons/perk.svg">
+		@foreach(Perk perk in Buffs.GetPerkList())
+		{
+			<div class="buff-container">
+				<div class="buff_name">
+					<div class="buff_icon">
+						<img src="css/icons/perk.svg">
+					</div>
+					@(perk!=null? perk.Name.ToUpper() : "")
 				</div>
-				@(perk!=null? perk.Name.ToUpper() : "")
-			</div>
-			<div>
-				STACK
-				<select name="@perk" @bind=@bindValue>
-					<option value="1" selected>1x</option>
-					@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
-						<option value="@j">@(j)x</option>
+				<div>
+					STACK
+					@if(perk.ActivationSteps.Count==1){
+						<select name="@perk" @bind="@Buffs.PerkStacks[perk.Id]" disabled>
+							<option value="1" selected>1x</option>
+						</select>
+					}else{
+						<select name="@perk" @bind="@Buffs.PerkStacks[perk.Id]">
+							<option value="1" selected>1x</option>
+							@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
+								<option value="@j">@(j)x</option>
+							}
+						</select>
 					}
-				</select>
+				</div>
+				<div>
+					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(perk.Id).PveDamageBuffPercent+"%")</span>
+				</div>
 			</div>
-			<div>
-				DAMAGE BUFF: <span class="buff-percent">@(perk.ActivationSteps.First().PveDamageBuffPercent.ToString()+"%")</span>
-			</div>
-		</div>
+		}
+		<div class="combined-buff-result">COMBINED BUFF:@(Buffs.GetCombinedBuff()+" %")</div>
 	 }
-	 }
-	<div class="combined-buff-result">COMBINED BUFF: @combinedBuff %</div>
+
 	<button class="add-buffs-button" @onclick="@ShowAddBuffs"> ADD BUFFS </button>
 </div>
 
 <div class="bottom-bar" style=@bottomBarStyle>
-	<AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs" ArchetypeID="@ArchetypeId"></AddBuffs>
+	<AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs"></AddBuffs>
 </div>
 
 @code {
-	[Parameter]
+	[CascadingParameter(Name = "ArchetypeId")]
 	public int ArchetypeId { get; set; }
 
 	public string bindValue;
 	public double combinedBuff=38;
 
 	private string bottomBarStyle = "";
-
 
 	private void HideAddBuffs()
 	{

@@ -1,4 +1,5 @@
-﻿using Destiny2DataLibrary.Models;
+﻿using DamageChecker.Data;
+using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace DamageChecker.Components
@@ -12,8 +13,34 @@ namespace DamageChecker.Components
         private ILoggerFactory loggerFactory { get; set; }
 
         private ILogger? logger;
+        //All posible perks in current Archetype
 
-        private IEnumerable<Perk>? archetypePerks=new List<Perk>();
+        private IEnumerable<Perk>? archetypePerks = new List<Perk>();
+
+        //Current ArchetypeId
+        [CascadingParameter(Name = "ArchetypeId")]
+        public int ArchetypeId { get; set; }
+
+
+        //event that hapenns when apply button is clicked
+        [Parameter]
+        public EventCallback OnApplyCallback { get; set; }
+
+        [Inject]
+        public BuffSet Buffs { get; set; }
+
+        #region style-fields
+        private string query = "";
+
+        private string addBuffHideStyle = "height: 0;";
+
+        //Dictionary, where key is    buff_selectors_header and value is inner buff_list style
+        private Dictionary<string, string> buff_selectors_style = new Dictionary<string, string>();
+
+        private string hideSelectorStyle = "padding:0;";
+
+        private string showSelectorStyle = "max-height: 100vh;";
+        #endregion
 
         private async Task GetPerksAsync(int archetypeId)
         {
@@ -25,16 +52,14 @@ namespace DamageChecker.Components
             }
             else
             {
-                logger.LogCritical("Perks WAS NOT received");
+                logger.LogCritical($"Perks from {archetypeId} WAS NOT received");
             }
         }
 
-        [Parameter]
-        public int ArchetypeID { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
-            await GetPerksAsync(ArchetypeID);
+            await GetPerksAsync(ArchetypeId);
             await base.OnParametersSetAsync();
         }
 
@@ -47,9 +72,56 @@ namespace DamageChecker.Components
             await base.OnInitializedAsync();
         }
 
-        public override Task SetParametersAsync(ParameterView parameters)
+        protected override void OnInitialized()
         {
-            return base.SetParametersAsync(parameters);
+            base.OnInitialized();
+            buff_selectors_style["DAMAGE WEAPON PERKS"] = showSelectorStyle;
+            //buff_selectors_style["EMPOWERING BUFFS"] = showSelectorStyle;
+            //buff_selectors_style["GLOBAL DEBUFS"] = showSelectorStyle;
+        }
+
+        //Hide or show buff list in selector
+        private void HideBuffList(string selectorName)
+        {
+            if (buff_selectors_style[selectorName] == hideSelectorStyle)
+            {
+                buff_selectors_style[selectorName] = showSelectorStyle;
+            }
+            else
+            {
+                buff_selectors_style[selectorName] = hideSelectorStyle;
+            }
+
+        }
+
+        ///hide this component
+        public void Hide()
+        {
+            addBuffHideStyle = "height: 0;";
+        }
+
+        //Add perk to Transfer if it have been already added. Otherwise delete this perk;
+        private void ClickPerk(Perk perk)
+        {
+            if (Buffs.HavePerk(perk.Id))
+            {
+                logger.LogInformation($"Perk {perk.Id} deletion: " + Buffs.RemovePerk(perk.Id).ToString());
+            }
+            else
+            {
+                Buffs.AddPerk(perk);
+            }
+        }
+
+        ///show this component
+        public void Show()
+        {
+            Console.WriteLine("perks in ADD BUFFS:");
+            foreach (Perk perk in Buffs.GetPerkList())
+            {
+                Console.WriteLine(perk.Id);
+            }
+            addBuffHideStyle = "";
         }
     }
 }

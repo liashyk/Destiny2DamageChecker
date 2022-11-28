@@ -5,9 +5,11 @@
     <h1>@CurrentArchetype.Name</h1>
 </header>
 <main>
-    <BuffsManager ArchetypeId="@ArchetypeId"></BuffsManager>
+    <CascadingValue Value="@ArchetypeId" Name="ArchetypeId">
+        <BuffsManager></BuffsManager>
+    </CascadingValue>
     <div class="damage-checker">
-        <DamageMenu></DamageMenu>
+        <DamageMenu CurrentArchetype="@CurrentArchetype"></DamageMenu>
     </div>
 </main>
 

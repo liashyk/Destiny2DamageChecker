@@ -14,20 +14,17 @@ namespace DamageChecker.Components
 
         private ILogger? logger;
 
+        //Contain Active buffs
         [Inject]
-        public IBuffTransfer Buffs { get; set; }
+        public BuffSet Buffs { get; set; }
 
+        //AddBuff component
         AddBuffs? addBuffs;
-
-        public List<Perk>? ActivePerks { get; set; } = new List<Perk>();
-
-        public List<DamageBuff>? ActiveBuffs { get; set; } = new List<DamageBuff>();
-
 
         protected override Task OnParametersSetAsync()
         {
             Buffs.ClearAll();
-            logger=loggerFactory.CreateLogger<BuffTransfer>();
+            logger=loggerFactory.CreateLogger<BuffSet>();
             return base.OnParametersSetAsync();
         }
 

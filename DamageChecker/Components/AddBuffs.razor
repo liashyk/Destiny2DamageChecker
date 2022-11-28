@@ -1,6 +1,6 @@
 ﻿@namespace DamageChecker.Components
 
-<div class="add-buffs-menu" style=@heightStyle>
+<div class="add-buffs-menu" style=@addBuffHideStyle>
     <div class="add-buffs-header">
         <h1>ADD BUFFS</h1>
         <div class="search-area">
@@ -17,17 +17,15 @@
             <div class="buff_selector">
                 <h2 @onclick="()=>HideBuffList(key)">@key</h2>
                 <div class="buffs-list" style="@buff_selectors_style[key]">
-                    @if(archetypePerks!=null){
-                        @foreach(Perk perk in archetypePerks)
-                        {
-                            <div class=@(Buffs.HavePerk(perk.Id)? "buff-container-selected" :"buff-container") 
-                            @onclick="()=>ClickPerk(perk)">
-                                <div class="buff_icon">
-                                    <img src="css/icons/perk.svg">
-                                </div>
-                                @(perk!=null? perk.Name.ToUpper() : "")
+                    @foreach(Perk perk in archetypePerks)
+                    {
+                        <div class=@(Buffs.HavePerk(perk.Id)? "buff-container-selected" :"buff-container") 
+                        @onclick="()=>ClickPerk(perk)">
+                            <div class="buff_icon">
+                                <img src="css/icons/perk.svg">
                             </div>
-                        }
+                            @(perk!=null? perk.Name.ToUpper() : "")
+                        </div>
                     }
                 </div>
             </div>
@@ -38,66 +36,5 @@
     
 
 @code {
-    private string query="";
 
-    private string heightStyle="height: 0;";
-
-    //Dictionary, where key is    buff_selectors_header and value is inner buff_list style
-    private Dictionary<string, string> buff_selectors_style = new Dictionary<string, string>();
-
-    private string hideSelectorStyle = "padding:0;";
-
-    private string showSelectorStyle = "max-height: 100vh;";
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        buff_selectors_style["DAMAGE WEAPON PERKS"] = showSelectorStyle;
-        //buff_selectors_style["EMPOWERING BUFFS"] = showSelectorStyle;
-        //buff_selectors_style["GLOBAL DEBUFS"] = showSelectorStyle;
-    }
-
-    //Hide or show buff list in selector
-    private void HideBuffList(string selectorName)
-    {
-        if (buff_selectors_style[selectorName] == hideSelectorStyle)
-        {
-            buff_selectors_style[selectorName] = showSelectorStyle;
-        }else{
-            buff_selectors_style[selectorName] = hideSelectorStyle;
-        }
-
-    }
-
-    //event that hapenns when apply button is clicked
-    [Parameter]
-    public EventCallback OnApplyCallback { get; set; }
-
-    public IBuffTransfer Buffs { get; set; }
-
-    ///hide this component
-    public void Hide(){
-        heightStyle = "height: 0;";
-    }
-
-    //Add perk to Transfer if it have been already added. Otherwise delete this perk;
-    private void ClickPerk(Perk perk){
-        if (Buffs.HavePerk(perk.Id))
-        {
-            logger.LogInformation($"Perk {perk.Id} deletion: "+Buffs.RemovePerk(perk.Id).ToString());
-        }else
-        {
-            Buffs.AddPerk(perk);
-        }
-    }
-
-    ///show this component
-    public void Show(){
-        Console.WriteLine("perks in ADD BUFFS:");
-        foreach (Perk perk in Buffs.GetPerkList())
-        {
-            Console.WriteLine(perk.Id);
-        }
-        heightStyle = "";
-    }
 }
