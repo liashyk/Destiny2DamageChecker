@@ -14,6 +14,5 @@ namespace Destiny2DataLibrary.Models
         public double PveDamageBuffPercent { get; set; }
         public double PvpRapidFireBuffPercent { get; set; }
         public double PveRapidFirePercent { get; set; }
-        public ReloadStat? ReloadStat { get; set; }
     }
 }

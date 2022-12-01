@@ -37,6 +37,11 @@ namespace DamageChecker.Pages
 
         protected override async Task OnParametersSetAsync()
         {
+            if(buffsManager != null)
+            {
+                CombinedBuff = buffsManager.combinedBuff;
+            }
+            Buffs.ClearAll();
             logger = loggerFactory.CreateLogger<NavMenu>();
             await GetArhetypeByIdASync();
             CurrentArchetype.Name = CurrentArchetype.Name.ToUpper();

@@ -3,11 +3,11 @@
 	@if(Damage!=null){
 		<div class="hit-damage" id=@(IsPve? "precison-damage" : "precison-damage-hunter")>
 			<img src="css/icons/cross.svg" />
-			<span class="damage-number">@((IsPve ? Damage.PvePrecisionBulletDamage : Damage.PvpPrecisionBulletDamage))</span>
+			<span class="damage-number">@(GetBuffedDamage(true,IsPve))</span>
 		</div>
 		<div class="hit-damage" id="body-damage">
 			<img src="css/icons/cross.svg" />
-			<span class="damage-number">@(IsPve ? Damage.PveBulletDamage : Damage.PvpBulletDamage)</span>
+			<span class="damage-number">@(GetBuffedDamage(false, IsPve))</span>
 		</div>
 	}
 </div>
@@ -24,6 +24,35 @@
 	[Parameter]
 	public bool IsPve { get; set; } = true;
 
-	[Inject]
+	[CascadingParameter]
+	public CombinedBuff CombinedBuff { get; set; }
+
+	[CascadingParameter]
 	public BuffSet Buffs { get; set; }
+
+	public int GetBuffedDamage(bool isPrecision = false, bool IsPve = true)
+	{
+		int damageResult;
+		if(IsPve){
+			if(isPrecision){
+				damageResult = Damage.PvePrecisionBulletDamage;
+			}else{
+				damageResult = Damage.PveBulletDamage;
+			}
+			if (CombinedBuff!=null)
+				damageResult = Convert.ToInt32(Math.Floor(damageResult * (1 + CombinedBuff.PveDamageBuffPercent / 100)));
+		}else{
+			if (isPrecision)
+			{
+				damageResult = Damage.PvpPrecisionBulletDamage;
+			}
+			else
+			{
+				damageResult = Damage.PvpBulletDamage;
+			}
+			if (CombinedBuff != null)
+				damageResult = Convert.ToInt32(Math.Floor(damageResult * (1 + CombinedBuff.PvpDamageBuffPercent / 100)));
+		}
+		return damageResult;
+	}
 }

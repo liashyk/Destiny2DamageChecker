@@ -5,15 +5,36 @@
     <h1>@CurrentArchetype.Name</h1>
 </header>
 <main>
-    <CascadingValue Value="@ArchetypeId" Name="ArchetypeId">
-        <BuffsManager></BuffsManager>
+    <CascadingValue Value="@Buffs">
+        <CascadingValue Value="@ArchetypeId" Name="ArchetypeId">
+            <BuffsManager @ref=@buffsManager OnChangeBuffs="ChangeBuffHandle"></BuffsManager>
+        </CascadingValue>
+        <div class="damage-checker">
+            <CascadingValue Value="@CombinedBuff">
+                <DamageMenu CurrentArchetype="@CurrentArchetype"></DamageMenu>
+            </CascadingValue>
+        </div>
     </CascadingValue>
-    <div class="damage-checker">
-        <DamageMenu CurrentArchetype="@CurrentArchetype"></DamageMenu>
-    </div>
+
 </main>
 
 @code {
     [Parameter]
     public int ArchetypeId { get; set; }
+
+    [Inject]
+    BuffSet Buffs{ get; set; }
+
+    BuffsManager? buffsManager;
+
+    public CombinedBuff? CombinedBuff
+    {
+        get;set;
+    }
+
+    private void ChangeBuffHandle()
+    {
+        CombinedBuff = buffsManager.combinedBuff;
+    }
+
 }

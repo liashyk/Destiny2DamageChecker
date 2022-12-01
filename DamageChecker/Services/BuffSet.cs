@@ -1,4 +1,5 @@
-﻿using Destiny2DataLibrary.Models;
+﻿using DamageChecker.Services;
+using Destiny2DataLibrary.Models;
 using System;
 
 namespace DamageChecker.Data
@@ -66,30 +67,42 @@ namespace DamageChecker.Data
         {
             _perks.Clear();
             _damageBuffs.Clear();
+            PerkStacks.Clear();
         }
 
-        public double GetCombinedBuff(bool isPve=true)
+        public CombinedBuff GetCombinedBuff()
         {
-            double sum = 1;
-            foreach(int perkId in PerkStacks.Keys)
+            CombinedBuff combinedBuff = new CombinedBuff()
             {
-                Perk? currentPerk = GetPerk(perkId);
-                if (currentPerk != null)
+                PveRapidFirePercent = 1,
+                PvpRapidFireBuffPercent = 1,
+                PveDamageBuffPercent = 1,
+                PvpDamageBuffPercent = 1,
+            };
+            try
+            {
+                foreach (int perkId in PerkStacks.Keys)
                 {
-                    double currentBuff;
-                    if (isPve)
+                    Perk? currentPerk = GetPerk(perkId);
+                    if (currentPerk != null)
                     {
-                        currentBuff = GetPerksBuff(perkId).PveDamageBuffPercent;
+                        combinedBuff.PveDamageBuffPercent *= (1 + GetPerksBuff(perkId).PveDamageBuffPercent / 100);
+                        combinedBuff.PvpDamageBuffPercent *= (1 + GetPerksBuff(perkId).PvpDamageBuffPercent / 100);
+                        combinedBuff.PvpRapidFireBuffPercent *= (1 + GetPerksBuff(perkId).PvpRapidFireBuffPercent / 100);
+                        combinedBuff.PveRapidFirePercent *= (1 + GetPerksBuff(perkId).PveRapidFirePercent / 100);
                     }
-                    else
-                    {
-                        currentBuff = GetPerksBuff(perkId).PvpDamageBuffPercent;
-                    }
-                    sum *= (1 + currentBuff / 100);
                 }
+                combinedBuff.PveDamageBuffPercent = (combinedBuff.PveDamageBuffPercent - 1) * 100;
+                combinedBuff.PvpDamageBuffPercent = (combinedBuff.PvpDamageBuffPercent - 1) * 100;
+                combinedBuff.PvpRapidFireBuffPercent = (combinedBuff.PvpRapidFireBuffPercent - 1) * 100;
+                combinedBuff.PveRapidFirePercent = (combinedBuff.PveRapidFirePercent - 1) * 100;
             }
-            double result = (sum - 1) * 100;
-            return Math.Round(result, 2);
+            catch (Exception ex) 
+            {
+                throw new Exception("Wrong combined buff calculating!");
+            }
+
+            return combinedBuff;
         }
 
         public bool SetPerkStack(int perkId,int stack)

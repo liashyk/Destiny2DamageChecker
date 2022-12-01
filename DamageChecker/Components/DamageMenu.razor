@@ -5,7 +5,7 @@
 		<button class=@(IsPvp? "selected-button" : "not-selected-button") @onclick="@OpenPvp">PVP</button>
 	</div>
 	@if (CurrentArchetype!=null){
-		<DisplayDamage Damage="@CurrentArchetype.ShotDamage" IsPve=@(!IsPvp)></DisplayDamage>
+		<DisplayDamage Damage="@CurrentArchetype.ShotDamage" IsPve=@(!IsPvp) @ref=@displayDamage></DisplayDamage>
 		<div class="pvp-damage-parametres" style=@(IsPvp? "":"display:none;")>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">GUARDIAN RESILIANCE</div>
@@ -67,6 +67,11 @@
 
 	[Parameter]
 	public Archetype? CurrentArchetype { get; set; } = null;
+
+	[CascadingParameter]
+	public CombinedBuff CurrentCombinedBuff { get; set; } = new CombinedBuff();
+
+	DisplayDamage? displayDamage;
 
 	private void SwitchMode(){
 		IsPvp = !IsPvp;

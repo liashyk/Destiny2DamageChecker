@@ -13,11 +13,11 @@
 				<div>
 					STACK
 					@if(perk.ActivationSteps.Count==1){
-						<select name="@perk" @bind="@Buffs.PerkStacks[perk.Id]" disabled>
+						<select name="@perk" @onchange=@((e)=>ChangeStack(perk.Id,e.Value)) disabled>
 							<option value="1" selected>1x</option>
 						</select>
 					}else{
-						<select name="@perk" @bind="@Buffs.PerkStacks[perk.Id]">
+						<select name="@perk" @onchange=@((e)=>ChangeStack(perk.Id,e.Value))>
 							<option value="1" selected>1x</option>
 							@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
 								<option value="@j">@(j)x</option>
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		}
-		<div class="combined-buff-result">COMBINED BUFF:@(Buffs.GetCombinedBuff()+" %")</div>
+		<div class="combined-buff-result">COMBINED BUFF:@(Math.Round(combinedBuff.PveDamageBuffPercent,2)+" %")</div>
 	 }
 
 	<button class="add-buffs-button" @onclick="@ShowAddBuffs"> ADD BUFFS </button>
@@ -45,7 +45,6 @@
 	public int ArchetypeId { get; set; }
 
 	public string bindValue;
-	public double combinedBuff=38;
 
 	private string bottomBarStyle = "";
 
@@ -54,6 +53,27 @@
 		if (addBuffs != null)
 		{
 			addBuffs.Hide();
+		}
+		OnChangeBuffs.InvokeAsync();
+	}
+
+	//Invokes while add,remove buffs or change stack of buffs
+	[Parameter]
+	public EventCallback OnChangeBuffs { get; set; }
+
+	private void ChangeStack(int perkId, Object value)
+	{
+		int stackValue = int.Parse(value.ToString());
+		Buffs.PerkStacks[perkId] = stackValue;
+		OnChangeBuffs.InvokeAsync();
+	}
+
+
+	public CombinedBuff combinedBuff 
+	{ 
+		get
+		{
+			return Buffs.GetCombinedBuff();
 		}
 	}
 

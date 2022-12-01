@@ -26,7 +26,7 @@ namespace DamageChecker.Components
         [Parameter]
         public EventCallback OnApplyCallback { get; set; }
 
-        [Inject]
+        [CascadingParameter]
         public BuffSet Buffs { get; set; }
 
         #region style-fields

@@ -15,7 +15,7 @@ namespace DamageChecker.Components
         private ILogger? logger;
 
         //Contain Active buffs
-        [Inject]
+        [CascadingParameter]
         public BuffSet Buffs { get; set; }
 
         //AddBuff component
@@ -23,14 +23,13 @@ namespace DamageChecker.Components
 
         protected override Task OnParametersSetAsync()
         {
-            Buffs.ClearAll();
             logger=loggerFactory.CreateLogger<BuffSet>();
             return base.OnParametersSetAsync();
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
         {
-            addBuffs.Buffs = Buffs;
+            //addBuffs.Buffs = Buffs;
             return base.OnAfterRenderAsync(firstRender);
         }
 
