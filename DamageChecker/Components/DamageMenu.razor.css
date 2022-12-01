@@ -75,15 +75,19 @@
 	font-size:34px;
 }
 
+.parameter-setting-value {
+	font-size: 24px;
+}
+
 .damage-parameter-setting input {
 	width: 80px;
 	height: 30px;
 	font-size: 20px;
-	background:none;
-	color:white;
-	border:1px solid cyan;
-	transition:0.1s;
-	text-align:center;
+	background: none;
+	color: white;
+	border: 1px solid cyan;
+	transition: 0.1s;
+	text-align: center;
 }
 
 .damage-parameter-setting input:focus{

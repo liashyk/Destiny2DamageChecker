@@ -37,23 +37,26 @@
 		<div class="pve-damage-parametres" style=@(!IsPvp? "":"display:none;")>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">RELOAD SPEED VALUE</div>
-				<input type="number" min="0" />
+				<div class="parameter-setting-value">
+					@(GetReloadTime()+" s.")
+					</div>
+				<input type="number" min="0" @bind="@ReloadValue"/>
 			</div>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">MAG SIZE</div>
-				<input type="number" min="0" step="1" />
+				<input type="number" min="0" step="1" @bind=@MagSize/>
 			</div>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">TAKING DAMAGE TIME </div>
-				<input type="number" step="0.1" min="0" id="taking-damage-time-input" />
+				<input type="number" step="0.1" min="0" id="taking-damage-time-input" @bind=@TakingDamageTime/>
 			</div>
 			<div class="damage-parameter">
 				<div class="parameter-header">SIMPLE DPS</div>
-				<div class="parameter-value">3580</div>
+				<div class="parameter-value">@Math.Round(DamageService.GetSimplePveDps(CurrentArchetype,CurrentCombinedBuff),2)</div>
 			</div>
 			<div class="damage-parameter">
 				<div class="parameter-header">RELOAD DPS</div>
-				<div class="parameter-value">2580</div>
+				<div class="parameter-value">@GetReloadDps()</div>
 			</div>
 		</div>
 	}
@@ -72,6 +75,74 @@
 	public CombinedBuff CurrentCombinedBuff { get; set; } = new CombinedBuff();
 
 	DisplayDamage? displayDamage;
+
+	private int _reloadValue=100;
+
+	public int ReloadValue 
+	{
+		get
+		{
+			return _reloadValue;
+		}
+		set
+		{
+			if(value>=0 && value<=100){
+				_reloadValue = value;
+			}
+		}
+	}
+
+	private double _takingDamageTime = 60;
+
+	public double TakingDamageTime 
+	{  
+		get
+		{
+			return _takingDamageTime;
+		}
+		set
+		{
+			if(value>0)
+				_takingDamageTime = value;
+		}
+	}
+
+	private int _magSize = 10;
+
+	public int MagSize
+	{
+		get
+		{
+			return _magSize;
+		}
+		set
+		{
+			if (value >= 1)
+			{
+				_magSize = value;
+			}
+		}
+	}
+
+	private double GetReloadTime()
+	{
+		double reloadTime = -1;
+		if (CurrentArchetype != null && CurrentArchetype.WeaponType!=null)
+		{
+			reloadTime = DamageService.GetReloadTime(CurrentArchetype.WeaponType.ReloadStats, ReloadValue);
+		}
+		return reloadTime;
+	}
+
+	private double GetReloadDps()
+	{
+		if (CurrentArchetype != null && CurrentArchetype.WeaponType != null)
+		{
+			return Math.Round(DamageService.GetReloadPveDps(CurrentArchetype, CurrentCombinedBuff,
+				GetReloadTime(), TakingDamageTime, MagSize), 2);
+		}return -1;
+
+	}
 
 	private void SwitchMode(){
 		IsPvp = !IsPvp;

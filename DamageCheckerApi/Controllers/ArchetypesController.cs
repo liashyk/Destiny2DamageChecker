@@ -41,7 +41,14 @@ namespace DamageCheckerApi.Controllers
         private async Task<ActionResult<Archetype>> GetArchetypeWithId(int id)
         {
             var archetypes = await GetArchetypesListAsync();
-            return archetypes.Where(a => a.Id == id).FirstOrDefault();
+            Archetype archetype = archetypes.Where(a => a.Id == id).FirstOrDefault();
+            var weaponTypeBuffer= await _context.WeaponTypes
+                .Include(w => w.ReloadStats)
+                .Where(w => w.Id == archetype.WeaponType.Id)
+                .FirstOrDefaultAsync();
+            if (weaponTypeBuffer != null)
+                archetype.WeaponType = weaponTypeBuffer;
+            return archetype;
         }
 
         // GET: api/Archetypes/5
@@ -94,7 +101,7 @@ namespace DamageCheckerApi.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("not exist archetype");
                 }
             }
 

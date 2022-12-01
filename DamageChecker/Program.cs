@@ -1,4 +1,5 @@
 using DamageChecker.Data;
+using DamageChecker.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Serilog;
@@ -11,6 +12,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddTransient<BuffSet>();
+builder.Services.AddScoped<DamageService>();
 
 builder.Host.ConfigureLogging((context, logging) =>
 {
@@ -21,7 +23,6 @@ builder.Host.ConfigureLogging((context, logging) =>
 });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
