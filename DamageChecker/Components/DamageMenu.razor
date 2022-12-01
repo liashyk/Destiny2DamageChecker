@@ -19,11 +19,11 @@
 			</div>
 			<div class="damage-parameter">
 				<div class="parameter-header">OPTIMAL TTK</div>
-				<div class="parameter-value">0.48</div>
+				<div class="parameter-value">@GetTTK()</div>
 			</div>
 			<div class="damage-parameter">
 				<div class="parameter-header">BULLET TO SHOOT</div>
-				<div class="parameter-value">3</div>
+				<div class="parameter-value">@GetBulletToShoot()</div>
 			</div>
 			<div class="damage-parameter">
 				<div class="parameter-header">DPS</div>
@@ -142,6 +142,15 @@
 				GetReloadTime(), TakingDamageTime, MagSize), 2);
 		}return -1;
 
+	}
+
+	private int GetBulletToShoot(){
+		return DamageService.GetBulletToHitAmount(CurrentArchetype, CurrentCombinedBuff, 10);
+	}
+
+	private double GetTTK()
+	{
+		return Math.Round(DamageService.GetTTK(CurrentArchetype, CurrentCombinedBuff, 10),2);
 	}
 
 	private void SwitchMode(){

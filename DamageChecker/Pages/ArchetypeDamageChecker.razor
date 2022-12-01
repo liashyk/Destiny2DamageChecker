@@ -2,7 +2,7 @@
 
 <header>
     <img src=@imgLink class="weapon-type-icon">
-    <h1>@CurrentArchetype.Name</h1>
+    <h1>@(CurrentArchetype.Name+" "+CurrentArchetype.RoundsPerMinute+"rpm")</h1>
 </header>
 <main>
     <CascadingValue Value="@Buffs">
@@ -15,7 +15,6 @@
             </CascadingValue>
         </div>
     </CascadingValue>
-
 </main>
 
 @code {

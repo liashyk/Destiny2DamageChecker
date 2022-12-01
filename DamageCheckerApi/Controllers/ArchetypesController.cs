@@ -114,8 +114,19 @@ namespace DamageCheckerApi.Controllers
         public async Task<ActionResult<Archetype>> PostArchetype(Archetype archetype)
         {
             _context.Archetypes.Add(archetype);
+            if (archetype.WeaponType != null && !_context.WeaponTypes.Any(item => item.Id == archetype.WeaponType.Id))
+            {
+                _context.WeaponTypes.Add(archetype.WeaponType);
+            }
+            if (archetype.BurstStats != null && !_context.BurstStats.Any(item => item.Id == archetype.BurstStats.Id))
+            {
+                _context.BurstStats.Add(archetype.BurstStats);
+            }
+            if (archetype.ShotDamage != null && !_context.ShotsDamage.Any(item => item.Id == archetype.ShotDamage.Id))
+            {
+                _context.ShotsDamage.Add(archetype.ShotDamage);
+            }
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetArchetype", new { id = archetype.Id }, archetype);
         }
 

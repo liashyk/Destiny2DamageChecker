@@ -1,4 +1,5 @@
 ﻿using Destiny2DataLibrary.Models;
+using System.Security.AccessControl;
 
 namespace DamageChecker.Services
 {
@@ -69,6 +70,22 @@ namespace DamageChecker.Services
                     damageResult = Convert.ToInt32(Math.Floor(damageResult * (1 + combinedBuff.PvpDamageBuffPercent / 100)));
             }
             return damageResult;
+        }
+
+        public int GetBulletToHitAmount(Archetype archetype, CombinedBuff buff,int resilience)
+        {
+            int shotDamage = GetBuffedDamage(archetype.ShotDamage, buff,true,false);
+            int guardianHp = 200;
+            return (int)Math.Ceiling((double)(guardianHp)/shotDamage);
+        }
+
+        public double GetTTK(Archetype archetype, CombinedBuff buff, int resilience)
+        {
+            double timeBetweenShot = archetype.FramesBetweenShots / 30;
+            double shotDuration = 0;
+            int shotDamage = GetBuffedDamage(archetype.ShotDamage, buff);
+            int shotAmount=GetBulletToHitAmount(archetype, buff,resilience);
+            return (shotAmount - 1) * timeBetweenShot;
         }
     }
 }
