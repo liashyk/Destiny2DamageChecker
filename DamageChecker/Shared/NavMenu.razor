@@ -24,7 +24,7 @@
             <div class="archetype-list" style="@archetypeDisplayParam">
                 @foreach(Archetype archetype in WeaponTypeArchetypes)
                 {
-                    <a href=@($"archetype/{archetype.Id}")>
+                    <a href=@($"archetype/{archetype.Id}") @onclick="ToggleNavMenu">
                         <button class="weapon-type-button" >
                             <img src=@($"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg") class="archetype-icon">
                             @archetype.Name.ToUpper()

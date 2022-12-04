@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace Destiny2DataLibrary.Models
 {
-    public class DamageBuff : IStackable
-    {
+	public class IStackable
+	{
         public int Id { get; set; }
-        [MaxLength(50)]
         public string Name { get; set; }
         public string? Summary { get; set; }
-        public BuffCategory BuffCategory { get; set; }
         public int? ActivationStepsAmount { get; set; }
         public ICollection<BuffStack>? ActivationSteps { get; set; }
     }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Destiny2DataLibrary.Models
 {
-    public class Perk
+    public class Perk : IStackable
     {
         public int Id { get; set; }
         [MaxLength(50)]

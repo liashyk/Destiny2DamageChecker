@@ -1,4 +1,5 @@
 ﻿using DamageChecker.Data;
+using DamageChecker.Services;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 using System.Collections;
@@ -31,6 +32,11 @@ namespace DamageChecker.Components
         {
             //addBuffs.Buffs = Buffs;
             return base.OnAfterRenderAsync(firstRender);
+        }
+
+        private void ShowPerkSummary(ShowPerkSummaryArgs args)
+        {
+            //Console.WriteLine($"x: {args.PageX} y: {args.PageY} perk: {args.Perk.Name}");
         }
 
     }

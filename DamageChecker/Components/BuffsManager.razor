@@ -4,9 +4,9 @@
 		@foreach(Perk perk in Buffs.GetPerkList())
 		{
 			<div class="buff-container">
-				<div class="buff_name">
+				<div class="buff_name" @onmousemove=@((e)=>OnPerkOver(e,perk)) @onmouseout=OnHidePerkSummary>
 					<div class="buff_icon">
-						<img src="css/icons/perk.svg">
+						<img src=@($"css/icons/perks/{perk.Name}.png")>
 					</div>
 					@(perk!=null? perk.Name.ToUpper() : "")
 				</div>
@@ -37,7 +37,7 @@
 </div>
 
 <div class="bottom-bar" style=@bottomBarStyle>
-	<AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs"></AddBuffs>
+	<AddBuffs OnApplyCallback="@HideAddBuffs" @ref="addBuffs" OnHidePerkSummary="OnHidePerkSummary" OnShowPerkSummary="OnShowPerkSummary"></AddBuffs>
 </div>
 
 @code {
@@ -88,5 +88,22 @@
 			addBuffs.Show();
 		}
 	}
+
+	private void OnPerkOver(MouseEventArgs e,Perk perk)
+	{
+		var args=new ShowPerkSummaryArgs()
+        {
+            PageX=e.PageX,
+            PageY=e.PageY,
+            Perk=perk
+        };
+		OnShowPerkSummary.InvokeAsync(args);
+	}
+
+	[Parameter]
+	public EventCallback OnHidePerkSummary { get; set; }
+
+	[Parameter]
+    public EventCallback<ShowPerkSummaryArgs> OnShowPerkSummary { get; set; }
 }
 

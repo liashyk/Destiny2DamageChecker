@@ -37,13 +37,13 @@ h1{
 
 .buff_icon{
 	background-color:#1d1d1d;
-	height:30px;
-	width:30px;
+	height:40px;
+	width:40px;
 	border-radius:30px;
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	border:2px solid white;
+	border:1px solid white;
 	background-color:rgba(57, 57, 57, 1);
 	margin-right:10px;
 }

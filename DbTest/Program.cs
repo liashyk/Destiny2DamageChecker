@@ -2,6 +2,7 @@
 using Destiny2DataLibrary.Migrations;
 using Destiny2DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -124,33 +125,35 @@ namespace DbTest
             }
         }
 
-        static void addPerk()
+        static async Task AddPerk(Perk perk)
         {
-            using (var context = new Destiny2DataContext())
+            using (var _context = new Destiny2DataContext())
             {
-                int[] idAll = { 12 };
-                int[] archetypes = { 777, 778 };
-                foreach (int id in idAll)
+                foreach(var archetype in _context.Archetypes.Include(a=>a.WeaponType))
                 {
-                    var perk = context.Perks.Include(p => p.Archetypes).Where(perk => perk.Id == id).Single();
-                    foreach (int archetype in archetypes)
+                    if(true)
+                        perk.Archetypes.Add(archetype);
+                }
+                _context.Perks.Add(perk);
+                if (perk.ActivationSteps != null)
+                {
+                    foreach (BuffStack perkStack in perk.ActivationSteps)
                     {
-                        var buffer = context.Archetypes.Where(a => a.Id == archetype).Single();
-                        perk.Archetypes.Add(buffer);
+                        _context.BuffStacks.Add(perkStack);
                     }
                 }
-                context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        static double CalculateReload(int reloadStat,double a,double b, double c)
+        static double CalculateReload(int reloadStat, double a, double b, double c)
         {
-            return (a * (reloadStat * reloadStat) + b * reloadStat + c)/30;
+            return (a * (reloadStat * reloadStat) + b * reloadStat + c) / 30;
         }
 
-        static double CalculateReloadAmmo(int reloadStat,double timeForAmmo)
+        static double CalculateReloadAmmo(int reloadStat, double timeForAmmo)
         {
-            return (reloadStat*timeForAmmo) / 30;
+            return (reloadStat * timeForAmmo) / 30;
         }
 
         static void FillReload()
@@ -185,10 +188,10 @@ namespace DbTest
 
         static void ShowPerk(Perk perk)
         {
-            Console.WriteLine(perk.Name+" : ");
-            foreach(var it in perk.ActivationSteps)
+            Console.WriteLine(perk.Name + " : ");
+            foreach (var it in perk.ActivationSteps)
             {
-                Console.WriteLine(it.StepNumber+" - "+it.PveDamageBuffPercent);
+                Console.WriteLine(it.StepNumber + " - " + it.PveDamageBuffPercent);
             }
             Console.WriteLine();
         }
@@ -206,7 +209,7 @@ namespace DbTest
             if (responce.IsSuccessStatusCode)
             {
                 var archetypes = await responce.Content.ReadFromJsonAsync<IEnumerable<Archetype>>();
-                foreach(Archetype it in archetypes)
+                foreach (Archetype it in archetypes)
                 {
                     Console.WriteLine(it.Name);
                 }
@@ -217,10 +220,48 @@ namespace DbTest
             }
         }
 
+        static async Task AddDamageBuff(DamageBuff buff, int buffCategoryId)
+        {
+            using (var context = new Destiny2DataContext())
+            {
+                buff.BuffCategory = context.BuffCategories.Find(buffCategoryId);
+                context.DamageBuffs.Add(buff);
+                if (buff.ActivationSteps != null)
+                {
+                    foreach (BuffStack perkStack in buff.ActivationSteps)
+                    {
+                        context.BuffStacks.Add(perkStack);
+                    }
+                }
+                await context.SaveChangesAsync();
+            }
+        }
+
         static async Task Main(string[] args)
         {
-            await ApiTest();
-            Console.ReadKey();
+            var acivationsSpets = new BuffStack[]
+            {
+                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 20, PvpDamageBuffPercent = 15 },
+                new BuffStack() { StepNumber = 2, PveDamageBuffPercent = 25, PvpDamageBuffPercent = 20 },
+                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 35, PvpDamageBuffPercent = 25 },
+                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 40, PvpDamageBuffPercent = 35 }
+            };
+            DamageBuff damageBuff = new DamageBuff()
+            {
+                Name = "the path of burning steps",
+                Summary = "Solar Kills have a chance of granting 1 stack of Firewalker. [1 to 3 Kills, average of 2]\r\nBecoming Frozen grants 1 stack of Firewalker.\r\n Max of 4 Stacks.\r\n\r\nFirewalker increases Weapon Damage and lasts 10 seconds.\r\n1x = 20% | 2x = 25% | 3x = 35% | 4x = 40%\r\n1x = 15% | 2x = 25% | 3x = 20% | 4x = 35%",
+                ActivationSteps = acivationsSpets,
+                ActivationStepsAmount = acivationsSpets.Length,
+            };
+            await AddDamageBuff(damageBuff, 2);
+            //using (var _context = new Destiny2DataContext())
+            //{
+            //    _context.BuffCategories.Add(new BuffCategory() { Name = "global debuffs" }) ;
+            //    _context.BuffCategories.Add(new BuffCategory() { Name = "empowering buffs" });
+            //    _context.BuffCategories.Add(new BuffCategory() { Name = "amplification modifiers" });
+            //    _context.SaveChanges();
+            //}
+
         }
     }
 }

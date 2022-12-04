@@ -15,7 +15,7 @@ namespace DamageChecker.Components
         private ILogger? logger;
         //All posible perks in current Archetype
 
-        private IEnumerable<Perk>? archetypePerks = new List<Perk>();
+        private IEnumerable<Perk>? archetypePerks=new List<Perk>();
 
         //Current ArchetypeId
         [CascadingParameter(Name = "ArchetypeId")]
@@ -59,16 +59,26 @@ namespace DamageChecker.Components
 
         protected override async Task OnParametersSetAsync()
         {
-            await GetPerksAsync(ArchetypeId);
             await base.OnParametersSetAsync();
         }
 
-        protected async override Task OnInitializedAsync()
+
+        public override async Task SetParametersAsync(ParameterView parameters)
         {
+            object prevArchetypeId = ArchetypeId;
+            object currentArchetypeId= parameters.ToDictionary()["ArchetypeId"];
+            await base.SetParametersAsync(parameters);
             if (logger == null)
             {
                 logger = loggerFactory.CreateLogger<AddBuffs>();
             }
+            if (!prevArchetypeId.Equals(currentArchetypeId))
+            {
+                await GetPerksAsync(ArchetypeId);
+            }
+        }
+        protected async override Task OnInitializedAsync()
+        {
             await base.OnInitializedAsync();
         }
 

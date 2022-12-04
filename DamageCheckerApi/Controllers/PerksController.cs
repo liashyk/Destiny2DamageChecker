@@ -2,6 +2,7 @@
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.AccessControl;
 
 namespace DamageCheckerApi.Controllers
 {
@@ -80,6 +81,13 @@ namespace DamageCheckerApi.Controllers
         public async Task<ActionResult> PostPerk(Perk perk)
         {
             _context.Perks.Add(perk);
+            if(perk.ActivationSteps != null)
+            {
+                foreach (BuffStack perkStack in perk.ActivationSteps)
+                {
+                    _context.BuffStacks.Add(perkStack);
+                }
+            }
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetPerk", new { id = perk.Id }, perk);
         }
