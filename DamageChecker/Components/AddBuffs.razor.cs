@@ -113,13 +113,13 @@ namespace DamageChecker.Components
         //Add perk to Transfer if it have been already added. Otherwise delete this perk;
         private void ClickPerk(Perk perk)
         {
-            if (Buffs.HavePerk(perk.Id))
+            if (Buffs.HaveBuff(perk))
             {
-                logger.LogInformation($"Perk {perk.Id} deletion: " + Buffs.RemovePerk(perk.Id).ToString());
+                logger.LogInformation($"Perk {perk.Id} deletion: " + Buffs.RemoveBuff(perk).ToString());
             }
             else
             {
-                Buffs.AddPerk(perk);
+                Buffs.AddBuff(perk);
             }
         }
 

@@ -13,11 +13,11 @@
 				<div>
 					STACK
 					@if(perk.ActivationSteps.Count==1){
-						<select name="@perk" @onchange=@((e)=>ChangeStack(perk.Id,e.Value)) disabled>
+						<select name="@perk" @onchange=@((e)=>ChangeStack(perk,e.Value)) disabled>
 							<option value="1" selected>1x</option>
 						</select>
 					}else{
-						<select name="@perk" @onchange=@((e)=>ChangeStack(perk.Id,e.Value))>
+						<select name="@perk" @onchange=@((e)=>ChangeStack(perk,e.Value))>
 							<option value="1" selected>1x</option>
 							@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
 								<option value="@j">@(j)x</option>
@@ -26,7 +26,7 @@
 					}
 				</div>
 				<div>
-					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(perk.Id).PveDamageBuffPercent+"%")</span>
+					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(perk).PveDamageBuffPercent+"%")</span>
 				</div>
 			</div>
 		}
@@ -61,10 +61,10 @@
 	[Parameter]
 	public EventCallback OnChangeBuffs { get; set; }
 
-	private void ChangeStack(int perkId, Object value)
+	private void ChangeStack(IStackable buff, Object value)
 	{
 		int stackValue = int.Parse(value.ToString());
-		Buffs.PerkStacks[perkId] = stackValue;
+		Buffs.BuffStacks[buff] = stackValue;
 		OnChangeBuffs.InvokeAsync();
 	}
 

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Destiny2DataLibrary.Models
 {
-	public class IStackable
+	public interface IStackable
 	{
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string? Summary { get; set; }
-        public int? ActivationStepsAmount { get; set; }
-        public ICollection<BuffStack>? ActivationSteps { get; set; }
+        int Id { get; set; }
+        string Name { get; set; }
+        string? Summary { get; set; }
+        int? ActivationStepsAmount { get; set; }
+        ICollection<BuffStack>? ActivationSteps { get; set; }
     }
 }

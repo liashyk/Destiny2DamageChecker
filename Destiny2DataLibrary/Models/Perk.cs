@@ -14,15 +14,9 @@ namespace Destiny2DataLibrary.Models
         public bool IsAdvanced { get; set; }
         public ICollection<Archetype>? Archetypes { get; set; }
         public ICollection<BuffStack>? ActivationSteps { get; set; }
-
-        public override bool Equals(object? obj)
-        {      
-            //Check for null and compare run-time types.
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
-                return false;
-            }
-            return this.Id==(obj as Perk).Id;
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }

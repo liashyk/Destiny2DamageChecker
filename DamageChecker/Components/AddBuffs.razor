@@ -19,7 +19,7 @@
                 <div class="buffs-list" style="@buff_selectors_style[key]">
                     @foreach(Perk perk in archetypePerks)
                     {
-                        <div class=@(Buffs.HavePerk(perk.Id)? "buff-container-selected" :"buff-container") 
+                        <div class=@(Buffs.HaveBuff(perk)? "buff-container-selected" :"buff-container") 
                         @onclick="()=>ClickPerk(perk)" 
                         @onmousemove=@((e)=>OnPerkOver(e,perk)) 
                         @onmouseout=@OnHidePerkSummary>

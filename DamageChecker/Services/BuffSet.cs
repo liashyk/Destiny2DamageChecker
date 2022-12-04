@@ -1,6 +1,7 @@
 ﻿using DamageChecker.Services;
 using Destiny2DataLibrary.Models;
 using System;
+using System.Collections.Generic;
 
 namespace DamageChecker.Data
 {
@@ -8,16 +9,16 @@ namespace DamageChecker.Data
     {
 
         //Key is Perk id and Value is stack number>
-        public Dictionary<int, int> PerkStacks { get; set; }
+        public Dictionary<IStackable, int> BuffStacks { get; set; }
 
-        private HashSet<Perk> _perks;
-        private HashSet<DamageBuff> _damageBuffs;
+        private HashSet<IStackable> _perks;
+        private HashSet<IStackable> _damageBuffs;
 
         public BuffSet()
         {
-            _perks= new HashSet<Perk>();
-            _damageBuffs=new HashSet<DamageBuff>();
-            PerkStacks = new Dictionary<int, int>();
+            _perks= new HashSet<IStackable>();
+            _damageBuffs=new HashSet<IStackable>();
+            BuffStacks = new Dictionary<IStackable, int>();
         }
 
 
@@ -27,47 +28,58 @@ namespace DamageChecker.Data
             throw new NotImplementedException();
         }
 
-        public bool AddPerk(Perk perk)
+        public bool AddBuff(IStackable buff)
         {
-            if (_perks.Any(p => p.Id == perk.Id))
+            var collection = _damageBuffs;
+            if(buff is Perk)
+            {
+                collection = _perks;
+            }
+            if (_perks.Any(p => p.Id == buff.Id))
             {
                 return false;
             }
             else
             {
-                _perks.Add(perk);
-                PerkStacks.Add(perk.Id, 1);
+                _perks.Add(buff);
+                BuffStacks.Add(buff, 1);
                 return true;
             }
         }
 
-        public IEnumerable<Perk> GetPerkList()
+        public IEnumerable<IStackable> GetPerkList()
         {
             return _perks.ToArray();
         }
 
-        public bool HavePerk(int perkId)
+        public bool HaveBuff(IStackable buff)
         {
-            return _perks.Any(p => p.Id == perkId);
+            if(buff is Perk)
+            {
+                return _perks.Any(p => p.Id == buff.Id);
+            }
+            return _damageBuffs.Any(b => b.Id == buff.Id);
+
         }
 
-        public bool RemoveBuff(int buffId)
+        public bool RemoveBuff(IStackable buff)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool RemovePerk(int perkId)
-        {
-            Perk perk = _perks.FirstOrDefault(p => p.Id == perkId);
-            PerkStacks.Remove(perkId);
-            return _perks.Remove(perk);
+            BuffStacks.Remove(buff);
+            if (buff is Perk)
+            {
+                return _perks.Remove(buff);
+            }
+            else
+            {
+                return _damageBuffs.Remove(buff);
+            }
         }
 
         public void ClearAll()
         {
             _perks.Clear();
             _damageBuffs.Clear();
-            PerkStacks.Clear();
+            BuffStacks.Clear();
         }
 
         public CombinedBuff GetCombinedBuff()
@@ -81,15 +93,14 @@ namespace DamageChecker.Data
             };
             try
             {
-                foreach (int perkId in PerkStacks.Keys)
+                foreach (IStackable buff in BuffStacks.Keys)
                 {
-                    Perk? currentPerk = GetPerk(perkId);
-                    if (currentPerk != null)
+                    if (buff != null)
                     {
-                        combinedBuff.PveDamageBuffPercent *= (1 + GetPerksBuff(perkId).PveDamageBuffPercent / 100);
-                        combinedBuff.PvpDamageBuffPercent *= (1 + GetPerksBuff(perkId).PvpDamageBuffPercent / 100);
-                        combinedBuff.PvpRapidFireBuffPercent *= (1 + GetPerksBuff(perkId).PvpRapidFireBuffPercent / 100);
-                        combinedBuff.PveRapidFirePercent *= (1 + GetPerksBuff(perkId).PveRapidFirePercent / 100);
+                        combinedBuff.PveDamageBuffPercent *= (1 + GetPerksBuff(buff).PveDamageBuffPercent / 100);
+                        combinedBuff.PvpDamageBuffPercent *= (1 + GetPerksBuff(buff).PvpDamageBuffPercent / 100);
+                        combinedBuff.PvpRapidFireBuffPercent *= (1 + GetPerksBuff(buff).PvpRapidFireBuffPercent / 100);
+                        combinedBuff.PveRapidFirePercent *= (1 + GetPerksBuff(buff).PveRapidFirePercent / 100);
                     }
                 }
                 combinedBuff.PveDamageBuffPercent = (combinedBuff.PveDamageBuffPercent - 1) * 100;
@@ -101,32 +112,25 @@ namespace DamageChecker.Data
             {
                 throw new Exception("Wrong combined buff calculating!");
             }
-
             return combinedBuff;
         }
 
-        public bool SetPerkStack(int perkId,int stack)
+        public bool SetPerkStack(IStackable buff, int stack)
         {
-            Perk perk = GetPerk(perkId);
-            if(stack>0 && perk.ActivationSteps!=null && stack<=perk.ActivationSteps.Count && PerkStacks.ContainsKey(perkId))
+            if(stack>0 && buff.ActivationSteps!=null && stack<= buff.ActivationSteps.Count && BuffStacks.ContainsKey(buff))
             {
-                PerkStacks[perkId] = stack;
+                BuffStacks[buff] = stack;
                 return true;
             }else return false;
         }
 
-        public BuffStack? GetPerksBuff(int perkId)
+        public BuffStack? GetPerksBuff(IStackable buff)
         {
-            Perk? perk=GetPerk(perkId);
-            if (perk != null && perk.ActivationSteps != null)
+            if (buff != null && buff.ActivationSteps != null)
             {
-                return perk.ActivationSteps.Where(s => s.StepNumber == PerkStacks[perkId]).SingleOrDefault();
+                return buff.ActivationSteps.Where(s => s.StepNumber == BuffStacks[buff]).SingleOrDefault();
             }
             else return null;
-        }
-        private Perk? GetPerk(int perkId)
-        {
-            return _perks.Where(p => p.Id == perkId).FirstOrDefault();
         }
     }
 }
