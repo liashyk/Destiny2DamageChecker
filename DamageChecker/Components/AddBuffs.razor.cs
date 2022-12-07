@@ -12,15 +12,9 @@ namespace DamageChecker.Components
         [Inject]
         private ILoggerFactory loggerFactory { get; set; }
 
-        private ILogger? logger;
-        //All posible perks in current Archetype
-
-        private IEnumerable<Perk>? archetypePerks=new List<Perk>();
-
         //Current ArchetypeId
         [CascadingParameter(Name = "ArchetypeId")]
         public int ArchetypeId { get; set; }
-
 
         //event that hapenns when apply button is clicked
         [Parameter]
@@ -29,21 +23,30 @@ namespace DamageChecker.Components
         [CascadingParameter]
         public BuffSet Buffs { get; set; }
 
+        private ILogger? logger;
+        //All posible perks in current Archetype
+
+        //private IEnumerable<Perk>? archetypePerks=new List<Perk>();
+
+        private List<BuffSelector> buffSelectors=new List<BuffSelector>();
+
         #region style-fields
         private string query = "";
 
         private string addBuffHideStyle = "height: 0;";
 
         //Dictionary, where key is    buff_selectors_header and value is inner buff_list style
-        private Dictionary<string, string> buff_selectors_style = new Dictionary<string, string>();
+        private Dictionary<BuffSelector, string> buffSelectorsStyle = new Dictionary<BuffSelector, string>();
 
         private string hideSelectorStyle = "padding:0;";
 
         private string showSelectorStyle = "max-height: 100vh;";
         #endregion
 
-        private async Task GetPerksAsync(int archetypeId)
+        #region GetDataFromAPi
+        private async Task<IEnumerable<IStackable>> GetPerksAsync(int archetypeId)
         {
+            IEnumerable<IStackable> archetypePerks = new List<IStackable>();
             var responce = await client.GetAsync($"api/Perks/FromArchetype/{archetypeId}");
             if (responce.IsSuccessStatusCode)
             {
@@ -52,11 +55,28 @@ namespace DamageChecker.Components
             }
             else
             {
-                logger.LogCritical($"Perks from {archetypeId} WAS NOT received");
+                logger.LogCritical($"Perks from {archetypeId} WAS NOT received:\n{responce.StatusCode}");
             }
+            return archetypePerks;
         }
 
+        private async Task<IEnumerable<IStackable>> GetDamageBuffsAsync()
+        {
+            IEnumerable<IStackable> damamageBuffs = new List<IStackable>();
+            var responce = await client.GetAsync($"api/DamageBuffs");
+            if (responce.IsSuccessStatusCode)
+            {
+                damamageBuffs = await responce.Content.ReadFromJsonAsync<IEnumerable<DamageBuff>>();
+                logger.LogInformation("Buffs was received");
+            }
+            else
+            {
+                logger.LogCritical($"Buffs from WAS NOT received");
+            }
+            return damamageBuffs;
+        }
 
+        #endregion
         protected override async Task OnParametersSetAsync()
         {
             await base.OnParametersSetAsync();
@@ -72,9 +92,9 @@ namespace DamageChecker.Components
             {
                 logger = loggerFactory.CreateLogger<AddBuffs>();
             }
-            if (!prevArchetypeId.Equals(currentArchetypeId))
+            if (!prevArchetypeId.Equals(currentArchetypeId) || buffSelectors[0].Buffs.Count()==0)
             {
-                await GetPerksAsync(ArchetypeId);
+                await MakePerkSelector();
             }
         }
         protected async override Task OnInitializedAsync()
@@ -82,24 +102,34 @@ namespace DamageChecker.Components
             await base.OnInitializedAsync();
         }
 
+        private async Task MakePerkSelector()
+        {
+            buffSelectors[0].Buffs= await GetPerksAsync(ArchetypeId);
+        }
+
+        private async Task MakeBuffSelectors()
+        {
+            buffSelectors[1].Buffs = await GetDamageBuffsAsync();
+        }
+
         protected override void OnInitialized()
         {
+            buffSelectors.Add(new BuffSelector(showSelectorStyle, "DAMAGE WEAPON PERKS"));
+            buffSelectors.Add(new BuffSelector(showSelectorStyle, "EMPOWERING BUFFS"));
+            MakeBuffSelectors();
             base.OnInitialized();
-            buff_selectors_style["DAMAGE WEAPON PERKS"] = showSelectorStyle;
-            //buff_selectors_style["EMPOWERING BUFFS"] = showSelectorStyle;
-            //buff_selectors_style["GLOBAL DEBUFS"] = showSelectorStyle;
         }
 
         //Hide or show buff list in selector
-        private void HideBuffList(string selectorName)
+        private void HideBuffList(BuffSelector selector)
         {
-            if (buff_selectors_style[selectorName] == hideSelectorStyle)
+            if (selector.Style == hideSelectorStyle)
             {
-                buff_selectors_style[selectorName] = showSelectorStyle;
+                selector.Style = showSelectorStyle;
             }
             else
             {
-                buff_selectors_style[selectorName] = hideSelectorStyle;
+                selector.Style = hideSelectorStyle;
             }
 
         }
@@ -111,15 +141,15 @@ namespace DamageChecker.Components
         }
 
         //Add perk to Transfer if it have been already added. Otherwise delete this perk;
-        private void ClickPerk(Perk perk)
+        private void ClickBuff(IStackable buff)
         {
-            if (Buffs.HaveBuff(perk))
+            if (Buffs.HaveBuff(buff))
             {
-                logger.LogInformation($"Perk {perk.Id} deletion: " + Buffs.RemoveBuff(perk).ToString());
+                logger.LogInformation($"Buff {buff.Id} deletion: " + Buffs.RemoveBuff(buff).ToString());
             }
             else
             {
-                Buffs.AddBuff(perk);
+                Buffs.AddBuff(buff);
             }
         }
 
@@ -127,11 +157,23 @@ namespace DamageChecker.Components
         public void Show()
         {
             Console.WriteLine("perks in ADD BUFFS:");
-            foreach (Perk perk in Buffs.GetPerkList())
+            foreach (IStackable perk in Buffs.GetBuffList())
             {
                 Console.WriteLine(perk.Id);
             }
             addBuffHideStyle = "";
+        }
+
+        private class BuffSelector
+        {
+            public BuffSelector(string style, string header)
+            {
+                Style = style;
+                Header = header;
+            }
+            public string Style { get; set; }
+            public string Header { get; set; }
+            public IEnumerable<IStackable> Buffs { get; set; } =new List<IStackable>();
         }
     }
 }

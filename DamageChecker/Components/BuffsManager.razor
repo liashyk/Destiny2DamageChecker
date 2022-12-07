@@ -1,32 +1,32 @@
 ﻿<div class="buff-manager">
 	 <h1>DAMAGE BUFFS</h1>
 	 @if(Buffs!=null){
-		@foreach(Perk perk in Buffs.GetPerkList())
+		@foreach(IStackable buff in Buffs.GetBuffList())
 		{
 			<div class="buff-container">
-				<div class="buff_name" @onmousemove=@((e)=>OnPerkOver(e,perk)) @onmouseout=OnHidePerkSummary>
+				<div class="buff_name" @onmousemove=@((e)=>OnPerkOver(e,buff)) @onmouseout=OnHidePerkSummary>
 					<div class="buff_icon">
-						<img src=@($"css/icons/perks/{perk.Name}.png")>
+						<img src=@($"css/icons/perks/{buff.Name}.png")>
 					</div>
-					@(perk!=null? perk.Name.ToUpper() : "")
+					@(buff!=null? buff.Name.ToUpper() : "")
 				</div>
 				<div>
 					STACK
-					@if(perk.ActivationSteps.Count==1){
-						<select name="@perk" @onchange=@((e)=>ChangeStack(perk,e.Value)) disabled>
+					@if(buff.ActivationSteps.Count==1){
+						<select name="@buff" @onchange=@((e)=>ChangeStack(buff,e.Value)) disabled>
 							<option value="1" selected>1x</option>
 						</select>
 					}else{
-						<select name="@perk" @onchange=@((e)=>ChangeStack(perk,e.Value))>
+						<select name="@buff" @onchange=@((e)=>ChangeStack(buff,e.Value))>
 							<option value="1" selected>1x</option>
-							@for(int j = 2;j<=perk.ActivationSteps.Count;j++){
+							@for(int j = 2;j<=buff.ActivationSteps.Count;j++){
 								<option value="@j">@(j)x</option>
 							}
 						</select>
 					}
 				</div>
 				<div>
-					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(perk).PveDamageBuffPercent+"%")</span>
+					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(buff).PveDamageBuffPercent+"%")</span>
 				</div>
 			</div>
 		}
@@ -80,7 +80,7 @@
 	private void ShowAddBuffs()
 	{
 		Console.WriteLine("perks in BUFFS MANAGER:");
-		foreach(Perk perk in Buffs.GetPerkList()){
+		foreach(IStackable perk in Buffs.GetBuffList()){
 			Console.WriteLine(perk.Id);
 		}
 		if (addBuffs != null)
@@ -89,13 +89,13 @@
 		}
 	}
 
-	private void OnPerkOver(MouseEventArgs e,Perk perk)
+	private void OnPerkOver(MouseEventArgs e,IStackable buff)
 	{
 		var args=new ShowPerkSummaryArgs()
         {
             PageX=e.PageX,
             PageY=e.PageY,
-            Perk=perk
+            Buff=buff
         };
 		OnShowPerkSummary.InvokeAsync(args);
 	}

@@ -146,10 +146,11 @@ h2 {
     background-color: rgba(57, 57, 57, 1);
 }
 
-.buff_icon img {
-    height: 80%;
-    width: 80%;
-}
+    .buff_icon img {
+        height: 90%;
+        width: 90%;
+        border-radius: 70px;
+    }
 
 .buff_selector {
     direction: ltr;

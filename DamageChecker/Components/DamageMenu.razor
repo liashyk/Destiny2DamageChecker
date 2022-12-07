@@ -9,11 +9,10 @@
 		<div class="pvp-damage-parametres" style=@(IsPvp? "":"display:none;")>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">GUARDIAN RESILIANCE</div>
-				<select>
-					<option selected>@(1 + "x")</option>
-					@for (int i = 2; i <= 10; i++)
+				<select @bind=@Resiliance>
+					@for (int i = 0; i <= 10; i++)
 					{
-						<option>@(i + "x")</option>
+						<option value="@i">@(i + "x")</option>
 					}
 				</select>
 			</div>
@@ -109,6 +108,21 @@
 
 	private int _magSize = 10;
 
+	private int _resiliance = 0;
+	public int Resiliance 
+	{ 
+		get
+		{
+			return _resiliance;
+		}
+		set
+		{
+			if(value>=0 && value<=10){
+				_resiliance = value;
+			}
+		}
+	}
+
 	public int MagSize
 	{
 		get
@@ -145,12 +159,12 @@
 	}
 
 	private int GetBulletToShoot(){
-		return DamageService.GetBulletToHitAmount(CurrentArchetype, CurrentCombinedBuff, 10);
+		return DamageService.GetBulletToHitAmount(CurrentArchetype, CurrentCombinedBuff, Resiliance);
 	}
 
 	private double GetTTK()
 	{
-		return Math.Round(DamageService.GetTTK(CurrentArchetype, CurrentCombinedBuff, 10),2);
+		return Math.Round(DamageService.GetTTK(CurrentArchetype, CurrentCombinedBuff, Resiliance), 2);
 	}
 
 	private void SwitchMode(){

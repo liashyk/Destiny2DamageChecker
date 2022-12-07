@@ -12,21 +12,21 @@
         <button class="apply-button" @onclick="OnApplyCallback">APPLY</button>
     </div>
     <div class="add-buffs-main">
-        @foreach(string key in buff_selectors_style.Keys)
+        @foreach(BuffSelector selector in buffSelectors)
         {
             <div class="buff_selector">
-                <h2 @onclick="()=>HideBuffList(key)">@key</h2>
-                <div class="buffs-list" style="@buff_selectors_style[key]">
-                    @foreach(Perk perk in archetypePerks)
+                <h2 @onclick="()=>HideBuffList(selector)">@selector.Header</h2>
+                <div class="buffs-list" style="@selector.Style">
+                    @foreach(IStackable buff in selector.Buffs)
                     {
-                        <div class=@(Buffs.HaveBuff(perk)? "buff-container-selected" :"buff-container") 
-                        @onclick="()=>ClickPerk(perk)" 
-                        @onmousemove=@((e)=>OnPerkOver(e,perk)) 
+                        <div class=@(Buffs.HaveBuff(buff)? "buff-container-selected" :"buff-container") 
+                        @onclick="()=>ClickBuff(buff)" 
+                        @onmousemove=@((e)=>OnPerkOver(e,buff)) 
                         @onmouseout=@OnHidePerkSummary>
                             <div class="buff_icon">
-                                <img src=@($"css/icons/perks/{perk.Name}.png")>
+                                <img src=@($"css/icons/perks/{buff.Name}.png")>
                             </div>
-                            @(perk!=null? perk.Name.ToUpper() : "")
+                            @(buff!=null? buff.Name.ToUpper() : "")
                         </div>
                     }
                 </div>
@@ -42,13 +42,13 @@
         Console.WriteLine("y: "+e.PageY +" x: "+ e.PageX);
     }
 
-    private void OnPerkOver(MouseEventArgs e,Perk perk)
+    private void OnPerkOver(MouseEventArgs e,IStackable buff)
     {
         var args=new ShowPerkSummaryArgs()
         {
             PageX=e.PageX,
             PageY=e.PageY,
-            Perk=perk
+            Buff=buff
         };
         OnShowPerkSummary.InvokeAsync(args);
     }

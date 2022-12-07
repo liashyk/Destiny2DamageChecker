@@ -63,33 +63,5 @@ namespace DamageCheckerApi.Controllers
             perk.Archetypes = null;
             return perk;
         }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePerk(int id)
-        {
-            Perk? perk = await _context.Perks.FindAsync(id);
-            if (perk == null)
-            {
-                return NotFound();
-            }
-            _context.Perks.Remove(perk);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> PostPerk(Perk perk)
-        {
-            _context.Perks.Add(perk);
-            if(perk.ActivationSteps != null)
-            {
-                foreach (BuffStack perkStack in perk.ActivationSteps)
-                {
-                    _context.BuffStacks.Add(perkStack);
-                }
-            }
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetPerk", new { id = perk.Id }, perk);
-        }
     }
 }

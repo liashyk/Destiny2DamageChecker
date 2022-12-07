@@ -14,9 +14,5 @@ namespace Destiny2DataLibrary.Models
         public bool IsAdvanced { get; set; }
         public ICollection<Archetype>? Archetypes { get; set; }
         public ICollection<BuffStack>? ActivationSteps { get; set; }
-        public override int GetHashCode()
-        {
-            return Id;
-        }
     }
 }

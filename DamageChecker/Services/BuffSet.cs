@@ -35,21 +35,21 @@ namespace DamageChecker.Data
             {
                 collection = _perks;
             }
-            if (_perks.Any(p => p.Id == buff.Id))
+            if (collection.Any(p => p.Id == buff.Id))
             {
                 return false;
             }
             else
             {
-                _perks.Add(buff);
+                collection.Add(buff);
                 BuffStacks.Add(buff, 1);
                 return true;
             }
         }
 
-        public IEnumerable<IStackable> GetPerkList()
+        public IEnumerable<IStackable> GetBuffList()
         {
-            return _perks.ToArray();
+            return _perks.Concat(_damageBuffs);
         }
 
         public bool HaveBuff(IStackable buff)

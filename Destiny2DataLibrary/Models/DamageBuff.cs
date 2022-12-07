@@ -16,9 +16,5 @@ namespace Destiny2DataLibrary.Models
         public BuffCategory BuffCategory { get; set; }
         public int? ActivationStepsAmount { get; set; }
         public ICollection<BuffStack>? ActivationSteps { get; set; }
-        public override int GetHashCode()
-        {
-            return Id;
-        }
     }
 }

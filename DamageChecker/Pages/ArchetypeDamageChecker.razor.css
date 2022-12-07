@@ -58,7 +58,13 @@ main {
 	border-bottom:2px solid white;
 }
 
-@media (max-width:800px) {
+@media (max-width:100em){
+	#bonus-damage-checker {
+		display: none;
+	}
+}
+
+@media (max-width:40em) {
 	main {
 		flex-direction: column;
 		align-content: center;

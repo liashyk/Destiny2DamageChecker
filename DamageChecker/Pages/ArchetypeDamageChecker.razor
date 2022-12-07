@@ -14,7 +14,7 @@
                 <DamageMenu CurrentArchetype="@CurrentArchetype" IsPvp=true></DamageMenu>
             </CascadingValue>
         </div>
-        <div class="damage-checker">
+        <div class="damage-checker" id="bonus-damage-checker">
             <CascadingValue Value="@CombinedBuff">
                 <DamageMenu CurrentArchetype="@CurrentArchetype" IsPvp=false></DamageMenu>
             </CascadingValue>
@@ -23,8 +23,8 @@
 </main>
 @if(_currentArgs!=null){
     <div class="perk-summary" style="top:@(_currentArgs.PageY+20)px; left:@(_currentArgs.PageX+20)px;visibility:@_perkSummaryVisibility">
-        <h4>@_currentArgs.Perk.Name.ToUpper()</h4>
-        <p>@_currentArgs.Perk.Summary</p>
+        <h4>@_currentArgs.Buff.Name.ToUpper()</h4>
+        <p>@_currentArgs.Buff.Summary</p>
     </div>
 
 }
@@ -60,7 +60,5 @@
     {
         _perkSummaryVisibility = "";
         _currentArgs = args;
-        Console.WriteLine("y: "+_currentArgs.PageY);
-        Console.WriteLine("x: " + _currentArgs.PageX);
     }
 }

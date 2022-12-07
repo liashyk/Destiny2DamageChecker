@@ -5,6 +5,8 @@ namespace DamageChecker.Services
 {
 	public class DamageService
 	{
+        private readonly int[] _resiliance = { 185, 186, 187, 188, 189, 190, 192, 194, 196, 198, 200 };
+
 		public double GetSimplePveDps(Archetype archetype,CombinedBuff buff)
 		{
             int shotDamage = GetBuffedDamage(archetype.ShotDamage,buff);
@@ -75,7 +77,7 @@ namespace DamageChecker.Services
         public int GetBulletToHitAmount(Archetype archetype, CombinedBuff buff,int resilience)
         {
             int shotDamage = GetBuffedDamage(archetype.ShotDamage, buff,true,false);
-            int guardianHp = 200;
+            int guardianHp = _resiliance[resilience];
             return (int)Math.Ceiling((double)(guardianHp)/shotDamage);
         }
 

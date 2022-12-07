@@ -5,7 +5,7 @@ namespace DamageChecker.Services
 {
     public class ShowPerkSummaryArgs
     {
-        public Perk Perk { get; set; }
+        public IStackable Buff { get; set; }
         /// <summary>
         /// The X coordinate of the mouse pointer relative to the whole document.
         /// </summary>

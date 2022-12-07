@@ -48,10 +48,11 @@ h1{
 	margin-right:10px;
 }
 
-.buff_icon img{
-	height:90%;
-	width:90%;
-}
+	.buff_icon img {
+		height: 90%;
+		width: 90%;
+		border-radius: 70px;
+	}
 
 .buff_name{
 	width:200px;
