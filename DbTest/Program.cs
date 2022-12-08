@@ -239,21 +239,23 @@ namespace DbTest
 
         static async Task Main(string[] args)
         {
-            var acivationsSpets = new BuffStack[]
-            {
-                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 20, PvpDamageBuffPercent = 15 },
-                new BuffStack() { StepNumber = 2, PveDamageBuffPercent = 25, PvpDamageBuffPercent = 20 },
-                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 35, PvpDamageBuffPercent = 25 },
-                new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 40, PvpDamageBuffPercent = 35 }
-            };
-            DamageBuff damageBuff = new DamageBuff()
-            {
-                Name = "the path of burning steps",
-                Summary = "Solar Kills have a chance of granting 1 stack of Firewalker. [1 to 3 Kills, average of 2]\r\nBecoming Frozen grants 1 stack of Firewalker.\r\n Max of 4 Stacks.\r\n\r\nFirewalker increases Weapon Damage and lasts 10 seconds.\r\n1x = 20% | 2x = 25% | 3x = 35% | 4x = 40%\r\n1x = 15% | 2x = 25% | 3x = 20% | 4x = 35%",
-                ActivationSteps = acivationsSpets,
-                ActivationStepsAmount = acivationsSpets.Length,
-            };
-            await AddDamageBuff(damageBuff, 2);
+            //var acivationsSpets = new BuffStack[]
+            //{
+            //    new BuffStack() { StepNumber = 1, PveDamageBuffPercent = 7.77, PvpDamageBuffPercent = 0 },
+            //};
+            //DamageBuff damageBuff = new DamageBuff()
+            //{
+            //    Name = "major spec",
+            //    Summary =
+            //    "7.77% Damage Increase against Bosses and Vehicles",
+            //    ActivationSteps = acivationsSpets,
+            //    ActivationStepsAmount = acivationsSpets.Length,
+            //};
+
+            var context = new Destiny2DataContext();
+            context.DamageBuffs.Remove(context.DamageBuffs.Find(17));
+            context.SaveChanges();
+            //await AddDamageBuff(damageBuff, 3);
             //using (var _context = new Destiny2DataContext())
             //{
             //    _context.BuffCategories.Add(new BuffCategory() { Name = "global debuffs" }) ;

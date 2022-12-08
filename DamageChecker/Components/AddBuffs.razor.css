@@ -69,8 +69,11 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: cyan;
-    box-shadow: 12px 14px 32px 0px rgba(0,0,0,0.52);
+}
+
+.search-button, .apply-button, .buff-container-selected {
+    background: rgb(60,228,255);
+    background: radial-gradient(circle, rgba(60,228,255,1) 62%, rgba(95,146,255,1) 100%);
 }
 
 .search-button {
@@ -91,7 +94,7 @@
 }
 
 .apply-button:hover {
-    background-color: cornflowerblue;
+    background: cornflowerblue;
 }
 
 h1, h2{
@@ -138,7 +141,6 @@ h2 {
     background-color: #1d1d1d;
     height: 70px;
     width: 70px;
-    border-radius: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,9 +149,8 @@ h2 {
 }
 
     .buff_icon img {
-        height: 90%;
-        width: 90%;
-        border-radius: 70px;
+        height: 100%;
+        width: 100%;
     }
 
 .buff_selector {
@@ -176,7 +177,6 @@ h2 {
 }
 
 .buff-container-selected {
-    background-color: cyan;
     color: rgba(57, 57, 57,1);
 }
 

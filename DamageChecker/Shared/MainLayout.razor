@@ -6,7 +6,17 @@
     <div class="sidebar">
         <NavMenu />
     </div>
-    @Body
+    <ErrorBoundary>
+        <ChildContent>
+            @Body
+        </ChildContent>
+        <ErrorContent Context="ex">
+            <div class="error-message">
+                <p>@ex.Message</p>
+                <p style="color:red">YOU HAVE TO RELOAD</p>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
 </div>
 
 @code{

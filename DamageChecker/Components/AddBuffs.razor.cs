@@ -109,13 +109,19 @@ namespace DamageChecker.Components
 
         private async Task MakeBuffSelectors()
         {
-            buffSelectors[1].Buffs = await GetDamageBuffsAsync();
+            IEnumerable<DamageBuff>? damageBuffs = await GetDamageBuffsAsync() as IEnumerable<DamageBuff>;
+            if (damageBuffs == null) return;
+            buffSelectors[1].Buffs = damageBuffs.Where(b=>b.BuffCategory.Id==2);
+            buffSelectors[2].Buffs = damageBuffs.Where(b => b.BuffCategory.Id == 1);
+            buffSelectors[3].Buffs = damageBuffs.Where(b => b.BuffCategory.Id == 3);
         }
 
         protected override void OnInitialized()
         {
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "DAMAGE WEAPON PERKS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "EMPOWERING BUFFS"));
+            buffSelectors.Add(new BuffSelector(showSelectorStyle, "GLOBAL DEBUFFS"));
+            buffSelectors.Add(new BuffSelector(showSelectorStyle, "AMPLIFICATION MODIFIERS"));
             MakeBuffSelectors();
             base.OnInitialized();
         }

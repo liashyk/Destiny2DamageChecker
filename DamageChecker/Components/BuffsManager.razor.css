@@ -23,6 +23,11 @@ h1{
 	height:auto;
 }
 
+.add-buffs-button {
+	background: rgb(60,228,255);
+	background: radial-gradient(circle, rgba(60,228,255,1) 62%, rgba(95,146,255,1) 100%);
+}
+
 ::-webkit-scrollbar {
 	width: 1vw;
 }
@@ -39,7 +44,6 @@ h1{
 	background-color:#1d1d1d;
 	height:40px;
 	width:40px;
-	border-radius:30px;
 	display:flex;
 	align-items:center;
 	justify-content:center;
@@ -49,9 +53,8 @@ h1{
 }
 
 	.buff_icon img {
-		height: 90%;
-		width: 90%;
-		border-radius: 70px;
+		height: 100%;
+		width: 100%;
 	}
 
 .buff_name{
@@ -92,14 +95,13 @@ h1{
 	justify-content:center;
 	align-items:center;
 	padding:10px;
-	background-color:cyan;
 	border:none;
 	font-weight:bold;
 	color:rgba(57, 57, 57, 1);
 }
 
 .add-buffs-button:hover{
-	background-color:cornflowerblue;
+	background:cornflowerblue;
 }
 
 .combined-buff-result{

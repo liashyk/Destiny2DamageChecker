@@ -3,6 +3,7 @@ using System;
 using Destiny2DataLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Destiny2DataLibrary.Migrations
 {
     [DbContext(typeof(Destiny2DataContext))]
-    partial class Destiny2DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221208102104_AddCascadDelete")]
+    partial class AddCascadDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -350,13 +353,19 @@ namespace Destiny2DataLibrary.Migrations
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.BuffStack", b =>
                 {
-                    b.HasOne("Destiny2DataLibrary.Models.DamageBuff", null)
+                    b.HasOne("Destiny2DataLibrary.Models.DamageBuff", "DamageBuff")
                         .WithMany("ActivationSteps")
-                        .HasForeignKey("DamageBuffId");
+                        .HasForeignKey("DamageBuffId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
-                    b.HasOne("Destiny2DataLibrary.Models.Perk", null)
+                    b.HasOne("Destiny2DataLibrary.Models.Perk", "Perk")
                         .WithMany("ActivationSteps")
-                        .HasForeignKey("PerkId");
+                        .HasForeignKey("PerkId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("DamageBuff");
+
+                    b.Navigation("Perk");
                 });
 
             modelBuilder.Entity("Destiny2DataLibrary.Models.DamageBuff", b =>

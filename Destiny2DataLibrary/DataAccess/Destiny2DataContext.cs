@@ -1,5 +1,6 @@
 ﻿using Destiny2DataLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace Destiny2DataLibrary.DataAccess
 {
@@ -10,6 +11,11 @@ namespace Destiny2DataLibrary.DataAccess
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Destiny2DataBase;Username=postgres;Password=10524");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
+
         public DbSet<Perk> Perks { get; set; }
         public DbSet<Archetype> Archetypes { get; set; }
         public DbSet<BuffStack> BuffStacks { get; set; }

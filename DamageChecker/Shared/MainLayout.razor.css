@@ -18,6 +18,13 @@
     left:0;
 }
 
+.error-message{
+    font-weight:bold;
+    font-size:55px;
+    color:white;
+    margin: 50px 20px 0 0;
+}
+
 @media (max-width:800px) {
     .page{
         height:100%;

@@ -30,6 +30,7 @@ namespace DamageChecker.Pages
             else
             {
                 logger.LogCritical("Weapons WAS NOT received");
+                throw new Exception($"Weapon {ArchetypeId} WAS NOT received");
             }
         }
 
@@ -37,7 +38,7 @@ namespace DamageChecker.Pages
 
         protected override async Task OnParametersSetAsync()
         {
-            if(buffsManager != null)
+            if (buffsManager != null)
             {
                 CombinedBuff = buffsManager.combinedBuff;
             }
