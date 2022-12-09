@@ -19,7 +19,7 @@ namespace DamageCheckerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Perk>>> GetPerks()
         {
-            return await _context.Perks.Include(p => p.ActivationSteps).ToListAsync();
+            return await _context.Perks.Include(p => p.BuffStacks).ToListAsync();
 
         }
 
@@ -45,7 +45,7 @@ namespace DamageCheckerApi.Controllers
                 return NotFound();
             }
             var archetypePerks = archetype.Perks.ToList();
-            List<Perk> perks = await _context.Perks.Include(p => p.ActivationSteps).ToListAsync();
+            List<Perk> perks = await _context.Perks.Include(p => p.BuffStacks).ToListAsync();
             List<Task<Perk>> perkTasks = new List<Task<Perk>>();
             foreach (Perk it in archetypePerks)
             {
@@ -57,7 +57,7 @@ namespace DamageCheckerApi.Controllers
 
         private async Task<Perk> GetPerkByID(int perkId)
         {
-            Perk? perk = await _context.Perks.Include(p => p.ActivationSteps)
+            Perk? perk = await _context.Perks.Include(p => p.BuffStacks)
                 .Where(p => p.Id == perkId)
                 .FirstOrDefaultAsync();
             perk.Archetypes = null;

@@ -13,7 +13,7 @@ namespace Destiny2DataLibrary.Models
         int Id { get; set; }
         string Name { get; set; }
         string? Summary { get; set; }
-        int? ActivationStepsAmount { get; set; }
-        ICollection<BuffStack>? ActivationSteps { get; set; }
+        int? BuffStacksAmount { get; set; }
+        ICollection<BuffStack>? BuffStacks { get; set; }
     }
 }

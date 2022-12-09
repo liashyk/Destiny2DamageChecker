@@ -159,7 +159,7 @@ namespace DbTest
                 Perk perk = new Perk()
                 {
                     Name = rows[0][0],
-                    ActivationStepsAmount = int.Parse(rows[0][1]),
+                    BuffStacksAmount = int.Parse(rows[0][1]),
                     IsAdvanced = bool.Parse(rows[0][2])
                 };
                 for (int i = 1; i < rows.Count; i++)
@@ -175,7 +175,7 @@ namespace DbTest
                     activationSteps.Add(bufferStep);
                     context.BuffStacks.Add(bufferStep);
                 }
-                perk.ActivationSteps = activationSteps;
+                perk.BuffStacks = activationSteps;
                 context.Perks.Add(perk);
                 context.SaveChanges();
                 return perk;

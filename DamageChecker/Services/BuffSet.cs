@@ -86,7 +86,7 @@ namespace DamageChecker.Data
         {
             CombinedBuff combinedBuff = new CombinedBuff()
             {
-                PveRapidFirePercent = 1,
+                PveRapidFireBuffPercent = 1,
                 PvpRapidFireBuffPercent = 1,
                 PveDamageBuffPercent = 1,
                 PvpDamageBuffPercent = 1,
@@ -100,13 +100,13 @@ namespace DamageChecker.Data
                         combinedBuff.PveDamageBuffPercent *= (1 + GetPerksBuff(buff).PveDamageBuffPercent / 100);
                         combinedBuff.PvpDamageBuffPercent *= (1 + GetPerksBuff(buff).PvpDamageBuffPercent / 100);
                         combinedBuff.PvpRapidFireBuffPercent *= (1 + GetPerksBuff(buff).PvpRapidFireBuffPercent / 100);
-                        combinedBuff.PveRapidFirePercent *= (1 + GetPerksBuff(buff).PveRapidFirePercent / 100);
+                        combinedBuff.PveRapidFireBuffPercent *= (1 + GetPerksBuff(buff).PveRapidFirePercent / 100);
                     }
                 }
                 combinedBuff.PveDamageBuffPercent = (combinedBuff.PveDamageBuffPercent - 1) * 100;
                 combinedBuff.PvpDamageBuffPercent = (combinedBuff.PvpDamageBuffPercent - 1) * 100;
                 combinedBuff.PvpRapidFireBuffPercent = (combinedBuff.PvpRapidFireBuffPercent - 1) * 100;
-                combinedBuff.PveRapidFirePercent = (combinedBuff.PveRapidFirePercent - 1) * 100;
+                combinedBuff.PveRapidFireBuffPercent = (combinedBuff.PveRapidFireBuffPercent - 1) * 100;
             }
             catch (Exception ex) 
             {
@@ -117,7 +117,7 @@ namespace DamageChecker.Data
 
         public bool SetPerkStack(IStackable buff, int stack)
         {
-            if(stack>0 && buff.ActivationSteps!=null && stack<= buff.ActivationSteps.Count && BuffStacks.ContainsKey(buff))
+            if(stack>0 && buff.BuffStacks!=null && stack<= buff.BuffStacks.Count && BuffStacks.ContainsKey(buff))
             {
                 BuffStacks[buff] = stack;
                 return true;
@@ -126,9 +126,9 @@ namespace DamageChecker.Data
 
         public BuffStack? GetPerksBuff(IStackable buff)
         {
-            if (buff != null && buff.ActivationSteps != null)
+            if (buff != null && buff.BuffStacks != null)
             {
-                return buff.ActivationSteps.Where(s => s.StepNumber == BuffStacks[buff]).SingleOrDefault();
+                return buff.BuffStacks.Where(s => s.StepNumber == BuffStacks[buff]).SingleOrDefault();
             }
             else return null;
         }

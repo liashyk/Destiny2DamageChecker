@@ -14,7 +14,7 @@ namespace Destiny2DataLibrary.Models
         public string Name { get; set; }
         public string? Summary { get; set; }
         public BuffCategory BuffCategory { get; set; }
-        public int? ActivationStepsAmount { get; set; }
-        public ICollection<BuffStack>? ActivationSteps { get; set; }
+        public int? BuffStacksAmount { get; set; }
+        public ICollection<BuffStack>? BuffStacks { get; set; }
     }
 }

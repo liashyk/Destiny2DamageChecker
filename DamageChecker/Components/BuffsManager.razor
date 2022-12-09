@@ -12,14 +12,14 @@
 				</div>
 				<div>
 					STACK
-					@if(buff.ActivationSteps.Count==1){
+					@if(buff.BuffStacks.Count==1){
 						<select name="@buff" @onchange=@((e)=>ChangeStack(buff,e.Value)) disabled>
 							<option value="1" selected>1x</option>
 						</select>
 					}else{
 						<select name="@buff" @onchange=@((e)=>ChangeStack(buff,e.Value))>
 							<option value="1" selected>1x</option>
-							@for(int j = 2;j<=buff.ActivationSteps.Count;j++){
+							@for(int j = 2;j<=buff.BuffStacks.Count;j++){
 								<option value="@j">@(j)x</option>
 							}
 						</select>

@@ -27,7 +27,7 @@ namespace DamageCheckerApi.Controllers
         {
             return await _context.DamageBuffs
                 .Include(b=>b.BuffCategory)
-                .Include(b=>b.ActivationSteps)
+                .Include(b=>b.BuffStacks)
                 .ToListAsync();
         }
 
@@ -38,7 +38,7 @@ namespace DamageCheckerApi.Controllers
             var damageBuff = await 
                 _context.DamageBuffs
                 .Include(_b => _b.BuffCategory)
-                .Include(_b => _b.ActivationSteps)
+                .Include(_b => _b.BuffStacks)
                 .Where(b => b.Id == id)
                 .SingleOrDefaultAsync();
 

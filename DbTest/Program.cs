@@ -61,7 +61,7 @@ namespace DbTest
                             archetype.BurstStats = new BurstStats()
                             {
                                 BulletsInBurst = int.Parse(fields[4]),
-                                FramesPerBurstt = int.Parse(fields[5])
+                                FramesPerBurst = int.Parse(fields[5])
                             };
                         }
                         else
@@ -135,9 +135,9 @@ namespace DbTest
                         perk.Archetypes.Add(archetype);
                 }
                 _context.Perks.Add(perk);
-                if (perk.ActivationSteps != null)
+                if (perk.BuffStacks != null)
                 {
-                    foreach (BuffStack perkStack in perk.ActivationSteps)
+                    foreach (BuffStack perkStack in perk.BuffStacks)
                     {
                         _context.BuffStacks.Add(perkStack);
                     }
@@ -189,7 +189,7 @@ namespace DbTest
         static void ShowPerk(Perk perk)
         {
             Console.WriteLine(perk.Name + " : ");
-            foreach (var it in perk.ActivationSteps)
+            foreach (var it in perk.BuffStacks)
             {
                 Console.WriteLine(it.StepNumber + " - " + it.PveDamageBuffPercent);
             }
@@ -226,9 +226,9 @@ namespace DbTest
             {
                 buff.BuffCategory = context.BuffCategories.Find(buffCategoryId);
                 context.DamageBuffs.Add(buff);
-                if (buff.ActivationSteps != null)
+                if (buff.BuffStacks != null)
                 {
-                    foreach (BuffStack perkStack in buff.ActivationSteps)
+                    foreach (BuffStack perkStack in buff.BuffStacks)
                     {
                         context.BuffStacks.Add(perkStack);
                     }
@@ -236,8 +236,7 @@ namespace DbTest
                 await context.SaveChangesAsync();
             }
         }
-
-        static async Task Main(string[] args)
+        static async Task AddBuffStack()
         {
             //var acivationsSpets = new BuffStack[]
             //{
@@ -251,10 +250,10 @@ namespace DbTest
             //    ActivationSteps = acivationsSpets,
             //    ActivationStepsAmount = acivationsSpets.Length,
             //};
+        }
 
-            var context = new Destiny2DataContext();
-            context.DamageBuffs.Remove(context.DamageBuffs.Find(17));
-            context.SaveChanges();
+        static async Task AddPerk()
+        {
             //await AddDamageBuff(damageBuff, 3);
             //using (var _context = new Destiny2DataContext())
             //{
@@ -263,7 +262,13 @@ namespace DbTest
             //    _context.BuffCategories.Add(new BuffCategory() { Name = "amplification modifiers" });
             //    _context.SaveChanges();
             //}
+        }
 
+        static async Task Main(string[] args)
+        {
+            var context = new Destiny2DataContext();
+            context.DamageBuffs.Remove(context.DamageBuffs.Find(17));
+            context.SaveChanges();
         }
     }
 }

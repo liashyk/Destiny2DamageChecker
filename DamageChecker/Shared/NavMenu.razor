@@ -27,7 +27,7 @@
                     <a href=@($"archetype/{archetype.Id}") @onclick="ToggleNavMenu">
                         <button class="weapon-type-button" >
                             <img src=@($"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg") class="archetype-icon">
-                            @archetype.Name.ToUpper()
+                            @(archetype.Name.ToUpper() +" " +archetype.RoundsPerMinute+"rpm") 
                         </button>
                     </a>
                 }

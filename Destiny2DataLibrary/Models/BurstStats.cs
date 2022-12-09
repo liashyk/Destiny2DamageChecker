@@ -10,6 +10,6 @@ namespace Destiny2DataLibrary.Models
     {
         public int Id { get; set; }
         public int BulletsInBurst { get; set; }
-        public int FramesPerBurstt { get; set; }
+        public int FramesPerBurst { get; set; }
     }
 }
