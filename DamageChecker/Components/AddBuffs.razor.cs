@@ -1,4 +1,5 @@
 ﻿using DamageChecker.Data;
+using DamageChecker.Services.Data;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -7,7 +8,7 @@ namespace DamageChecker.Components
     partial class AddBuffs
     {
         [Inject]
-        public HttpClient client { get; set; }
+        public DestinyDataService dataService { get; set; }
 
         [Inject]
         private ILoggerFactory loggerFactory { get; set; }
@@ -46,34 +47,12 @@ namespace DamageChecker.Components
         #region GetDataFromAPi
         private async Task<IEnumerable<IStackable>> GetPerksAsync(int archetypeId)
         {
-            IEnumerable<IStackable> archetypePerks = new List<IStackable>();
-            var responce = await client.GetAsync($"api/Perks/FromArchetype/{archetypeId}");
-            if (responce.IsSuccessStatusCode)
-            {
-                archetypePerks = await responce.Content.ReadFromJsonAsync<IEnumerable<Perk>>();
-                logger.LogInformation("Perks was received");
-            }
-            else
-            {
-                logger.LogCritical($"Perks from {archetypeId} WAS NOT received:\n{responce.StatusCode}");
-            }
-            return archetypePerks;
+            return await dataService.GetPerksFromArchetypeId(archetypeId);
         }
 
         private async Task<IEnumerable<IStackable>> GetDamageBuffsAsync()
         {
-            IEnumerable<IStackable> damamageBuffs = new List<IStackable>();
-            var responce = await client.GetAsync($"api/DamageBuffs");
-            if (responce.IsSuccessStatusCode)
-            {
-                damamageBuffs = await responce.Content.ReadFromJsonAsync<IEnumerable<DamageBuff>>();
-                logger.LogInformation("Buffs was received");
-            }
-            else
-            {
-                logger.LogCritical($"Buffs from WAS NOT received");
-            }
-            return damamageBuffs;
+            return await dataService.GetDamageBuffs();
         }
 
         #endregion
@@ -97,10 +76,6 @@ namespace DamageChecker.Components
                 await MakePerkSelector();
             }
         }
-        protected async override Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-        }
 
         private async Task MakePerkSelector()
         {
@@ -116,14 +91,14 @@ namespace DamageChecker.Components
             buffSelectors[3].Buffs = damageBuffs.Where(b => b.BuffCategory.Id == 3);
         }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "DAMAGE WEAPON PERKS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "EMPOWERING BUFFS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "GLOBAL DEBUFFS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "AMPLIFICATION MODIFIERS"));
-            MakeBuffSelectors();
-            base.OnInitialized();
+            await MakeBuffSelectors();
+            await base.OnInitializedAsync();
         }
 
         //Hide or show buff list in selector

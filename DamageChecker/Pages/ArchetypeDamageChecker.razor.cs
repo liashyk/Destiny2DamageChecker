@@ -1,4 +1,5 @@
 ﻿using DamageChecker.Components;
+using DamageChecker.Services.Data;
 using DamageChecker.Shared;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace DamageChecker.Pages
     {
 
         [Inject]
-        private HttpClient client { get; set; }
+        private DestinyDataService dataService { get; set; }
 
         [Inject]
         private ILoggerFactory? loggerFactory { get; set; }
@@ -21,17 +22,7 @@ namespace DamageChecker.Pages
 
         private async Task GetArhetypeByIdASync()
         {
-            var responce = await client.GetAsync($"api/Archetypes/{ArchetypeId}");
-            if (responce.IsSuccessStatusCode)
-            {
-                CurrentArchetype = await responce.Content.ReadFromJsonAsync<Archetype>();
-                logger.LogInformation("Weapons was received");
-            }
-            else
-            {
-                logger.LogCritical("Weapons WAS NOT received");
-                throw new Exception($"Weapon {ArchetypeId} WAS NOT received");
-            }
+            CurrentArchetype = await dataService.GetArchetype(ArchetypeId);
         }
 
         private string imgLink;

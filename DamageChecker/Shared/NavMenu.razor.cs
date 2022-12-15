@@ -1,4 +1,5 @@
-﻿using Destiny2DataLibrary.Models;
+﻿using DamageChecker.Services.Data;
+using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Net.Http.Headers;
@@ -8,7 +9,7 @@ namespace DamageChecker.Shared
     public partial class NavMenu
     {
         [Inject]
-        private HttpClient client { get; set; }
+        private DestinyDataService dataService { get; set; }
 
         [Inject]
         private ILoggerFactory loggerFactory { get; set; }
@@ -23,26 +24,13 @@ namespace DamageChecker.Shared
 
         private async Task GetWeaponTypesAsync()
         {
-            var responce = await client.GetAsync("api/WeaponTypes");
-            if (responce.IsSuccessStatusCode)
-            {
-                weaponTypes = await responce.Content.ReadFromJsonAsync<IEnumerable<WeaponType>>();
-                logger.LogInformation("Weapons was received");
-            }
-            else
-            {
-                logger.LogCritical("Weapons WAS NOT received");
-            }
+            weaponTypes = dataService.GetWeaponTypes();
+
         }
 
-        private async Task ShowArchetypes(int id)
+        private async Task ShowArchetypes(int weaponTypeID)
         {
-            var responce = await client.GetAsync($"api/Archetypes/FromWeaponType/{id}");
-            if (responce.IsSuccessStatusCode)
-            {
-                WeaponTypeArchetypes= await responce.Content.ReadFromJsonAsync<IEnumerable<Archetype>>();
-                logger.LogInformation($"Archetypos from weapon type : {id} was received");
-            }else logger.LogCritical($"Archetypos from weapon type : {id} was NOT received!");
+            WeaponTypeArchetypes= dataService.GetArchetypeWithWeaponTypeId(weaponTypeID);
             if (archetypeDisplayParam == "width:0")
             {
                 archetypeDisplayParam = "";
@@ -53,10 +41,6 @@ namespace DamageChecker.Shared
         protected override async Task OnInitializedAsync()
         {
             logger = loggerFactory.CreateLogger<NavMenu>();
-            client.BaseAddress = new Uri("https://localhost:7208/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
             await GetWeaponTypesAsync();
         }
 

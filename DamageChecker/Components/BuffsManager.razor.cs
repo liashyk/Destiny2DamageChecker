@@ -1,5 +1,6 @@
 ﻿using DamageChecker.Data;
 using DamageChecker.Services;
+using DamageChecker.Services.Data;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 using System.Collections;
@@ -8,7 +9,7 @@ namespace DamageChecker.Components
     partial class BuffsManager
     {
         [Inject]
-        private HttpClient client { get; set; }
+        private DestinyDataService dataService { get; set; }
 
         [Inject]
         private ILoggerFactory loggerFactory { get; set; }
