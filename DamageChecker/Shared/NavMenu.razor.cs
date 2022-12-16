@@ -24,13 +24,13 @@ namespace DamageChecker.Shared
 
         private async Task GetWeaponTypesAsync()
         {
-            weaponTypes = dataService.GetWeaponTypes();
+            weaponTypes =await dataService.GetWeaponTypes();
 
         }
 
         private async Task ShowArchetypes(int weaponTypeID)
         {
-            WeaponTypeArchetypes= dataService.GetArchetypeWithWeaponTypeId(weaponTypeID);
+            WeaponTypeArchetypes= await dataService.GetArchetypeWithWeaponTypeId(weaponTypeID);
             if (archetypeDisplayParam == "width:0")
             {
                 archetypeDisplayParam = "";

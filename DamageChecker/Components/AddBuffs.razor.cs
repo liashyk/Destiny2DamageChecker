@@ -56,11 +56,6 @@ namespace DamageChecker.Components
         }
 
         #endregion
-        protected override async Task OnParametersSetAsync()
-        {
-            await base.OnParametersSetAsync();
-        }
-
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
@@ -74,6 +69,7 @@ namespace DamageChecker.Components
             if (!prevArchetypeId.Equals(currentArchetypeId) || buffSelectors[0].Buffs.Count()==0)
             {
                 await MakePerkSelector();
+                await MakeBuffSelectors();
             }
         }
 
@@ -97,7 +93,6 @@ namespace DamageChecker.Components
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "EMPOWERING BUFFS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "GLOBAL DEBUFFS"));
             buffSelectors.Add(new BuffSelector(showSelectorStyle, "AMPLIFICATION MODIFIERS"));
-            await MakeBuffSelectors();
             await base.OnInitializedAsync();
         }
 

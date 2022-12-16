@@ -9,9 +9,6 @@ namespace DamageChecker.Components
     partial class BuffsManager
     {
         [Inject]
-        private DestinyDataService dataService { get; set; }
-
-        [Inject]
         private ILoggerFactory loggerFactory { get; set; }
 
         private ILogger? logger;
