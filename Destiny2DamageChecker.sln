@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Destiny2DataLibrary", "Dest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DamageChecker", "DamageChecker\DamageChecker.csproj", "{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbTest", "DbTest\DbTest.csproj", "{A4A23600-C676-4EEA-BFBA-6C0533978024}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9442EC0E-A6E9-4EE3-908B-3A2286EF6DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A23600-C676-4EEA-BFBA-6C0533978024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A23600-C676-4EEA-BFBA-6C0533978024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A23600-C676-4EEA-BFBA-6C0533978024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A23600-C676-4EEA-BFBA-6C0533978024}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
