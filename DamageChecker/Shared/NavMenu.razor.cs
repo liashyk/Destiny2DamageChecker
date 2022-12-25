@@ -1,4 +1,5 @@
-﻿using DamageChecker.Services.Data;
+﻿using DamageChecker.Services;
+using DamageChecker.Services.Data;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
@@ -12,7 +13,10 @@ namespace DamageChecker.Shared
         private DestinyDataService dataService { get; set; }
 
         [Inject]
-        private ILoggerFactory loggerFactory { get; set; }
+        private ILoggerFactory? loggerFactory { get; set; }
+
+        [Inject]
+        private SearchService? searchService { get; set; }
 
         private ILogger logger { get; set; }
 
@@ -22,10 +26,9 @@ namespace DamageChecker.Shared
 
         private IEnumerable<Archetype> WeaponTypeArchetypes = new List<Archetype>();
 
-        private async Task GetWeaponTypesAsync()
+        private void GetWeaponTypes()
         {
-            weaponTypes =await dataService.GetWeaponTypes();
-
+            weaponTypes = dataService.GetWeaponTypes();
         }
 
         private async Task ShowArchetypes(int weaponTypeID)
@@ -41,7 +44,7 @@ namespace DamageChecker.Shared
         protected override async Task OnInitializedAsync()
         {
             logger = loggerFactory.CreateLogger<NavMenu>();
-            await GetWeaponTypesAsync();
+            GetWeaponTypes();
         }
 
     }

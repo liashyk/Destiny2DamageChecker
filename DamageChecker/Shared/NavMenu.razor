@@ -9,7 +9,19 @@
             <button class="search-button" @onclick="ToggleNavMenu" style="visibility:hidden">
                 <img id="search-icon" src="css/icons/search.svg" />
             </button>
-            <input class="search-text-field" @bind-value=@query placeholder="SEARCH WEAPON..." />
+            <input class="search-text-field" @oninput=@((e)=>FindArchetypes(e.Value as string)) @onfocusout=@HideSuggestMenu
+                placeholder="SEARCH WEAPON..."  />
+        </div>
+        <div class="@searchSuggestMenuClass">
+            @foreach (var suggestedArchetype in suggestedArchetypes)
+            {
+                <a href=@($"archetype/{suggestedArchetype.Id}") @onclick="ToggleNavMenu">
+                    <button class="suggested-archetype">
+                        <img src=@($"css/icons/WeaponTypes/{suggestedArchetype.WeaponType.Name}.svg") class="archetype-icon">
+                        @(suggestedArchetype.Name.ToUpper() + " " + suggestedArchetype.RoundsPerMinute + "rpm")
+                    </button>
+                </a>
+            }
         </div>
         <div class="weapon-navigator">
             <div class="weapon-type-list">
@@ -40,8 +52,6 @@
 
 @code {
 
-    private string query="";
-
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -50,12 +60,20 @@
     private string buttonDisplayParam = "";
     private string archetypeDisplayParam = "width:0";
 
+
+    private string hiddenSearchSuggestMenu = "search-suggest-menu-hidden";
+    private string showSearchSuggestMenu = "search-suggest-menu";
+    private string searchSuggestMenuClass = "search-suggest-menu-hidden";
+
+
+    private IEnumerable<Archetype> suggestedArchetypes = new Archetype[0];
+
     private void LoadPage(int id){
     }
 
-
     private void ToggleNavMenu()
     {
+        //if menu is open
         if (navMenuDisplayParam == "")
         {
             navMenuDisplayParam = "width:0";
@@ -66,5 +84,26 @@
             navMenuDisplayParam = "";
             buttonDisplayParam = "";
         }
+    }
+
+    private void FindArchetypes(string? query)
+    {
+        searchSuggestMenuClass = showSearchSuggestMenu;
+        Console.Write(query + " -> ");
+        if (searchService == null || query == null) return;
+        var findedArchetypes = searchService.FindArchetypes(query);
+        suggestedArchetypes = new Archetype[0];
+        if (findedArchetypes.Count()==0) return;
+        suggestedArchetypes = findedArchetypes;
+        foreach (Archetype archetype in findedArchetypes)
+        {
+            Console.WriteLine(archetype.WeaponType.Name+" : "+archetype.Name);
+        }
+    }
+
+    private async Task HideSuggestMenu()
+    {
+        await Task.Delay(200);
+        searchSuggestMenuClass = hiddenSearchSuggestMenu;
     }
 }

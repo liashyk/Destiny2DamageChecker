@@ -22,7 +22,7 @@ namespace DamageChecker.Pages
 
         private async Task GetArhetypeByIdASync()
         {
-            CurrentArchetype = await dataService.GetArchetype(ArchetypeId);
+            CurrentArchetype = await dataService.GetArchetypeAsync(ArchetypeId);
         }
 
         private string imgLink;

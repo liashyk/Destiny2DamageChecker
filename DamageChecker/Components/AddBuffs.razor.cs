@@ -47,12 +47,12 @@ namespace DamageChecker.Components
         #region GetDataFromAPi
         private async Task<IEnumerable<IStackable>> GetPerksAsync(int archetypeId)
         {
-            return await dataService.GetPerksFromArchetypeId(archetypeId);
+            return await dataService.GetPerksFromArchetypeIdAsync(archetypeId);
         }
 
         private async Task<IEnumerable<IStackable>> GetDamageBuffsAsync()
         {
-            return await dataService.GetDamageBuffs();
+            return dataService.GetDamageBuffs();
         }
 
         #endregion

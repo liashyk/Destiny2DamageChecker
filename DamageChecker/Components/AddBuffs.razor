@@ -3,11 +3,27 @@
 <div class="add-buffs-menu" style=@addBuffHideStyle>
     <div class="add-buffs-header">
         <h1>ADD BUFFS</h1>
-        <div class="search-area">
-            <button class="search-button">
-                <img id="search-icon" src="css/icons/search.svg" />
-            </button>
-            <input class="search-text-field" @bind-value=@query placeholder="SEARCH BUFFS..." />
+        <div class="search-menu">
+            <div class="search-area">
+                <button class="search-button">
+                    <img id="search-icon" src="css/icons/search.svg" />
+                </button>
+                <input class="search-text-field" @oninput=@((e)=>FindBuffs(e.Value as string))
+                @onfocusout=HideSuggestMenu
+                placeholder="SEARCH BUFFS..." />
+            </div>
+            <div class="@searchSuggestMenuClass">
+                @foreach (var suggestedBuff in suggestedBuffs)
+                {
+                    <button class=@(Buffs.HaveBuff(suggestedBuff)? "suggested-buffs-selected" :"suggested-buffs") 
+                        @onclick="()=>ClickBuff(suggestedBuff)">
+                        <div class="buff_icon">
+                            <img src=@($"css/icons/perks/{suggestedBuff.Name}.png")>
+                        </div>
+                        @(suggestedBuff.Name.ToUpper())
+                    </button>
+                }
+            </div>
         </div>
         <button class="apply-button" @onclick="OnApplyCallback">APPLY</button>
     </div>
@@ -38,6 +54,15 @@
     
 
 @code {
+
+    private string hiddenSearchSuggestMenu = "search-suggest-menu-hidden";
+    private string showSearchSuggestMenu = "search-suggest-menu";
+    private string searchSuggestMenuClass = "search-suggest-menu-hidden";
+    private IEnumerable<IStackable> suggestedBuffs = new IStackable[0];
+
+    [Inject]
+    public SearchService SearchService { get; set; }
+
     private void ShowXandY(MouseEventArgs e){
         Console.WriteLine("y: "+e.PageY +" x: "+ e.PageX);
     }
@@ -53,9 +78,28 @@
         OnShowPerkSummary.InvokeAsync(args);
     }
 
+    private void FindBuffs(string? query)
+    {
+        searchSuggestMenuClass = showSearchSuggestMenu;
+        if (SearchService == null || query == null) return;
+        var findedBuffs = SearchService.FindStackables(query,ArchetypeId);
+        //cleand suggested buffs
+        suggestedBuffs = new IStackable[0];
+        if (findedBuffs.Count() == 0) return;
+        suggestedBuffs = findedBuffs;
+        Console.WriteLine(query);
+    }
+
     [Parameter]
     public EventCallback OnHidePerkSummary { get; set; }
 
     [Parameter]
     public EventCallback<ShowPerkSummaryArgs> OnShowPerkSummary { get; set; }
+
+    private async Task HideSuggestMenu()
+    {
+        await Task.Delay(100);
+        searchSuggestMenuClass = hiddenSearchSuggestMenu;
+    }
+
 }

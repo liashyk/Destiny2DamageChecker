@@ -14,6 +14,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DestinyDataService>();
 builder.Services.AddTransient<BuffSet>();
 builder.Services.AddScoped<DamageService>();
+builder.Services.AddScoped<SearchService>();
 
 builder.Host.ConfigureLogging((context, logging) =>
 {

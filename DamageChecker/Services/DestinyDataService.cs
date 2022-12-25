@@ -12,13 +12,7 @@ namespace DamageChecker.Services.Data
         }
 
         #region archetypes
-        public async Task<IEnumerable<Archetype>> GetArchetypes()
-        {
-            List<Archetype> archetypes = await GetArchetypesListAsync();
-            return archetypes;
-        }
-
-        private async Task<List<Archetype>> GetArchetypesListAsync()
+        public async Task<IEnumerable<Archetype>> GetArchetypesAsync()
         {
             using (var context = new Destiny2DataContext())
             {
@@ -31,11 +25,24 @@ namespace DamageChecker.Services.Data
             }
         }
 
-        private async Task<Archetype> GetArchetypeWithId(int id)
+        public IEnumerable<Archetype> GetArchetypes()
+        {
+            using (var context = new Destiny2DataContext())
+            {
+                return context.Archetypes.
+                Include(a => a.WeaponType).
+                Include(a => a.AmmoType).
+                Include(a => a.WeaponType).
+                Include(a => a.BurstStats).
+                Include(a => a.ShotDamage).ToList();
+            }
+        }
+
+        private async Task<Archetype> GetArchetypeWithIdAsync(int id)
         {
             using(var context = new Destiny2DataContext())
             {
-                var archetypes = await GetArchetypesListAsync();
+                var archetypes = await GetArchetypesAsync();
                 Archetype archetype = archetypes.Where(a => a.Id == id).FirstOrDefault();
                 var weaponTypeBuffer = await context.WeaponTypes
                     .Include(w => w.ReloadStats)
@@ -47,18 +54,18 @@ namespace DamageChecker.Services.Data
             }
         }
 
-        public async Task<Archetype> GetArchetype(int id)
+        public async Task<Archetype> GetArchetypeAsync(int id)
         {
             using (var context = new Destiny2DataContext())
             {
-                var archetype = await GetArchetypeWithId(id);
+                var archetype = await GetArchetypeWithIdAsync(id);
                 return archetype;
             }
         }
 
         public async Task<IEnumerable<Archetype>> GetArchetypeWithWeaponTypeId(int weaponTypeId)
         {
-            var archetypes = await GetArchetypesListAsync();
+            var archetypes = await GetArchetypesAsync();
             var result = archetypes.Where(a => a.WeaponType.Id == weaponTypeId);
             if (result.Count() == 0)
             {
@@ -69,14 +76,14 @@ namespace DamageChecker.Services.Data
 
         #region DamageBuffs
 
-        public async Task<IEnumerable<DamageBuff>> GetDamageBuffs()
+        public IEnumerable<DamageBuff> GetDamageBuffs()
         {
             using (var context = new Destiny2DataContext())
             {
-                return await context.DamageBuffs
+                return context.DamageBuffs
                 .Include(b => b.BuffCategory)
                 .Include(b => b.BuffStacks)
-                .ToListAsync();
+                .ToList();
             }
         }
 
@@ -96,40 +103,44 @@ namespace DamageChecker.Services.Data
         #endregion
 
         #region Perks
-        public async Task<ActionResult<IEnumerable<Perk>>> GetPerks()
+        public IEnumerable<Perk> GetPerks()
         {
             using (var context = new Destiny2DataContext())
             {
-                return await context.Perks.Include(p => p.BuffStacks).ToListAsync();
+                return context.Perks
+                    .Include(p => p.BuffStacks)
+                    .Include(p=>p.Archetypes)
+                    .ToList();
             }
 
         }
 
-        public async Task<ActionResult<Perk>> GetPerk(int id)
+        public async Task<Perk> GetPerk(int id)
         {
-            Perk? perk = await GetPerkByID(id);
+            Perk? perk = await GetPerkByIdAsync(id);
             return perk;
         }
 
-        public async Task<IEnumerable<Perk>> GetPerksFromArchetypeId(int archetypeID)
+        public async Task<IEnumerable<Perk>> GetPerksFromArchetypeIdAsync(int archetypeID)
         {
             using (var context = new Destiny2DataContext())
             {
-                Archetype? archetype = await context.Archetypes.Include(a => a.Perks).
-                Where(a => a.Id == archetypeID).FirstOrDefaultAsync();
-                var archetypePerks = archetype.Perks.ToList();
-                List<Perk> perks = await context.Perks.Include(p => p.BuffStacks).ToListAsync();
-                List<Task<Perk>> perkTasks = new List<Task<Perk>>();
-                foreach (Perk it in archetypePerks)
-                {
-                    var currentID = it.Id;
-                    perkTasks.Add(GetPerkByID(currentID));
-                }
-                return await Task.WhenAll(perkTasks);
+                var perks = GetPerks();
+                return perks.Where(p => p.Archetypes.Any(a => a.Id == archetypeID));
             }
         }
 
-        private async Task<Perk> GetPerkByID(int perkId)
+        public IEnumerable<Perk> GetPerksFromArchetypeId(int archetypeID)
+        {
+            using (var context = new Destiny2DataContext())
+            {
+                var perks = GetPerks();
+                return perks.Where(p=>p.Archetypes.Any(a=>a.Id==archetypeID));
+
+            }
+        }
+
+        private async Task<Perk> GetPerkByIdAsync(int perkId)
         {
             using (var context = new Destiny2DataContext())
             {
@@ -144,22 +155,22 @@ namespace DamageChecker.Services.Data
 
         #region WeaponTypes
 
-        public async Task<IEnumerable<WeaponType>> GetWeaponTypes()
+        public IEnumerable<WeaponType> GetWeaponTypes()
         {
             using (var context = new Destiny2DataContext())
             {
-                return await context.WeaponTypes.Include(w => w.ReloadStats).ToListAsync();
+                return context.WeaponTypes.Include(w => w.ReloadStats).ToList();
             }
         }
 
-        public async Task<WeaponType> GetWeaponType(int id)
+        public WeaponType GetWeaponType(int id)
         {
             using (var context = new Destiny2DataContext())
             {
-                var weaponType = await context.WeaponTypes
+                var weaponType = context.WeaponTypes
                 .Include(w => w.ReloadStats)
                 .Where(w => w.Id == id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
                 return weaponType;
             }
