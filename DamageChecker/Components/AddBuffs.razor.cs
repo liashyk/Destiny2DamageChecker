@@ -1,12 +1,30 @@
 ﻿using DamageChecker.Data;
+using DamageChecker.Services;
 using DamageChecker.Services.Data;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace DamageChecker.Components
 {
     partial class AddBuffs
     {
+		//search suggest menu's classes values
+		private string hiddenSearchSuggestMenu = "search-suggest-menu-hidden";
+		private string showSearchSuggestMenu = "search-suggest-menu";
+
+        //default search suggest menu class value
+		private string searchSuggestMenuClass = "search-suggest-menu-hidden";
+
+        //buffs that suggested in search field
+		private IEnumerable<IStackable> suggestedBuffs = new IStackable[0];
+
+		private async Task HideSuggestMenu()
+        {
+            searchSuggestMenuClass = hiddenSearchSuggestMenu;
+        }
+
+        //Data service
         [Inject]
         public DestinyDataService dataService { get; set; }
 
@@ -21,36 +39,48 @@ namespace DamageChecker.Components
         [Parameter]
         public EventCallback OnApplyCallback { get; set; }
 
+        //Set of current damage buffs and perks
         [CascadingParameter]
         public BuffSet Buffs { get; set; }
 
         private ILogger? logger;
-        //All posible perks in current Archetype
 
-        //private IEnumerable<Perk>? archetypePerks=new List<Perk>();
-
+        //Collection of buff selectors in addbuffs menu
         private List<BuffSelector> buffSelectors=new List<BuffSelector>();
 
-        #region style-fields
-        private string query = "";
+		private string query = "";
 
-        private string addBuffHideStyle = "height: 0;";
+		[Inject]
+		public SearchService SearchService { get; set; }
+
+		[Parameter]
+		public EventCallback OnHidePerkSummary { get; set; }
+
+		//Show perk summary
+		[Parameter]
+		public EventCallback<ShowPerkSummaryArgs> OnShowPerkSummary { get; set; }
+
+		#region style-fields
+		//style of hided add buffs menu
+		private string addBuffHideStyle = "height: 0;";
 
         //Dictionary, where key is    buff_selectors_header and value is inner buff_list style
         private Dictionary<BuffSelector, string> buffSelectorsStyle = new Dictionary<BuffSelector, string>();
 
-        private string hideSelectorStyle = "padding:0;";
+		//style of hided selector
+		private string hideSelectorStyle = "padding:0;";
 
-        private string showSelectorStyle = "max-height: 100vh;";
+		//style of not hided selector
+		private string showSelectorStyle = "max-height: 100vh;";
         #endregion
 
-        #region GetDataFromAPi
-        private async Task<IEnumerable<IStackable>> GetPerksAsync(int archetypeId)
+        #region GetData
+        private IEnumerable<IStackable> GetPerks(int archetypeId)
         {
-            return await dataService.GetPerksFromArchetypeIdAsync(archetypeId);
+            return dataService.GetPerksFromArchetypeId(archetypeId);
         }
 
-        private async Task<IEnumerable<IStackable>> GetDamageBuffsAsync()
+        private  IEnumerable<IStackable> GetDamageBuffs()
         {
             return dataService.GetDamageBuffs();
         }
@@ -59,6 +89,7 @@ namespace DamageChecker.Components
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
+            //save previus and new archetypes' id
             object prevArchetypeId = ArchetypeId;
             object currentArchetypeId= parameters.ToDictionary()["ArchetypeId"];
             await base.SetParametersAsync(parameters);
@@ -66,21 +97,28 @@ namespace DamageChecker.Components
             {
                 logger = loggerFactory.CreateLogger<AddBuffs>();
             }
-            if (!prevArchetypeId.Equals(currentArchetypeId) || buffSelectors[0].Buffs.Count()==0)
+			//if new archetype id is different or there aren't buff selectors - make them
+			if (!prevArchetypeId.Equals(currentArchetypeId) || buffSelectors[0].Buffs.Count()==0)
             {
-                await MakePerkSelector();
-                await MakeBuffSelectors();
+                MakePerkSelector();
+                MakeBuffSelectors();
             }
         }
 
-        private async Task MakePerkSelector()
+		/// <summary>
+		/// make buff selector with perks
+		/// </summary>
+		private void MakePerkSelector()
         {
-            buffSelectors[0].Buffs= await GetPerksAsync(ArchetypeId);
+            buffSelectors[0].Buffs= GetPerks(ArchetypeId);
         }
 
-        private async Task MakeBuffSelectors()
+		/// <summary>
+		/// make buff selectors
+		/// </summary>
+		private void MakeBuffSelectors()
         {
-            IEnumerable<DamageBuff>? damageBuffs = await GetDamageBuffsAsync() as IEnumerable<DamageBuff>;
+            IEnumerable<DamageBuff>? damageBuffs = GetDamageBuffs() as IEnumerable<DamageBuff>;
             if (damageBuffs == null) return;
             buffSelectors[1].Buffs = damageBuffs.Where(b=>b.BuffCategory.Id==2);
             buffSelectors[2].Buffs = damageBuffs.Where(b => b.BuffCategory.Id == 1);
@@ -121,7 +159,8 @@ namespace DamageChecker.Components
         {
             if (Buffs.HaveBuff(buff))
             {
-                logger.LogInformation($"Buff {buff.Id} deletion: " + Buffs.RemoveBuff(buff).ToString());
+                Buffs.RemoveBuff(buff);
+                logger.LogInformation($"Buff {buff.Id} deletion.");
             }
             else
             {
@@ -140,6 +179,9 @@ namespace DamageChecker.Components
             addBuffHideStyle = "";
         }
 
+        /// <summary>
+        /// Selector with buffs that can be hided
+        /// </summary>
         private class BuffSelector
         {
             public BuffSelector(string style, string header)
@@ -147,9 +189,37 @@ namespace DamageChecker.Components
                 Style = style;
                 Header = header;
             }
+
             public string Style { get; set; }
+
             public string Header { get; set; }
             public IEnumerable<IStackable> Buffs { get; set; } =new List<IStackable>();
         }
-    }
+
+		private void OnPerkOver(MouseEventArgs e, IStackable buff)
+		{
+			var args = new ShowPerkSummaryArgs()
+			{
+				PageX = e.PageX,
+				PageY = e.PageY,
+				Buff = buff
+			};
+            //show perk summary
+			OnShowPerkSummary.InvokeAsync(args);
+		}
+
+        //find buffs with query
+		private void FindBuffs(string? query)
+		{
+			searchSuggestMenuClass = showSearchSuggestMenu;
+			if (SearchService == null || query == null) return;
+			var findedBuffs = SearchService.FindStackables(query, ArchetypeId);
+			//cleand suggested buffs
+			suggestedBuffs = new IStackable[0];
+			if (findedBuffs.Count() == 0) return;
+			suggestedBuffs = findedBuffs;
+			Console.WriteLine(query);
+		}
+	}
+
 }

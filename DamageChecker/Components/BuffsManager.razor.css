@@ -15,7 +15,7 @@ h1{
 	flex-direction:column;
 	justify-content:flex-start;
 	align-items:center;
-	width:600px;
+	width:100%;
 	max-width:100%;
 	color:white;
 	font-weight:bold;
@@ -71,6 +71,10 @@ h1{
 
 .buff-percent{
 	color:rgba(255, 230, 0, 1);
+}
+
+.buff-pvp-percent {
+	color: rgba(255, 230, 0, 1);
 }
 
 .buff-container,.combined-buff-result{

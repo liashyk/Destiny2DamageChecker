@@ -5,11 +5,10 @@
         <h1>ADD BUFFS</h1>
         <div class="search-menu">
             <div class="search-area">
-                <button class="search-button">
+                <button class="search-button" @onclick=HideSuggestMenu>
                     <img id="search-icon" src="css/icons/search.svg" />
                 </button>
                 <input class="search-text-field" @oninput=@((e)=>FindBuffs(e.Value as string))
-                @onfocusout=HideSuggestMenu
                 placeholder="SEARCH BUFFS..." />
             </div>
             <div class="@searchSuggestMenuClass">
@@ -51,55 +50,3 @@
     </div>
 
 </div>
-    
-
-@code {
-
-    private string hiddenSearchSuggestMenu = "search-suggest-menu-hidden";
-    private string showSearchSuggestMenu = "search-suggest-menu";
-    private string searchSuggestMenuClass = "search-suggest-menu-hidden";
-    private IEnumerable<IStackable> suggestedBuffs = new IStackable[0];
-
-    [Inject]
-    public SearchService SearchService { get; set; }
-
-    private void ShowXandY(MouseEventArgs e){
-        Console.WriteLine("y: "+e.PageY +" x: "+ e.PageX);
-    }
-
-    private void OnPerkOver(MouseEventArgs e,IStackable buff)
-    {
-        var args=new ShowPerkSummaryArgs()
-        {
-            PageX=e.PageX,
-            PageY=e.PageY,
-            Buff=buff
-        };
-        OnShowPerkSummary.InvokeAsync(args);
-    }
-
-    private void FindBuffs(string? query)
-    {
-        searchSuggestMenuClass = showSearchSuggestMenu;
-        if (SearchService == null || query == null) return;
-        var findedBuffs = SearchService.FindStackables(query,ArchetypeId);
-        //cleand suggested buffs
-        suggestedBuffs = new IStackable[0];
-        if (findedBuffs.Count() == 0) return;
-        suggestedBuffs = findedBuffs;
-        Console.WriteLine(query);
-    }
-
-    [Parameter]
-    public EventCallback OnHidePerkSummary { get; set; }
-
-    [Parameter]
-    public EventCallback<ShowPerkSummaryArgs> OnShowPerkSummary { get; set; }
-
-    private async Task HideSuggestMenu()
-    {
-        await Task.Delay(100);
-        searchSuggestMenuClass = hiddenSearchSuggestMenu;
-    }
-
-}

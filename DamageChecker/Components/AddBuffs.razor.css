@@ -85,6 +85,7 @@
 
 .search-button:hover {
     background-color: cornflowerblue;
+    outline:1px white solid;
 }
 
 .apply-button {

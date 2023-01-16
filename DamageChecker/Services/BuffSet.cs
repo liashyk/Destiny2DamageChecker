@@ -21,13 +21,6 @@ namespace DamageChecker.Data
             BuffStacks = new Dictionary<IStackable, int>();
         }
 
-
-
-        public bool AddBuff(DamageBuff buff)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool AddBuff(IStackable buff)
         {
             var collection = _damageBuffs;
@@ -41,8 +34,14 @@ namespace DamageChecker.Data
             }
             else
             {
-                collection.Add(buff);
-                BuffStacks.Add(buff, 1);
+                try
+                {
+					collection.Add(buff);
+					BuffStacks.Add(buff, 1);
+				}catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 return true;
             }
         }
@@ -62,16 +61,16 @@ namespace DamageChecker.Data
 
         }
 
-        public bool RemoveBuff(IStackable buff)
+        public void RemoveBuff(IStackable buff)
         {
             BuffStacks.Remove(buff);
             if (buff is Perk)
             {
-                return _perks.Remove(buff);
+                _perks.RemoveWhere(p=>p.Id== buff.Id);
             }
             else
             {
-                return _damageBuffs.Remove(buff);
+                _damageBuffs.RemoveWhere(p => p.Id == buff.Id);
             }
         }
 

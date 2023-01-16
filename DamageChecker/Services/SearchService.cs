@@ -92,6 +92,12 @@ namespace DamageChecker.Services
         }
 
 
+        /// <summary>
+        /// Return true if key contains words in query
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
         private bool KeyIsContain(string key,string query)
         {
             key= key.ToLower();

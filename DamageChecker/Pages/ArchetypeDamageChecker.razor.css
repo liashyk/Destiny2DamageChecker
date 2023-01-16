@@ -29,6 +29,7 @@ main {
 
 .damage-checker {
 	width: 500px;
+	max-width:100%;
 }
 
 .weapon-type-icon{
@@ -58,22 +59,35 @@ main {
 	border-bottom:2px solid white;
 }
 
+.buff-manager{
+	width:600px;
+}
+
 @media (max-width:100em){
 	#bonus-damage-checker {
 		display: none;
 	}
 }
 
-@media (max-width:40em) {
+@media (max-width:800px) {
 	main {
 		flex-direction: column;
 		align-content: center;
 		padding: 10px;
 		flex-wrap: wrap;
+		gap:10px;
 	}
 
 	header {
 		flex-direction: row;
 		justify-content: center;
+	}
+
+	.damage-checker{
+		width:100%;
+	}
+
+	.buff-manager{
+		width:100%;
 	}
 }

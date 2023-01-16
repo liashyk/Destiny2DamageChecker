@@ -158,11 +158,12 @@
 .search-nav-menu {
     display: flex;
     flex-direction: column;
-    width:650px;
+    width: 650px;
+    max-width: 100%;
     height: 100vh;
     box-shadow: 10px 2px 46px 0px rgba(0,0,0,0.59);
     transition: 0.2s;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .weapon-type-icon{
@@ -190,7 +191,7 @@ button{
 }
 
 .nav-menu{
-    max-width:100vw;
+    max-width:100%;
 }
 /*TODO:make height limit content weapon-navigator*/
 

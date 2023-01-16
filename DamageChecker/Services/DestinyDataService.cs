@@ -34,31 +34,32 @@ namespace DamageChecker.Services.Data
                 Include(a => a.AmmoType).
                 Include(a => a.WeaponType).
                 Include(a => a.BurstStats).
-                Include(a => a.ShotDamage).ToList();
+                Include(a => a.ShotDamage)
+                .OrderBy(a=>a.Name)
+                .ToList();
             }
         }
 
-        private async Task<Archetype> GetArchetypeWithIdAsync(int id)
-        {
-            using(var context = new Destiny2DataContext())
-            {
-                var archetypes = await GetArchetypesAsync();
-                Archetype archetype = archetypes.Where(a => a.Id == id).FirstOrDefault();
-                var weaponTypeBuffer = await context.WeaponTypes
-                    .Include(w => w.ReloadStats)
-                    .Where(w => w.Id == archetype.WeaponType.Id)
-                    .FirstOrDefaultAsync();
-                if (weaponTypeBuffer != null)
-                    archetype.WeaponType = weaponTypeBuffer;
-                return archetype;
-            }
-        }
-
-        public async Task<Archetype> GetArchetypeAsync(int id)
+        /// <summary>
+        /// Return archetype by it's id
+        /// </summary>
+        /// <param name="id">Id of archeype</param>
+        /// <returns>Archetype or null, if there isn't archetype with that Id</returns>
+        public async Task<Archetype?> GetArchetypeAsync(int id)
         {
             using (var context = new Destiny2DataContext())
             {
-                var archetype = await GetArchetypeWithIdAsync(id);
+                var archetypes = await GetArchetypesAsync();
+                Archetype archetype = archetypes.Where(a => a.Id == id).FirstOrDefault();
+                if (archetype != null)
+                {
+                    var weaponTypeBuffer = await context.WeaponTypes
+                        .Include(w => w.ReloadStats)
+                        .Where(w => w.Id == archetype.WeaponType.Id)
+                        .FirstOrDefaultAsync();
+                    if (weaponTypeBuffer != null)
+                        archetype.WeaponType = weaponTypeBuffer;
+                }
                 return archetype;
             }
         }
@@ -70,7 +71,8 @@ namespace DamageChecker.Services.Data
             if (result.Count() == 0)
             {
             }
-            return result.ToList();
+            result = result.OrderBy(a => a.RoundsPerMinute).ToList();
+            return result;
         }
         #endregion
 
@@ -159,7 +161,9 @@ namespace DamageChecker.Services.Data
         {
             using (var context = new Destiny2DataContext())
             {
-                return context.WeaponTypes.Include(w => w.ReloadStats).ToList();
+                return context.WeaponTypes.Include(w => w.ReloadStats)
+                    .OrderBy(w => w.Name)
+                    .ToList();
             }
         }
 

@@ -25,9 +25,18 @@
 						</select>
 					}
 				</div>
-				<div>
-					DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(buff).PveDamageBuffPercent+"%")</span>
-				</div>
+					@if(Buffs.GetPerksBuff(buff).PveDamageBuffPercent!=Buffs.GetPerksBuff(buff).PvpDamageBuffPercent)
+					{
+						<div>
+							DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(buff).PveDamageBuffPercent + "%")</span> /
+							<span class="buff-pvp-percent">@(Buffs.GetPerksBuff(buff).PvpDamageBuffPercent + "%")</span>
+						</div>
+					}else
+					{
+						<div>
+							DAMAGE BUFF: <span class="buff-percent">@(Buffs.GetPerksBuff(buff).PveDamageBuffPercent + "%")</span>
+						</div>
+					}
 			</div>
 		}
 		<div class="combined-buff-result">COMBINED BUFF:@(Math.Round(combinedBuff.PveDamageBuffPercent,2)+" %")</div>
@@ -41,69 +50,6 @@
 </div>
 
 @code {
-	[CascadingParameter(Name = "ArchetypeId")]
-	public int ArchetypeId { get; set; }
 
-	public string bindValue;
-
-	private string bottomBarStyle = "";
-
-	private void HideAddBuffs()
-	{
-		if (addBuffs != null)
-		{
-			addBuffs.Hide();
-		}
-		OnChangeBuffs.InvokeAsync();
-	}
-
-	//Invokes while add,remove buffs or change stack of buffs
-	[Parameter]
-	public EventCallback OnChangeBuffs { get; set; }
-
-	private void ChangeStack(IStackable buff, Object value)
-	{
-		int stackValue = int.Parse(value.ToString());
-		Buffs.BuffStacks[buff] = stackValue;
-		OnChangeBuffs.InvokeAsync();
-	}
-
-
-	public CombinedBuff combinedBuff 
-	{ 
-		get
-		{
-			return Buffs.GetCombinedBuff();
-		}
-	}
-
-	private void ShowAddBuffs()
-	{
-		Console.WriteLine("perks in BUFFS MANAGER:");
-		foreach(IStackable perk in Buffs.GetBuffList()){
-			Console.WriteLine(perk.Id);
-		}
-		if (addBuffs != null)
-		{
-			addBuffs.Show();
-		}
-	}
-
-	private void OnPerkOver(MouseEventArgs e,IStackable buff)
-	{
-		var args=new ShowPerkSummaryArgs()
-        {
-            PageX=e.PageX,
-            PageY=e.PageY,
-            Buff=buff
-        };
-		OnShowPerkSummary.InvokeAsync(args);
-	}
-
-	[Parameter]
-	public EventCallback OnHidePerkSummary { get; set; }
-
-	[Parameter]
-    public EventCallback<ShowPerkSummaryArgs> OnShowPerkSummary { get; set; }
 }
 

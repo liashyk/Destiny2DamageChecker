@@ -29,6 +29,8 @@
     .page{
         height:100%;
     }
-
+    .sidebar{
+        max-width:100%;
+    }
 }
 
