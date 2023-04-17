@@ -22,7 +22,6 @@ namespace DamageChecker.Components
 		//display damage component
 		DisplayDamage? displayDamage;
 
-		//default  reload value
 		private int _reloadValue = 100;
 
 		public int ReloadValue
@@ -39,8 +38,6 @@ namespace DamageChecker.Components
 				}
 			}
 		}
-
-		//default taking damage time
 		private double _takingDamageTime = 60;
 
 		public double TakingDamageTime

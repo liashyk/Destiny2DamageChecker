@@ -65,9 +65,12 @@ namespace DamageChecker.Pages
 
 		private string _perkSummaryVisibility = "";
 
+        //call on changing buff
 		private void ChangeBuffHandle()
 		{
+            //refresh combined buff
 			CombinedBuff = buffsManager.combinedBuff;
+            Buffs.WriteBuff();
 		}
 
 		private void HidePerkSummary()

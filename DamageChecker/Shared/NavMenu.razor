@@ -1,9 +1,15 @@
 ﻿@using Destiny2DataLibrary.Models
 
 <div class="nav-menu">
-    <button class="search-button" id="show_menu_button" @onclick="ToggleNavMenu" style="@buttonDisplayParam">
-        <img id="search-icon" src="css/icons/search.svg" />
-    </button>
+    <div class="nav_buttons">
+        <button class="search-button" id="show_menu_button" @onclick="ToggleNavMenu" >
+            <img id="search-icon" src="css/icons/search.svg" />
+        </button>
+        <button class="comparer-button" style="@buttonDisplayParam">
+            COMPARER
+        </button>
+    </div>
+
     <div class="search-nav-menu" style="@navMenuDisplayParam">
         <div class="search-area">
             <button class="search-button" @onclick="ToggleNavMenu" style="visibility:hidden">
@@ -82,7 +88,7 @@
         else 
         {
             navMenuDisplayParam = "";
-            buttonDisplayParam = "";
+            buttonDisplayParam = "display:none";
         }
     }
 

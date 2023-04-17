@@ -131,5 +131,17 @@ namespace DamageChecker.Data
             }
             else return null;
         }
+
+        public void WriteBuff()
+        {
+            foreach (var buff in _perks)
+            {
+                Console.WriteLine(buff.Name);
+            }
+			foreach (var buff in _damageBuffs)
+			{
+				Console.WriteLine(buff.Name);
+			}
+		}
     }
 }
