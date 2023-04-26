@@ -12,9 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DestinyDataService>();
-builder.Services.AddTransient<BuffSet>();
 builder.Services.AddScoped<DamageService>();
 builder.Services.AddScoped<SearchService>();
+builder.Services.AddScoped<ArchetypeContainer>();
 
 builder.Host.ConfigureLogging((context, logging) =>
 {

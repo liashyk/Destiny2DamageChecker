@@ -5,7 +5,21 @@
 		<button class=@(IsPvp? "selected-button" : "not-selected-button") @onclick="@OpenPvp">PVP</button>
 	</div>
 	@if (CurrentArchetype!=null){
-		<DisplayDamage Damage="@CurrentArchetype.ShotDamage" IsPve=@(!IsPvp) @ref=@displayDamage></DisplayDamage>
+		@if (IsImage)
+		{
+			<DisplayDamage Damage="@CurrentArchetype.ShotDamage" IsPve=@(!IsPvp) @ref=@displayDamage></DisplayDamage>
+		}
+		else
+		{
+			<div class="damage-parameter">
+				<div class="parameter-header">PRECISION DAMAGE</div>
+				<div class="parameter-value">@GetPrecisionDamage()</div>
+			</div>
+			<div class="damage-parameter">
+				<div class="parameter-header">BODY DAMAGE</div>
+				<div class="parameter-value">@GetBodyDamage()</div>
+			</div>
+		}
 		<div class="pvp-damage-parametres" style=@(IsPvp? "":"display:none;")>
 			<div class="damage-parameter-setting">
 				<div class="parameter-header">GUARDIAN RESILIANCE</div>

@@ -2,6 +2,11 @@
 
 <h3>Comparer</h3>
 
+@foreach(var arch in GetArchetypes())
+{
+	<DamageMenu CurrentArchetype="@arch.CurrentArchetype" IsPvp=true IsImage=false></DamageMenu>
+}
+
 @code {
 
 }

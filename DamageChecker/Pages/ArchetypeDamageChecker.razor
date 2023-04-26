@@ -1,4 +1,5 @@
-﻿@page "/archetype/{ArchetypeId:int}"
+﻿@*@page "/archetype/{ArchetypeId:int}"*@
+@page "/archetype/{ArchetypeId:int}/{BuffParam?}"
     <header>
         <img src=@imgLink class="weapon-type-icon">
         <h1>@(CurrentArchetype.Name + " " + CurrentArchetype.RoundsPerMinute + "rpm")</h1>
@@ -9,11 +10,12 @@
             <CascadingValue Value="@ArchetypeId" Name="ArchetypeId">
                 <BuffsManager @ref=@buffsManager OnChangeBuffs="ChangeBuffHandle" OnShowPerkSummary="@ShowPerkSummary" OnHidePerkSummary="HidePerkSummary"></BuffsManager>
             </CascadingValue>
-            <button id="comparer_button">ADD TO COMPARER</button>
+            <button id="comparer_button" @onclick="AddToComparer">ADD TO COMPARER</button>
+            
         </div>
             <div class="damage-checker">
                 <CascadingValue Value="@CombinedBuff">
-                    <DamageMenu CurrentArchetype="@CurrentArchetype" IsPvp=true></DamageMenu>
+                    <DamageMenu CurrentArchetype="@CurrentArchetype" IsPvp=true IsImage=false></DamageMenu>
                 </CascadingValue>
             </div>
             <div class="damage-checker" id="bonus-damage-checker">

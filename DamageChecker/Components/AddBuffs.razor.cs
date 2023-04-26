@@ -19,7 +19,7 @@ namespace DamageChecker.Components
         //buffs that suggested in search field
 		private IEnumerable<IStackable> suggestedBuffs = new IStackable[0];
 
-		private async Task HideSuggestMenu()
+		private void HideSuggestMenu()
         {
             searchSuggestMenuClass = hiddenSearchSuggestMenu;
         }

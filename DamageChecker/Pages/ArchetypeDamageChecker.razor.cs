@@ -5,6 +5,7 @@ using DamageChecker.Services.Data;
 using DamageChecker.Shared;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace DamageChecker.Pages
@@ -20,7 +21,36 @@ namespace DamageChecker.Pages
         //link on archetype img
         private string? imgLink;
 
-        private async Task GetArhetypeByIdASync()
+
+        [Inject]
+        public ArchetypeContainer Container { get; set; }
+
+		[Parameter]
+		public int ArchetypeId { get; set; }
+
+        //[Inject]
+
+        [Parameter]
+        public BuffSet Buffs { get; set; } = new BuffSet();
+
+        [Parameter]
+        public string? BuffParam { get; set; }
+
+        public BuffsManager? buffsManager { get; set; }
+
+		private readonly int _offsetTop = -60;
+		private readonly int _offsetleft = 20;
+
+		public CombinedBuff? CombinedBuff
+		{
+			get; set;
+		}
+
+		private ShowPerkSummaryArgs? _currentArgs;
+
+		private string _perkSummaryVisibility = "";
+
+		private async Task GetArhetypeByIdASync()
         {
             var archetypeBuffer = await dataService.GetArchetypeAsync(ArchetypeId);
             if(archetypeBuffer == null)
@@ -38,32 +68,15 @@ namespace DamageChecker.Pages
             {
                 CombinedBuff = buffsManager.combinedBuff;
             }
-            Buffs.ClearAll();
             await GetArhetypeByIdASync();
             CurrentArchetype.Name = CurrentArchetype.Name.ToUpper();
             imgLink = $"css/icons/WeaponTypes/{CurrentArchetype.WeaponType.Name}.svg";
+            if (BuffParam != null)
+            {
+                await Buffs.DesializeFromString(BuffParam);
+            }
             await base.OnParametersSetAsync();
         }
-
-		[Parameter]
-		public int ArchetypeId { get; set; }
-
-		[Inject]
-		BuffSet Buffs { get; set; }
-
-		BuffsManager? buffsManager;
-
-		private readonly int _offsetTop = -60;
-		private readonly int _offsetleft = 20;
-
-		public CombinedBuff? CombinedBuff
-		{
-			get; set;
-		}
-
-		private ShowPerkSummaryArgs? _currentArgs;
-
-		private string _perkSummaryVisibility = "";
 
         //call on changing buff
 		private void ChangeBuffHandle()
@@ -71,7 +84,12 @@ namespace DamageChecker.Pages
             //refresh combined buff
 			CombinedBuff = buffsManager.combinedBuff;
             Buffs.WriteBuff();
-		}
+            Console.WriteLine("//////");
+
+            //TO DO make navigation
+            //NavigationManager.NavigateTo($"/archetype/{ArchetypeId}/{Buffs.SerializeToString()}");
+
+        }
 
 		private void HidePerkSummary()
 		{
@@ -83,5 +101,10 @@ namespace DamageChecker.Pages
 			_perkSummaryVisibility = "";
 			_currentArgs = args;
 		}
+
+        public void AddToComparer()
+        {
+            Container.AddPage(this);
+        }
 	}
 }

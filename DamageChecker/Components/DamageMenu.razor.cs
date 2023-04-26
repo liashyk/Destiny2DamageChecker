@@ -22,6 +22,9 @@ namespace DamageChecker.Components
 		//display damage component
 		DisplayDamage? displayDamage;
 
+		[Parameter]
+		public bool IsImage { get; set; } = true;
+
 		private int _reloadValue = 100;
 
 		public int ReloadValue
@@ -132,5 +135,14 @@ namespace DamageChecker.Components
 			IsPvp = false;
 		}
 
+		private int GetPrecisionDamage()
+		{
+			return DamageService.GetBuffedDamage(CurrentArchetype.ShotDamage, CurrentCombinedBuff, true, !IsPvp);
+		}
+
+		private int GetBodyDamage()
+		{
+			return DamageService.GetBuffedDamage(CurrentArchetype.ShotDamage, CurrentCombinedBuff, false, !IsPvp);
+		}
 	}
 }

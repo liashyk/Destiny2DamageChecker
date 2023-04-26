@@ -1,4 +1,5 @@
 ﻿using DamageChecker.Services;
+using DamageChecker.Services.Data;
 using Destiny2DataLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -143,5 +144,49 @@ namespace DamageChecker.Data
 				Console.WriteLine(buff.Name);
 			}
 		}
+
+        //return object as "perk_stack,....:buff_stack"
+        public string SerializeToString()
+        {
+            string builder = "";
+            //perks
+            foreach (var perk in _perks)
+            {
+                builder += $"{perk.Id}_{BuffStacks[perk]},";
+            }
+            builder += ":";
+            //buffs
+            foreach (var buff in _damageBuffs)
+            {
+                builder += $"{buff.Id}_{BuffStacks[buff]},";
+            }
+            return builder;
+        }
+
+        public async Task DesializeFromString(string parameter)
+        {
+            string[] parameters = parameter.Split(":");
+            string[] perksParams = parameters[0].Split(",");
+            string[] buffsParams = parameters[1].Split(",");
+            DestinyDataService dataService = new DestinyDataService();
+            try
+            {
+                foreach (var perkParam in perksParams)
+                {
+                    Perk perk = await dataService.GetPerk(int.Parse(perkParam.Split("_")[0]));
+                    _perks.Add(perk);
+                    BuffStacks.Add(perk, int.Parse(perkParam.Split("_")[1]));
+                }
+                foreach (var buffParam in buffsParams)
+                {
+                    DamageBuff buff = await dataService.GetDamageBuff(int.Parse(buffParam.Split("_")[0]));
+                    _damageBuffs.Add(buff);
+                    BuffStacks.Add(buff, int.Parse(buffParam.Split("_")[1]));
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("wrong param");
+            }
+        }
     }
 }
