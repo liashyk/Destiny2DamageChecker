@@ -18,10 +18,15 @@
 						</select>
 					}else{
 						<select name="@buff" @onchange=@((e)=>ChangeStack(buff,e.Value))>
-							<option value="1" selected>1x</option>
-							@for(int j = 2;j<=buff.BuffStacks.Count;j++){
+							@for (int j = 1; j <= buff.BuffStacks.Count; j++)
+							{
+								if (j == Buffs.BuffStacks[buff])
+								{
+									<option value="@j" selected>@(j)x</option>
+								}
 								<option value="@j">@(j)x</option>
 							}
+
 						</select>
 					}
 				</div>

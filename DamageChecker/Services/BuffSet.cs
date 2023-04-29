@@ -162,7 +162,6 @@ namespace DamageChecker.Data
             }
             return builder;
         }
-
         public async Task DesializeFromString(string parameter)
         {
             string[] parameters = parameter.Split(":");
@@ -173,19 +172,37 @@ namespace DamageChecker.Data
             {
                 foreach (var perkParam in perksParams)
                 {
-                    Perk perk = await dataService.GetPerk(int.Parse(perkParam.Split("_")[0]));
-                    _perks.Add(perk);
-                    BuffStacks.Add(perk, int.Parse(perkParam.Split("_")[1]));
+                    if (perkParam != "")
+                    {
+                        Console.WriteLine("perkparam: " + perkParam);
+                        Perk perk = await dataService.GetPerk(int.Parse(perkParam.Split("_")[0]));
+                        _perks.Add(perk);
+						int stackValue = int.Parse(perkParam.Split("_")[1]);
+						if (stackValue > perk.BuffStacksAmount || stackValue < 1)
+						{
+							stackValue = 1;
+						}
+						BuffStacks.Add(perk, stackValue);
+					}
                 }
                 foreach (var buffParam in buffsParams)
                 {
-                    DamageBuff buff = await dataService.GetDamageBuff(int.Parse(buffParam.Split("_")[0]));
-                    _damageBuffs.Add(buff);
-                    BuffStacks.Add(buff, int.Parse(buffParam.Split("_")[1]));
+                    if (buffParam != "")
+                    {
+                        Console.WriteLine("buffparam: " + buffParam);
+                        DamageBuff buff = await dataService.GetDamageBuff(int.Parse(buffParam.Split("_")[0]));
+                        _damageBuffs.Add(buff);
+                        int stackValue = int.Parse(buffParam.Split("_")[1]);
+                        if (stackValue > buff.BuffStacksAmount || stackValue < 1)
+                        {
+                            stackValue = 1;
+                        }
+                        BuffStacks.Add(buff, stackValue);
+                    }
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine("wrong param");
+                Console.WriteLine(ex.Message);
             }
         }
     }

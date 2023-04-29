@@ -30,8 +30,11 @@ namespace DamageChecker.Components
 		private void ChangeStack(IStackable buff, Object value)
 		{
 			int stackValue = int.Parse(value.ToString());
-			Buffs.BuffStacks[buff] = stackValue;
-			OnChangeBuffs.InvokeAsync();
+			if(stackValue <= buff.BuffStacksAmount)
+			{
+				Buffs.BuffStacks[buff] = stackValue;
+				OnChangeBuffs.InvokeAsync();
+			}
 		}
 
 		//current combined buff of all applied buffs. 

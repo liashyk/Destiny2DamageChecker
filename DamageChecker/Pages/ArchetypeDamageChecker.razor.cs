@@ -36,6 +36,9 @@ namespace DamageChecker.Pages
         [Parameter]
         public string? BuffParam { get; set; }
 
+        [Inject]
+        public NavigationManager NavManager { get; set; }
+
         public BuffsManager? buffsManager { get; set; }
 
 		private readonly int _offsetTop = -60;
@@ -71,6 +74,7 @@ namespace DamageChecker.Pages
             await GetArhetypeByIdASync();
             CurrentArchetype.Name = CurrentArchetype.Name.ToUpper();
             imgLink = $"css/icons/WeaponTypes/{CurrentArchetype.WeaponType.Name}.svg";
+            Buffs.ClearAll();
             if (BuffParam != null)
             {
                 await Buffs.DesializeFromString(BuffParam);
@@ -87,8 +91,7 @@ namespace DamageChecker.Pages
             Console.WriteLine("//////");
 
             //TO DO make navigation
-            //NavigationManager.NavigateTo($"/archetype/{ArchetypeId}/{Buffs.SerializeToString()}");
-
+            NavManager.NavigateTo($"/archetype/{ArchetypeId}/{Buffs.SerializeToString()}");
         }
 
 		private void HidePerkSummary()
