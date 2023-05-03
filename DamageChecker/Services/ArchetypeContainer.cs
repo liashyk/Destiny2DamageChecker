@@ -1,23 +1,55 @@
-﻿using DamageChecker.Pages;
+﻿using DamageChecker.Data;
+using DamageChecker.Pages;
+using Destiny2DataLibrary.Models;
 
 namespace DamageChecker.Services
 {
 	public class ArchetypeContainer
 	{
-		private List<ArchetypeDamageChecker> _pages;
+
+		private List<ContainerUnit> units;
 		public ArchetypeContainer() 
-		{ 
-			_pages = new List<ArchetypeDamageChecker>();
+		{
+			units = new List<ContainerUnit>();
 		}
 
-		public void AddPage(ArchetypeDamageChecker page)
+		public void AddPage(Archetype archetype, BuffSet buffSet)
 		{
-			_pages.Add(page);
+			units.Add(new ContainerUnit(archetype, buffSet ));
 		}
 
-		public IEnumerable<ArchetypeDamageChecker> GetPages()
+		public IEnumerable<ContainerUnit> GetPages()
 		{
-			return _pages;
+			return units;
 		}
+
+		public void DeleteUnit(ContainerUnit containerUnit)
+		{
+			units.Remove(containerUnit);
+		}
+
+		public bool HasUnit(ContainerUnit containerUnit)
+		{
+			foreach(var unit in units)
+			{
+				if (unit == containerUnit)
+				{
+					return true ;
+				}
+			}
+			return false;
+		}
+	}
+
+	public class ContainerUnit
+	{
+		public ContainerUnit(Archetype archetype, BuffSet buffSet) 
+		{
+			this.Archetype = archetype;
+			this.BuffSet = buffSet;
+		}
+		public Archetype Archetype { get; set; }
+		public BuffSet BuffSet { get; set; }
+
 	}
 }

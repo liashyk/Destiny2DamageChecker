@@ -78,6 +78,7 @@ namespace DamageChecker.Pages
             if (BuffParam != null)
             {
                 await Buffs.DesializeFromString(BuffParam);
+                CombinedBuff = Buffs.GetCombinedBuff();
             }
             await base.OnParametersSetAsync();
         }
@@ -107,7 +108,7 @@ namespace DamageChecker.Pages
 
         public void AddToComparer()
         {
-            Container.AddPage(this);
+            Container.AddPage(CurrentArchetype,(BuffSet)Buffs.Clone());
         }
 	}
 }

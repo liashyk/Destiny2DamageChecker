@@ -2,11 +2,20 @@
 
 <h3>Comparer</h3>
 
-@foreach(var arch in GetArchetypes())
-{
-	<DamageMenu CurrentArchetype="@arch.CurrentArchetype" IsPvp=true IsImage=false></DamageMenu>
-}
+<div class="units-container">
+	@foreach (var containerUnit in GetContainerUnits())
+	{
+		<div class="unit">
+			<CompareDisplay ContainerUnit="containerUnit" OnDeleteUnit="DeleteUnit"></CompareDisplay>
+		</div>
+
+	}
+</div>
+
 
 @code {
-
+	public void DeleteUnit(ContainerUnit containerUnit)
+	{
+		Container.DeleteUnit(containerUnit);
+	}
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DamageChecker.Data
 {
-    public class BuffSet
+    public class BuffSet:ICloneable
     {
 
         //Key is Perk id and Value is stack number>
@@ -205,5 +205,23 @@ namespace DamageChecker.Data
                 Console.WriteLine(ex.Message);
             }
         }
-    }
+
+		public object Clone()
+		{
+			BuffSet buffer = new BuffSet();
+            foreach(var buff in _damageBuffs)
+            {
+                buffer.AddBuff(buff);
+            }
+            foreach(var perk in _perks)
+            {
+				buffer.AddBuff(perk);
+			}
+            foreach (var it in BuffStacks)
+            {
+                buffer.BuffStacks[it.Key] = it.Value;
+			}
+            return buffer;
+		}
+	}
 }

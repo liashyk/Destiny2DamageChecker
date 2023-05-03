@@ -1,4 +1,6 @@
-﻿using DamageChecker.Services;
+﻿using Blazored.LocalStorage;
+using DamageChecker.Components;
+using DamageChecker.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace DamageChecker.Pages
@@ -8,10 +10,12 @@ namespace DamageChecker.Pages
 		[Inject]
 		public ArchetypeContainer Container { get; set; }
 
-		public IEnumerable<ArchetypeDamageChecker> GetArchetypes()
+		public IEnumerable<ContainerUnit> GetContainerUnits()
 		{
 			return Container.GetPages();
 		}
 
+		[Inject]
+		private ILocalStorageService localStorage { get; set; }
 	}
 }

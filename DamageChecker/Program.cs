@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using DamageChecker.Data;
 using DamageChecker.Services;
 using DamageChecker.Services.Data;
@@ -15,6 +16,7 @@ builder.Services.AddScoped<DestinyDataService>();
 builder.Services.AddScoped<DamageService>();
 builder.Services.AddScoped<SearchService>();
 builder.Services.AddScoped<ArchetypeContainer>();
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Host.ConfigureLogging((context, logging) =>
 {

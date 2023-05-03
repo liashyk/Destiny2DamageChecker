@@ -1,0 +1,70 @@
+﻿* {
+    font-family: Arial;
+    font-weight: 700;
+}
+
+
+.compare-unit{
+    width:100%;
+}
+
+.unit-header{
+    font-size:12px;
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    color:white;
+    justify-content:center;
+    align-items:center;
+}
+
+    .unit-header:hover{
+        color:red;
+    }
+
+h1 {
+    font-size: 2em;
+    max-width: 70%;
+}
+
+
+
+
+.weapon-type-icon {
+    width: 7em;
+}
+
+.buff_icon {
+    background-color: #1d1d1d;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    background-color: rgba(57, 57, 57, 1);
+    margin-right: 10px;
+}
+
+    .buff_icon img {
+        height: 100%;
+        width: 100%;
+    }
+
+.show-buffs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow: clip;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    background-color: rgba(69, 69, 69, 0.7);
+    margin:5px 0 5px 0;
+}
+
+    .show-buffs:hover {
+        outline:2px white solid;
+    }
+

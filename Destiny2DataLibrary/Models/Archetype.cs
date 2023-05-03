@@ -21,6 +21,5 @@ namespace Destiny2DataLibrary.Models
         public bool IsBurst { get; set; }
         public BurstStats? BurstStats { get; set; }
         public ICollection<Perk>? Perks { get; set; }
-
-    }
+	}
 }

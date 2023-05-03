@@ -1,5 +1,51 @@
-﻿<h3>CompareDisplay</h3>
+﻿<div class="compare-unit">
+	<div class="unit-header" onclick="@OnHeaderClick">
+		<img src=@(GetImgLink(ContainerUnit.Archetype)) class="weapon-type-icon">
+		<h1>@(ContainerUnit.Archetype.Name + " " + ContainerUnit.Archetype.RoundsPerMinute + "rpm")</h1>
+	</div>
+	<div class="show-buffs" onclick="@OnBuffsClick">
+		@foreach(IStackable stackable in ContainerUnit.BuffSet.GetBuffList())
+		{
+			<div class="buff_icon">
+				<img src=@($"css/icons/perks/{stackable.Name}.png")>
+			</div>
+		}
+	</div>
+	<CascadingValue Value="@ContainerUnit.Archetype.Id" Name="ArchetypeId">
+		<CascadingValue Value="@ContainerUnit.BuffSet.GetCombinedBuff()">
+			<DamageMenu CurrentArchetype="@ContainerUnit.Archetype" IsPvp=true IsImage=false></DamageMenu>
+		</CascadingValue>
+	</CascadingValue>
+
+</div>
+
 
 @code {
 
+	//event that hapenns when apply button is clicked
+	[Parameter]
+	public EventCallback<ContainerUnit> OnDeleteUnit { get; set; }
+
+	[Parameter]public ContainerUnit ContainerUnit { get; set; }
+
+	[Inject]
+	public NavigationManager NavManager { get; set; }
+
+	[Inject]
+	public ArchetypeContainer ArchetypeContainer { get; set; }
+
+	public string GetImgLink(Archetype archetype)
+	{
+		return $"css/icons/WeaponTypes/{archetype.WeaponType.Name}.svg";
+	}
+
+	public void OnBuffsClick()
+	{
+		NavManager.NavigateTo($"/archetype/{ContainerUnit.Archetype.Id}/{ContainerUnit.BuffSet.SerializeToString()}");
+	}
+
+	public void OnHeaderClick()
+	{
+		OnDeleteUnit.InvokeAsync(ContainerUnit);
+	}
 }
