@@ -2,6 +2,9 @@
 using DamageChecker.Components;
 using DamageChecker.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System;
+using System.Text.Json;
 
 namespace DamageChecker.Pages
 {
@@ -14,8 +17,5 @@ namespace DamageChecker.Pages
 		{
 			return Container.GetPages();
 		}
-
-		[Inject]
-		private ILocalStorageService localStorage { get; set; }
 	}
 }

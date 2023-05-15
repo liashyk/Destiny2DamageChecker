@@ -5,7 +5,7 @@ using DamageChecker.Services.Data;
 using DamageChecker.Shared;
 using Destiny2DataLibrary.Models;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
+using Microsoft.JSInterop;
 using System.Net.Http.Headers;
 
 namespace DamageChecker.Pages
@@ -106,7 +106,7 @@ namespace DamageChecker.Pages
 			_currentArgs = args;
 		}
 
-        public void AddToComparer()
+		public void AddToComparer()
         {
             Container.AddPage(CurrentArchetype,(BuffSet)Buffs.Clone());
         }

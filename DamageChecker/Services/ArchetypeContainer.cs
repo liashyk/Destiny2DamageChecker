@@ -1,6 +1,10 @@
 ﻿using DamageChecker.Data;
 using DamageChecker.Pages;
 using Destiny2DataLibrary.Models;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.ComponentModel;
+using System.Text.Json;
 
 namespace DamageChecker.Services
 {
@@ -39,6 +43,7 @@ namespace DamageChecker.Services
 			}
 			return false;
 		}
+
 	}
 
 	public class ContainerUnit

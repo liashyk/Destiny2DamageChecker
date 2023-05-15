@@ -14,8 +14,9 @@
 
 
 @code {
-	public void DeleteUnit(ContainerUnit containerUnit)
+	public async void DeleteUnit(ContainerUnit containerUnit)
 	{
 		Container.DeleteUnit(containerUnit);
+		//await SaveContainer();
 	}
 }
